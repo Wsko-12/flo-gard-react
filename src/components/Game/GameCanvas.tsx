@@ -1,12 +1,16 @@
 import React, { memo, useEffect, useRef } from 'react';
+import Game from '../../game/Game';
 
 export const GameCanvas = memo(() => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     
     useEffect(() => {
-        console.log(canvasRef.current);
+        if(canvasRef.current){
+            Game.init(canvasRef.current)
+        }
     }, []);
+
     return (
-        <canvas ref={canvasRef}></canvas>
+        <canvas ref={canvasRef} style={{width: '100vw', height: '100vh'}}></canvas>
     );
 });

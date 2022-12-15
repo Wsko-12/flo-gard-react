@@ -7,4 +7,6 @@ export const startGame = createAsyncThunk('game/start', async (_, thunkApi) => {
 
     dispatch(setGameStatus(EGameStatuses.assetsLoading));
     await Assets.load();
+    dispatch(setGameStatus(EGameStatuses.started));
+
 });

@@ -18,7 +18,7 @@ import Assets from '../../../../assets/Assets';
 import { selectGrassMoverEnabled } from '../../../../store/slices/gameSlice/gameSelectors';
 import { setGrassMoverEnabled } from '../../../../store/slices/gameSlice/gameSlice';
 import { store } from '../../../../store/store';
-import { GlobalStore } from '../../../globalStore/GlobalStore';
+import { GameStore } from '../../../gameStore/GameStore';
 import LoopsManager from '../../../loopsManager/LoopsManager';
 import Day, { FULL_DAY_TIME } from '../../day/Day';
 import { GROUND_SIZE } from '../ground/Ground';
@@ -151,7 +151,7 @@ export class Grass {
     private update = (time: number) => {
         this.uniforms.uTime.value = time;
 
-        const { x, z } = GlobalStore.cameraTarget;
+        const { x, z } = GameStore.cameraTarget;
         this.mover.position.set(x, 0.01, z);
 
         const strength = Math.abs(Math.sin(time * 0.1));
@@ -330,7 +330,7 @@ export class Grass {
         }
 
         const { ctx, resolution } = this.grassHeightCanvas;
-        const { x, z } = GlobalStore.cameraTarget;
+        const { x, z } = GameStore.cameraTarget;
 
         const canvas_x = ((x + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
         const canvas_y = ((z + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);

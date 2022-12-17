@@ -1,5 +1,5 @@
 import { PerspectiveCamera } from 'three';
-import { GlobalStore } from '../../globalStore/GlobalStore';
+import { GameStore } from '../../gameStore/GameStore';
 import { TLoopCallback } from '../../loopsManager/loop/Loop';
 import LoopsManager from '../../loopsManager/LoopsManager';
 import { Point3 } from '../../world/environment/utils/Geometry';
@@ -35,8 +35,8 @@ export default class GameCamera {
         if (!camera || !position || !target) {
             throw new Error('[GameCamera update] first init GameCamera ');
         }
-        GlobalStore.cameraTarget.x = target.x;
-        GlobalStore.cameraTarget.z = target.z;
+        GameStore.cameraTarget.x = target.x;
+        GameStore.cameraTarget.z = target.z;
         {
             const { x, y, z } = position;
             camera.position.set(x, y, z);

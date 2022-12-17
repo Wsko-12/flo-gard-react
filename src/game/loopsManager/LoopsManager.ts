@@ -12,7 +12,7 @@ export default class LoopsManager {
         this.loops = {
             render: new Loop(60),
             update: new Loop(45),
-            tick: new Loop(10),
+            tick: new Loop(50),
             userActions: new Loop(5),
         };
         this.setDevFunctions();

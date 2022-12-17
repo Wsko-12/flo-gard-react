@@ -1,8 +1,9 @@
 import React, { memo } from 'react';
-import { FULL_DAY_TIME } from '../../../../game/world/day/Day';
-import { selectDayTime } from '../../../../store/slices/gameSlice/gameSelectors';
-import { useAppSelector } from '../../../../store/store';
-import styles from './clocks.module.scss';
+import { FULL_DAY_TIME } from '../../../../../game/world/day/Day';
+import { selectDayTime } from '../../../../../store/slices/gameSlice/gameSelectors';
+import { useAppSelector } from '../../../../../store/store';
+
+import styles from './line-clocks.module.scss';
 
 const getSunPosition = (time: number) => {
     return `translateX(${(time / FULL_DAY_TIME) * 100 * 10}%)`;
@@ -10,7 +11,7 @@ const getSunPosition = (time: number) => {
 }
 
 
-const Clocks = memo(() => {
+const LineClocks = memo(() => {
     const dayTime = useAppSelector(selectDayTime);
     
     return (
@@ -31,4 +32,4 @@ const Clocks = memo(() => {
     );
 });
 
-export default Clocks;
+export default LineClocks;

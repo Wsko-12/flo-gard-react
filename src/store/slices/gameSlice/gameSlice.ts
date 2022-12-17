@@ -35,7 +35,7 @@ const initialState: IGameState = {
             moverEnabled: false,
         },
         dayTime: 0,
-    }
+    },
 }
 
 const gameSlice = createSlice({

@@ -1,4 +1,5 @@
 import { selectDayTime } from '../../../store/slices/gameSlice/gameSelectors';
+import { setDayTime } from '../../../store/slices/gameSlice/gameSlice';
 import { store } from '../../../store/store';
 import LoopsManager from '../../loopsManager/LoopsManager';
 
@@ -19,6 +20,7 @@ export default class Day {
         if (!this.freezed) {
             this.time += 1;
             this.time = this.time % this.fullDay;
+            store.dispatch(setDayTime(this.time));
         }
 
         this.callSubscribers();
@@ -36,7 +38,7 @@ export default class Day {
 
     static unsubscribe = (cb: TDayCallback) => {
         const index = this.subscribers.indexOf(cb);
-        if (index != -1) {
+        if (index !== -1) {
             this.subscribers.splice(index, 1);
         }
     };

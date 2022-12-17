@@ -14,6 +14,9 @@ interface IGameState {
         asset: EAssetType,
         progress: number,
     }
+    grass: {
+        moverEnabled: boolean,
+    }
 }
 
 const initialState: IGameState = {
@@ -21,6 +24,9 @@ const initialState: IGameState = {
     assetsLoadingStatus: {
         asset: EAssetType.texture,
         progress: 0,
+    },
+    grass: {
+        moverEnabled: false,
     }
 }
 
@@ -35,9 +41,13 @@ const gameSlice = createSlice({
         setAssetsLoadingStatus: (state, action: PayloadAction<IGameState['assetsLoadingStatus']>) => {
             state.assetsLoadingStatus = action.payload;
         },
+
+        setGrassMoverEnabled: (state, action: PayloadAction<boolean>) => {
+            state.grass.moverEnabled = action.payload;
+        }
     }
 });
 
 export default gameSlice.reducer;
 
-export const {setGameStatus, setAssetsLoadingStatus} = gameSlice.actions;
+export const {setGameStatus, setAssetsLoadingStatus, setGrassMoverEnabled} = gameSlice.actions;

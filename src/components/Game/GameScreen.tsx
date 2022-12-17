@@ -3,7 +3,8 @@ import { selectGameProcess } from "../../store/slices/gameSlice/gameSelectors";
 import { EGameStatuses } from "../../store/slices/gameSlice/gameSlice";
 import { useAppSelector } from "../../store/store";
 import { AssetsLoadingScreen } from "./AssetsLoadingScreen/AssetsLoadingScreen";
-import { GameCanvas } from "./GameCanvas";
+import { GameCanvas } from "./GameCanvas/GameCanvas";
+import GameInterface from "./GameInterface/GameInterface";
 
 export const GameScreen = memo(() => {
     const gameStatus = useAppSelector(selectGameProcess);
@@ -13,7 +14,13 @@ export const GameScreen = memo(() => {
     }
 
     if(gameStatus === EGameStatuses.started){
-        return <GameCanvas />
+        return (
+            <>
+                <GameCanvas />
+                <GameInterface />
+            </>
+        )
+
     }
     return null;
 })

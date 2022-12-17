@@ -15,6 +15,9 @@ import {
 } from 'three';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import Assets from '../../../../assets/Assets';
+import { selectGrassMoverEnabled } from '../../../../store/slices/gameSlice/gameSelectors';
+import { setGrassMoverEnabled } from '../../../../store/slices/gameSlice/gameSlice';
+import { store } from '../../../../store/store';
 import { GlobalStore } from '../../../globalStore/GlobalStore';
 import LoopsManager from '../../../loopsManager/LoopsManager';
 import Day, { FULL_DAY_TIME } from '../../day/Day';
@@ -69,6 +72,10 @@ export class Grass {
         this.group = new Group();
         this.group.add(mesh, this.mover, this.weedsMeshesGroup);
 
+        store.subscribe(() => {
+            this.moverEnabled = selectGrassMoverEnabled(store.getState());
+        })
+
         document.addEventListener('keydown', this.keyDownListener);
         document.addEventListener('keyup', this.keyDownListener);
 
@@ -78,7 +85,9 @@ export class Grass {
     }
 
     private keyDownListener = (e: KeyboardEvent) => {
-        if (e.code === 'KeyM') this.moverEnabled = e.type === 'keydown';
+        if (e.code === 'KeyM' && e.type === 'keydown' && !e.repeat) {
+            store.dispatch(setGrassMoverEnabled(!this.moverEnabled));
+        }
     };
 
     private createСanvas() {

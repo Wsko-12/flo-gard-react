@@ -1,8 +1,6 @@
 import React, { memo } from 'react';
 import GrassMovingButton from './buttons/GrassMovingButton';
 import CircleClocks from './Clocks/circle/CircleClocks';
-// import LineClocks from './Clocks/line/LineClocks';
-
 
 const GameInterface = memo(() => {
     return (

@@ -1,3 +1,5 @@
+import { selectDayTime } from '../../../store/slices/gameSlice/gameSelectors';
+import { store } from '../../../store/store';
 import LoopsManager from '../../loopsManager/LoopsManager';
 
 export type TDayCallback = (gameTime: number) => void;
@@ -5,10 +7,10 @@ export type TDayCallback = (gameTime: number) => void;
 export const FULL_DAY_TIME = 1440;
 // TODO: add dev functions with freeze and setTime;
 export default class Day {
-    static time = 600;
+    static time = selectDayTime(store.getState());
     static fullDay = FULL_DAY_TIME;
     static subscribers: TDayCallback[] = [];
-    private static freezed = true;
+    private static freezed = false;
     static init() {
         LoopsManager.subscribe('tick', this.update);
     }

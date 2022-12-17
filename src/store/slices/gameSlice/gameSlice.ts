@@ -14,9 +14,13 @@ interface IGameState {
         asset: EAssetType,
         progress: number,
     }
-    grass: {
-        moverEnabled: boolean,
+    environment: {
+        grass: {
+            moverEnabled: boolean,
+        }
+        dayTime: number,
     }
+
 }
 
 const initialState: IGameState = {
@@ -25,8 +29,12 @@ const initialState: IGameState = {
         asset: EAssetType.texture,
         progress: 0,
     },
-    grass: {
-        moverEnabled: false,
+
+    environment: {
+        grass: {
+            moverEnabled: false,
+        },
+        dayTime: 0,
     }
 }
 
@@ -43,11 +51,15 @@ const gameSlice = createSlice({
         },
 
         setGrassMoverEnabled: (state, action: PayloadAction<boolean>) => {
-            state.grass.moverEnabled = action.payload;
+            state.environment.grass.moverEnabled = action.payload;
+        },
+
+        setDayTime: (state, action: PayloadAction<number>) => {
+            state.environment.dayTime = action.payload;
         }
     }
 });
 
 export default gameSlice.reducer;
 
-export const {setGameStatus, setAssetsLoadingStatus, setGrassMoverEnabled} = gameSlice.actions;
+export const {setGameStatus, setDayTime, setAssetsLoadingStatus, setGrassMoverEnabled} = gameSlice.actions;

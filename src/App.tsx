@@ -1,4 +1,4 @@
-import './App.css';
+import './global.scss';
 import { GameScreen } from './components/Game/GameScreen';
 import { LobbyScreen } from './components/Lobby/LobbyScreen';
 

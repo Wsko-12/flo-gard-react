@@ -1,4 +1,5 @@
 import { Point2, Vector2 } from '../../../../../world/environment/utils/Geometry';
+import { HitBoxScene } from '../../../../../world/HitBoxScene';
 import CameraOrbitController from '../CameraOrbitController';
 export interface ICustomMouseEvent {
     x: number;
@@ -160,11 +161,12 @@ export default class OrbitControllerHandler {
             e.preventDefault();
             if (e.button === 0) {
                 if (e.timeStamp - this.mouse.clicked.timestamp < 150 && !this.mouse.clicked.moved) {
-                    const event = OrbitControllerHandler.createPointerEvent('ECustomEvents.click', [
-                        e.clientX,
-                        e.clientY,
-                    ]);
-                    this.eventHandler?.dispatchEvent(event);
+                    HitBoxScene.click(e.clientX, e.clientY);
+                    // const event = OrbitControllerHandler.createPointerEvent('ECustomEvents.click', [
+                    //     e.clientX,
+                    //     e.clientY,
+                    // ]);
+                    // this.eventHandler?.dispatchEvent(event);
                 }
                 this.mouse.clicked.flag = false;
                 this.mouse.clicked.moved = false;

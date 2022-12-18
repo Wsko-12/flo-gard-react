@@ -3,8 +3,6 @@ import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import gameInterfaceSettings from "./slices/gameInterfaceSettings/gameInterfaceSettings";
 import gameSlice from "./slices/gameSlice/gameSlice";
 
-
-console.log('configureStore');
 export const store = configureStore({
     reducer: {
         game: gameSlice,

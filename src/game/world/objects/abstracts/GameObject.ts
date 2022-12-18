@@ -1,5 +1,5 @@
 import { BufferGeometry, Group, Mesh } from "three";
-import { addGameObject, IGameObjectStoreData, selectGameObjectById, toggleSelectGameObject } from "../../../../store/slices/gameObject/gameObject";
+import { addGameObject, IGameObjectStoreData, selectGameObjectById, selectGameObjectOnMove, toggleSelectGameObject } from "../../../../store/slices/gameObject/gameObject";
 import { store } from "../../../../store/store";
 import { generateGameObjectId } from "../../../../utils/utils";
 import { Point2 } from "../../environment/utils/Geometry";
@@ -37,6 +37,7 @@ export abstract class GameObject {
         this.storeData = {
             id: this.id,
             isSelected: false,
+            isMovable: !!options.isMovable,
         }
 
         store.dispatch(addGameObject({...this.storeData}));
@@ -44,19 +45,23 @@ export abstract class GameObject {
     }
 
     private applyStoreUpdate = () => {
-        const data = selectGameObjectById(this.id)(store.getState());
+        const state = store.getState();
+        const data = selectGameObjectById(this.id)(state);
         if(!data){
             throw new Error(`[Object ${this.id} applyStoreData] don't saved in store`)
         };
 
         this.storeData.isSelected = data.isSelected;
+
+        const onMove = selectGameObjectOnMove(state) === this.id;
+        this.movable?.setIsMoving(onMove);
     }
 
     protected applyDecorators() {
         const { isMovable, isClickable } = this.options;
 
         if(isMovable){
-            this.movable = new MovableDecorator(this.position, this.mesh);
+            this.movable = new MovableDecorator(this.position, this);
         }
 
         if(isClickable){

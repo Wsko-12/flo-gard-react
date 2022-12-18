@@ -1,15 +1,15 @@
-import { Group, Mesh } from "three";
 import { GameStore } from "../../../gameStore/GameStore";
 import LoopsManager from "../../../loopsManager/LoopsManager";
 import { Point2 } from "../../environment/utils/Geometry";
+import { GameObject } from "../abstracts/GameObject";
 
 export class MovableDecorator {
     protected isMoving: boolean = false;
     position: Point2;
-    mesh: Mesh | Group;
-    constructor(position: Point2, mesh: Mesh | Group){
+    gameObject: GameObject;
+    constructor(position: Point2, gameObject: GameObject){
         this.position = position;
-        this.mesh = mesh;
+        this.gameObject = gameObject;
         LoopsManager.subscribe('update', this.move)
     }
 
@@ -24,7 +24,7 @@ export class MovableDecorator {
         const {x, z} = GameStore.cameraTarget;
         this.position.x = x;
         this.position.y = z;
-        this.mesh.position.set(this.position.x, 0, this.position.y);
+        this.gameObject.setPosition(this.position.x, this.position.y);
     }
 
     remove() {

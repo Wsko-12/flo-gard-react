@@ -19,14 +19,9 @@ const gameObjects = createSlice({
             gameObjectsAdapter.addOne(state, action.payload);
         },
 
-        toggleSelectGameObject: (state, action: PayloadAction<{id: string, isSelected: boolean}>) => {
+        toggleSelectGameObject: (state, action: PayloadAction<IGameObjectStoreData>) => {
             const {id, isSelected} = action.payload
-            gameObjectsAdapter.updateOne(state, {
-                id,
-                changes: {
-                    isSelected,
-                }
-            });
+            gameObjectsAdapter.setOne(state, action.payload);
 
             if(isSelected){
                 state.selected.push(id);
@@ -34,7 +29,7 @@ const gameObjects = createSlice({
                 const index = state.selected.indexOf(id);
                 state.selected.splice(index, 1);
             }
-        }
+        },
     },
 
 

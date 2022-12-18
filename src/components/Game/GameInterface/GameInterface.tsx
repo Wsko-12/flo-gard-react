@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import GrassMovingButton from './buttons/GrassMovingButton';
 import Clocks from './Clocks/Clocks';
-import ObjectsCards from './ObjectsCards/ObjectsCards';
+import ObjectsCards from './Card/ObjectsCards/ObjectsCards';
 
 const GameInterface = memo(() => {
     return (

@@ -1,7 +1,6 @@
 import { Scene } from 'three';
 import Day from './day/Day';
 import Environment from './environment/Environment';
-import { HitBoxScene } from './HitBoxScene';
 import { Pot } from './objects/pots/Pot';
 
 export default class World {
@@ -10,11 +9,22 @@ export default class World {
         const scene = new Scene();
         this.scene = scene;
 
-        HitBoxScene.init();
         Day.init();
         Environment.init();
 
-        new Pot();
+        // new Pot();
+        const pot1 = new Pot();
+        pot1.setPosition(0.5, 0);
+
+        const pot2 = new Pot();
+        pot2.setPosition(-0.5, 0);
+
+        const pot3 = new Pot();
+        pot3.setPosition(0, 0.5);
+
+        const pot4 = new Pot();
+        pot4.setPosition(0, -0.5);
+
     }
 
     static getScene() {

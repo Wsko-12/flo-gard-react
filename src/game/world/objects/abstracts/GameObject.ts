@@ -77,6 +77,13 @@ export abstract class GameObject {
         World.getScene().add(this.mesh);
     }
 
+    public setPosition(x: number, y: number){
+        this.mesh.position.set(x, 0, y);
+        if(this.clickable){
+            this.clickable.setPosition(x, y);
+        }
+    }
+
     public remove() {
         World.getScene().remove(this.mesh);
         this.movable?.remove();
@@ -85,9 +92,10 @@ export abstract class GameObject {
     }
 
     public onClick(){
+        const isSelected = !this.storeData.isSelected
         store.dispatch(toggleSelectGameObject({
-            id: this.id,
-            isSelected: !this.storeData.isSelected,
+            ...this.storeData,
+            isSelected,
         }))
     }
 }

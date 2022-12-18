@@ -1,26 +1,20 @@
-import { Object3D, Raycaster, Scene } from "three";
+import { Mesh, Object3D, Raycaster, Scene } from "three";
 import GameCamera from "../renderer/gameCamera/GameCamera";
 import { HitBox } from "./objects/abstracts/HitBox";
 
 export class HitBoxScene {
-    private static scene: Scene | null = null;
     private static raycaster = new Raycaster();
     private static hitBoxes: HitBox[] = [];
-    static init() {
-        this.scene = new Scene();
-    }
+    private static hitBoxesMeshArray: Mesh[] = [];
 
     static click(clientX: number, clientY: number){
-        if(!this.scene){
-            throw new Error('[HitBoxScene click] scene undefined');
-        }
 
         const x = (clientX / window.innerWidth ) * 2 - 1;
         const y = - (clientY / window.innerHeight ) * 2 + 1;
 
         const { raycaster } = this;
         raycaster.setFromCamera({x, y}, GameCamera.getCamera());
-        const intersects = raycaster.intersectObjects( this.scene.children );
+        const intersects = raycaster.intersectObjects( this.hitBoxesMeshArray);
         if(intersects[0]){
             this.callHitBoxClick(intersects[0].object);
         }
@@ -34,9 +28,6 @@ export class HitBoxScene {
     }
 
     static add(hitBox: HitBox){
-        if(!this.scene){
-            throw new Error('[HitBoxScene add] scene undefined')
-        }
 
         const isAdded = this.hitBoxes.includes(hitBox);
         if(isAdded){
@@ -44,20 +35,26 @@ export class HitBoxScene {
         }
 
         this.hitBoxes.push(hitBox);
-        this.scene.add(hitBox.getMesh());
+        this.hitBoxesMeshArray.push(hitBox.getMesh());
     }
 
     static remove(hitBox: HitBox){
-        if(!this.scene){
-            throw new Error('[HitBoxScene remove] scene undefined')
+
+        {
+            const index = this.hitBoxes.indexOf(hitBox);
+            if(index === -1){
+                return;
+            }
+            this.hitBoxes.splice(index, 1);
+
         }
 
-        const index = this.hitBoxes.indexOf(hitBox);
-        if(index === -1){
-            return;
+        {
+            const index = this.hitBoxesMeshArray.indexOf(hitBox.getMesh());
+            if(index === -1){
+                return;
+            }
+            this.hitBoxesMeshArray.splice(index, 1);
         }
-
-        this.hitBoxes.splice(index, 1);
-        this.scene.remove(hitBox.getMesh());
     }
 }

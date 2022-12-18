@@ -1,6 +1,5 @@
 import { Mesh, MeshBasicMaterial } from "three";
 import Assets from "../../../../assets/Assets";
-import World from "../../World";
 import { GameObject } from "../abstracts/GameObject";
 
 export class Pot extends GameObject {
@@ -8,10 +7,10 @@ export class Pot extends GameObject {
     constructor(){
         super();
         const geometry = Assets.getGeometry('pot_1');
-        this.mesh = new Mesh(geometry, new MeshBasicMaterial());
-        World.getScene().add(this.mesh);
-        
+        this.mesh = new Mesh(geometry, new MeshBasicMaterial());        
         this.applyDecorators();
+
+        this.add();
     }
 
     remove(): void {

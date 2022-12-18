@@ -1,7 +1,5 @@
 import React, { memo } from 'react';
 import { FULL_DAY_TIME } from '../../../../../game/world/day/Day';
-import { selectDayTime } from '../../../../../store/slices/gameSlice/gameSelectors';
-import { useAppSelector } from '../../../../../store/store';
 
 import styles from './line-clocks.module.scss';
 
@@ -9,11 +7,11 @@ const getSunPosition = (time: number) => {
     return `translateX(${(time / FULL_DAY_TIME) * 100 * 10}%)`;
     // return `translateX(0%)`;
 }
+interface ILineClocksProps {
+    dayTime: number
+}
 
-
-const LineClocks = memo(() => {
-    const dayTime = useAppSelector(selectDayTime);
-    
+const LineClocks = memo<ILineClocksProps>(({ dayTime }) => {    
     return (
         <div className={styles.container}>
             <div className={styles.wrapper}>

@@ -1,7 +1,5 @@
 import React, { memo } from 'react';
 import { FULL_DAY_TIME } from '../../../../../game/world/day/Day';
-import { selectDayTime } from '../../../../../store/slices/gameSlice/gameSelectors';
-import { useAppSelector } from '../../../../../store/store';
 
 import styles from './circle-clocks.module.scss';
 
@@ -10,9 +8,11 @@ const getSunAngle = (time: number) => {
     // return `translateX(0%)`;
 }
 
+interface ICircleClocksProps {
+    dayTime: number
+}
 
-const CircleClocks = memo(() => {
-    const dayTime = useAppSelector(selectDayTime);
+const CircleClocks = memo<ICircleClocksProps>(({ dayTime }) => {
     
     return (
         <div className={styles.container}>

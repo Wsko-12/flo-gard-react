@@ -18,7 +18,6 @@ interface IGameState {
         grass: {
             moverEnabled: boolean,
         }
-        dayTime: number,
     }
 
 }
@@ -34,7 +33,6 @@ const initialState: IGameState = {
         grass: {
             moverEnabled: false,
         },
-        dayTime: 0,
     },
 }
 
@@ -53,13 +51,9 @@ const gameSlice = createSlice({
         setGrassMoverEnabled: (state, action: PayloadAction<boolean>) => {
             state.environment.grass.moverEnabled = action.payload;
         },
-
-        setDayTime: (state, action: PayloadAction<number>) => {
-            state.environment.dayTime = action.payload;
-        }
     }
 });
 
 export default gameSlice.reducer;
 
-export const {setGameStatus, setDayTime, setAssetsLoadingStatus, setGrassMoverEnabled} = gameSlice.actions;
+export const {setGameStatus, setAssetsLoadingStatus, setGrassMoverEnabled} = gameSlice.actions;

@@ -1,8 +1,8 @@
 import { BufferGeometry } from "three";
 import { HitBoxScene } from "../../HitBoxScene";
-import { HitBox } from "./HitBox";
+import { HitBox } from "../abstracts/HitBox";
 
-export class ClickableObject {
+export class ClickableDecorator {
     private hitBox: HitBox;
     constructor(geometry: BufferGeometry, onClick: () => void) {
         this.hitBox = new HitBox(geometry, onClick);

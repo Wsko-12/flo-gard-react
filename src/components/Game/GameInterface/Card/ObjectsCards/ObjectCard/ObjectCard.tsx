@@ -3,6 +3,7 @@ import React, { memo, useCallback } from 'react';
 import { selectGameObjectById, toggleSelectGameObject } from '../../../../../../store/slices/worldGameObjects/worldGameObjects';
 import { useAppDispatch, useAppSelector } from '../../../../../../store/store';
 import DraggableCard from '../../DraggableCard/DraggableCard';
+import EditObjectBar from '../EditObjectBar';
 import MoveButton from './MoveButton/MoveButton';
 import styles from './object-card.module.scss';
 
@@ -33,7 +34,7 @@ export const ObjectsCard = memo<IObjectsCardProps>(({ id }) => {
         <DraggableCard closeCb={closeCb}>
             <div className={styles.card}>
                 {data.id}
-                <MoveButton id={data.id} isMovable={data.isMovable}/>
+                <EditObjectBar id={data.id} />
             </div>
         </DraggableCard>
     );

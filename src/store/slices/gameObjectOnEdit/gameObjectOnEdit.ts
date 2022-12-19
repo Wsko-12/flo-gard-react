@@ -18,12 +18,7 @@ const gameObjectOnEdit = createSlice({
     initialState,
     reducers: {
         setEditedObject: (state, action: PayloadAction<EntityId | null>) => {
-            if(!action.payload){
-                return initialState;
-            }else{
-                state.id = action.payload;
-                return state;
-            }
+            state.id = action.payload;
         },
 
         setIsOnMove: (state, action: PayloadAction<boolean>) => {
@@ -49,7 +44,7 @@ const gameObjectOnEdit = createSlice({
 
 export const { setEditedObject, setIsOnMove } = gameObjectOnEdit.actions;
 
-export const selectEditedObject = (state: RootState) => state.gameObjectOnEdit.id;
+export const selectEditedObjectId = (state: RootState) => state.gameObjectOnEdit.id;
 export const selectEditedObjectIsOnMove = (state: RootState) => state.gameObjectOnEdit.isOnMove;
 
 export default gameObjectOnEdit.reducer;

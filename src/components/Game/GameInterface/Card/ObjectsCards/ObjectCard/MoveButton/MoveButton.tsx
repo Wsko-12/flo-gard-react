@@ -1,35 +1,31 @@
-import { EntityId } from '@reduxjs/toolkit';
 import React, { memo } from 'react';
-import { selectEditedObject, selectEditedObjectIsOnMove, setEditedObject, setIsOnMove } from '../../../../../../../store/slices/gameObjectOnEdit/gameObjectOnEdit';
-import { useAppDispatch, useAppSelector } from '../../../../../../../store/store';
+import { setIsOnMove } from '../../../../../../../store/slices/gameObjectOnEdit/gameObjectOnEdit';
+import { useAppDispatch } from '../../../../../../../store/store';
 
 interface IMoveButtonProps {
     isMovable: boolean;
-    id: EntityId;
+    isOnMove: boolean;
 }
 
-const MoveButton = memo<IMoveButtonProps>(({isMovable, id}) => {
-    const onEditId = useAppSelector(selectEditedObject);
-    const objectOnMove = useAppSelector(selectEditedObjectIsOnMove);
+const MoveButton = memo<IMoveButtonProps>(({isMovable, isOnMove,}) => {
     const dispatch = useAppDispatch();
-    
+
+    if(!isMovable) {
+        return null;
+    }
+
     const moveObject = () => {
-        dispatch(setEditedObject(id));
         dispatch(setIsOnMove(true));
     }
     const applyMove = () => {
         dispatch(setIsOnMove(false));
     }
 
-    if(!isMovable) {
-        return null;
-    }
-
-    if(onEditId === null || (onEditId === id && !objectOnMove)){
+    if(!isOnMove){
         return  <button onClick={moveObject}>Move</button>
     }
 
-    if(onEditId === id && objectOnMove) {
+    if(isOnMove) {
         return  <button onClick={applyMove}>Apply</button>
     }
 

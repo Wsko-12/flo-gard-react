@@ -15,13 +15,13 @@ const worldGameObjectsAdapter = createEntityAdapter<IGameObjectStoreData>({
 })
 
 export interface IGameObjectsAdditionalState {
-    selected: EntityId[]
+    cardOpened: EntityId[]
 }
 
 const worldGameObjects = createSlice({
     name: 'worldGameObject',
     initialState: worldGameObjectsAdapter.getInitialState<IGameObjectsAdditionalState>({
-        selected: [],
+        cardOpened: [],
     }),
     reducers: {
         addGameObject: (state, action: PayloadAction<IGameObjectStoreData>) => {
@@ -31,9 +31,9 @@ const worldGameObjects = createSlice({
         removeGameObject: (state, action: PayloadAction<string>) => {
             const id = action.payload;
             worldGameObjectsAdapter.removeOne(state, id);
-            if(state.selected.includes(id)){
-                const index = state.selected.indexOf(id);
-                state.selected.splice(index, 1);
+            if(state.cardOpened.includes(id)){
+                const index = state.cardOpened.indexOf(id);
+                state.cardOpened.splice(index, 1);
             };
         },
 
@@ -42,10 +42,22 @@ const worldGameObjects = createSlice({
             worldGameObjectsAdapter.setOne(state, action.payload);
 
             if(isSelected){
-                state.selected.push(id);
+                state.cardOpened.push(id);
             }else{
-                const index = state.selected.indexOf(id);
-                state.selected.splice(index, 1);
+                const index = state.cardOpened.indexOf(id);
+                state.cardOpened.splice(index, 1);
+            }
+        },
+
+        updateGameObject: (state, action: PayloadAction<IGameObjectStoreData>) => {
+            const {id, isSelected} = action.payload
+            worldGameObjectsAdapter.setOne(state, action.payload);
+
+            if(isSelected){
+                state.cardOpened.push(id);
+            }else{
+                const index = state.cardOpened.indexOf(id);
+                state.cardOpened.splice(index, 1);
             }
         },
     },
@@ -60,5 +72,5 @@ export default worldGameObjects.reducer;
 
 const adapterSelectors = worldGameObjectsAdapter.getSelectors<RootState>((state) => state.worldGameObjects);
 
-export const selectSelectedObjectsIds = (state: RootState) => state.worldGameObjects.selected;
+export const selectOpenedObjectCardsIds = (state: RootState) => state.worldGameObjects.cardOpened;
 export const selectGameObjectById = (id: EntityId) => (state: RootState) => adapterSelectors.selectById(state, id)

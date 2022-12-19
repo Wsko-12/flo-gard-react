@@ -16,8 +16,13 @@ export default class World {
         Environment.init();
 
         const pot1 = new Pot();
-
         pot1.addToWorld(true);
+
+        const pot2 = new Pot();
+        pot2.setPosition(0, 1);
+        pot2.addToWorld(false);
+
+
 
 
     }

@@ -1,5 +1,5 @@
 import { BufferGeometry, Group, Mesh } from "three";
-import { selectEditedObject, selectEditedObjectIsOnMove, setEditedObject, setIsOnMove } from "../../../../store/slices/gameObjectOnEdit/gameObjectOnEdit";
+import { selectEditedObjectId, selectEditedObjectIsOnMove, setEditedObject, setIsOnMove } from "../../../../store/slices/gameObjectOnEdit/gameObjectOnEdit";
 import { addGameObject, IGameObjectStoreData, removeGameObject, selectGameObjectById, toggleSelectGameObject } from "../../../../store/slices/worldGameObjects/worldGameObjects";
 import { store } from "../../../../store/store";
 import { generateGameObjectId } from "../../../../utils/utils";
@@ -53,7 +53,7 @@ export abstract class GameObject {
 
     private applyStoreUpdate = () => {
         const state = store.getState();
-        const onEdit = selectEditedObject(state) === this.id;
+        const onEdit = selectEditedObjectId(state) === this.id;
         const data = selectGameObjectById(this.id)(state);
         if(!data){
             throw new Error(`[Object ${this.id} applyStoreData] don't saved in store`)
@@ -68,7 +68,6 @@ export abstract class GameObject {
 
             // check flag when object in bad position
             if(onMoveBefore && !onMoveNow){
-                
                 const isCollision = this.movable.checkCollision();
                 if(!isCollision){
                     this.setPlaced(this.position.current);
@@ -93,7 +92,7 @@ export abstract class GameObject {
     }
 
     public setPlaced({x, y}: Point2) {
-        store.dispatch(toggleSelectGameObject({
+        store.dispatch(updateGameObject({
             ...this.storeData,
             placed: {x, y},
         }));
@@ -164,4 +163,8 @@ export abstract class GameObject {
             isSelected,
         }))
     }
+}
+
+function updateGameObject(arg0: { placed: { x: number; y: number; }; id: string; isSelected: boolean; isMovable: boolean; }): any {
+    throw new Error("Function not implemented.");
 }

@@ -28,7 +28,7 @@ export class MovableDecorator {
         this.gameObject.setPosition(this.position.x, this.position.y);
     }
 
-    checkCollision = () => true;
+    checkCollision = () => false;
     add(){
         LoopsManager.subscribe('update', this.move);
     }

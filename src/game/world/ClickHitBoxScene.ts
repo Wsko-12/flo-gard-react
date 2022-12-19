@@ -1,10 +1,10 @@
 import { Mesh, Object3D, Raycaster } from "three";
 import GameCamera from "../renderer/gameCamera/GameCamera";
-import { HitBox } from "./objects/abstracts/HitBox";
+import { ClickHitBox } from "./objects/abstracts/HitBox";
 
 export class ClickHitBoxScene {
     private static raycaster = new Raycaster();
-    private static hitBoxes: HitBox[] = [];
+    private static hitBoxes: ClickHitBox[] = [];
     private static hitBoxesMeshArray: Mesh[] = [];
 
     static click(clientX: number, clientY: number){
@@ -27,7 +27,7 @@ export class ClickHitBoxScene {
         }
     }
 
-    static add(hitBox: HitBox){
+    static add(hitBox: ClickHitBox){
 
         const isAdded = this.hitBoxes.includes(hitBox);
         if(isAdded){
@@ -38,7 +38,7 @@ export class ClickHitBoxScene {
         this.hitBoxesMeshArray.push(hitBox.getMesh());
     }
 
-    static remove(hitBox: HitBox){
+    static remove(hitBox: ClickHitBox){
 
         {
             const index = this.hitBoxes.indexOf(hitBox);

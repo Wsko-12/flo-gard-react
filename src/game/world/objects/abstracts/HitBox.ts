@@ -2,13 +2,13 @@ import { BufferGeometry, Mesh, MeshBasicMaterial } from "three";
 import { ClickHitBoxScene } from "../../ClickHitBoxScene";
 import World from "../../World";
 
-export class HitBox {
+export class ClickHitBox {
     protected static material = new MeshBasicMaterial({visible: false, color: 0xFF0000, wireframe: true, wireframeLinewidth: 3});
 
     private mesh: Mesh;
     private onClick: () => void = () => {};
     constructor(geometry: BufferGeometry, onClick?: () => void){
-        this.mesh = new Mesh(geometry, HitBox.material);
+        this.mesh = new Mesh(geometry, ClickHitBox.material);
 
 
         if(onClick){

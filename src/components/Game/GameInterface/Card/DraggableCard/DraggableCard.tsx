@@ -8,7 +8,7 @@ interface IDraggableCardProps {
 
 export const useDraggable = (
     ref: RefObject<HTMLElement>,
-    startPosition: [number, number] = [0, 0],
+    startPosition: [number, number] = [50, 50],
   ) => {
     const [x, setX] = useState(startPosition[0]);
     const [y, setY] = useState(startPosition[1]);

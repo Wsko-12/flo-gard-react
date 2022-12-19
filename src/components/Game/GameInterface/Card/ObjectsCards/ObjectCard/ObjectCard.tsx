@@ -1,6 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo, useCallback } from 'react';
-import { selectGameObjectById, toggleSelectGameObject } from '../../../../../../store/slices/worldGameObject/worldGameObject';
+import { selectGameObjectById, toggleSelectGameObject } from '../../../../../../store/slices/worldGameObjects/worldGameObjects';
 import { useAppDispatch, useAppSelector } from '../../../../../../store/store';
 import DraggableCard from '../../DraggableCard/DraggableCard';
 import MoveButton from './MoveButton/MoveButton';

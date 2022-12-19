@@ -1,5 +1,5 @@
 import { BufferGeometry, Group, Mesh } from "three";
-import { addGameObject, IGameObjectStoreData, removeGameObject, selectGameObjectById, selectGameObjectOnMove, setOnMoveObject, toggleSelectGameObject } from "../../../../store/slices/worldGameObject/worldGameObject";
+import { addGameObject, IGameObjectStoreData, removeGameObject, selectGameObjectById, selectGameObjectOnMove, setOnMoveObject, toggleSelectGameObject } from "../../../../store/slices/worldGameObjects/worldGameObjects";
 import { store } from "../../../../store/store";
 import { generateGameObjectId } from "../../../../utils/utils";
 import { Point2 } from "../../environment/utils/Geometry";

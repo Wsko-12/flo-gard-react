@@ -15,8 +15,7 @@ export class ClickHitBox {
             this.onClick = onClick;
         }
 
-        ClickHitBoxScene.add(this);
-        World.getScene().add(this.mesh);
+        this.add();
     }
 
     click(){
@@ -27,8 +26,14 @@ export class ClickHitBox {
         this.mesh.position.set(x, 0, y);
     }
 
+    add() {
+        ClickHitBoxScene.add(this);
+        World.getScene().add(this.mesh);
+    }
+
     remove() {
         ClickHitBoxScene.remove(this);
+        World.getScene().remove(this.mesh);
     }
 
     getMesh() {

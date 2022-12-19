@@ -44,7 +44,7 @@ export default class Loop {
 
     public unsubscribe(callback: TLoopCallback) {
         const index = this.subscribers.indexOf(callback);
-        if (index != -1) {
+        if (index !== -1) {
             this.subscribers.splice(index, 1);
         }
     }

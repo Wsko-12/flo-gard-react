@@ -9,8 +9,7 @@ export class MovableDecorator {
     gameObject: GameObject;
     constructor(gameObject: GameObject){
         this.position = gameObject.position;
-        this.gameObject = gameObject;
-        LoopsManager.subscribe('update', this.move)
+        this.gameObject = gameObject; 
     }
 
     setIsMoving(flag: boolean){
@@ -21,12 +20,16 @@ export class MovableDecorator {
         if(!this.isMoving){
             return;
         }
+
         const {x, z} = GameStore.cameraTarget;
         this.position.x = x;
         this.position.y = z;
         this.gameObject.setPosition(this.position.x, this.position.y);
     }
 
+    add(){
+        LoopsManager.subscribe('update', this.move);
+    }
     remove() {
         LoopsManager.unsubscribe('update', this.move);
     }

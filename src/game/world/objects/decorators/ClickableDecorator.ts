@@ -11,6 +11,10 @@ export class ClickableDecorator {
     public setPosition(x: number, y: number){
         this.hitBox.setPosition(x, y);
     }
+
+    add() {
+        this.hitBox.add();
+    }
     remove(){
         this.hitBox.remove();
     }

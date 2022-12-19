@@ -26,6 +26,19 @@ const gameObjects = createSlice({
             gameObjectsAdapter.addOne(state, action.payload);
         },
 
+        removeGameObject: (state, action: PayloadAction<string>) => {
+            const id = action.payload;
+            gameObjectsAdapter.removeOne(state, id);
+            if(state.selected.includes(id)){
+                const index = state.selected.indexOf(id);
+                state.selected.splice(index, 1);
+                if(state.onMove === id){
+                    state.onMove = null;
+                }
+            };
+
+        },
+
         toggleSelectGameObject: (state, action: PayloadAction<IGameObjectStoreData>) => {
             const {id, isSelected} = action.payload
             gameObjectsAdapter.setOne(state, action.payload);
@@ -35,7 +48,9 @@ const gameObjects = createSlice({
             }else{
                 const index = state.selected.indexOf(id);
                 state.selected.splice(index, 1);
-                state.onMove = null;
+                if(state.onMove === id){
+                    state.onMove = null;
+                }
             }
         },
 
@@ -47,7 +62,7 @@ const gameObjects = createSlice({
 
 });
 
-export const { addGameObject, toggleSelectGameObject, setOnMoveObject } = gameObjects.actions;
+export const { addGameObject, toggleSelectGameObject, setOnMoveObject, removeGameObject } = gameObjects.actions;
 
 
 export default gameObjects.reducer;

@@ -1,5 +1,5 @@
 import { BufferGeometry, Group, Mesh } from "three";
-import { addGameObject, IGameObjectStoreData, selectGameObjectById, selectGameObjectOnMove, toggleSelectGameObject } from "../../../../store/slices/gameObject/gameObject";
+import { addGameObject, IGameObjectStoreData, removeGameObject, selectGameObjectById, selectGameObjectOnMove, toggleSelectGameObject } from "../../../../store/slices/gameObject/gameObject";
 import { store } from "../../../../store/store";
 import { generateGameObjectId } from "../../../../utils/utils";
 import { Point2 } from "../../environment/utils/Geometry";
@@ -28,7 +28,7 @@ export abstract class GameObject {
 
     private movable: MovableDecorator | null = null;
     private clickable: ClickableDecorator | null = null;
-    private storeUnsubscribe: () => void;
+    private storeUnsubscribe: () => void = () => {};
 
     constructor(options: IGameObjectOptions = defaultOptions){
         this.options = options;
@@ -39,9 +39,6 @@ export abstract class GameObject {
             isSelected: false,
             isMovable: !!options.isMovable,
         }
-
-        store.dispatch(addGameObject({...this.storeData}));
-        this.storeUnsubscribe = store.subscribe(this.applyStoreUpdate);
     }
 
     private applyStoreUpdate = () => {
@@ -78,8 +75,12 @@ export abstract class GameObject {
         }
     }
 
-    public add() {
-        World.getScene().add(this.mesh);
+    public addToWorld() {
+        this.storeUnsubscribe = store.subscribe(this.applyStoreUpdate);
+        World.addGameObject(this);
+        this.movable?.add();
+        this.clickable?.add();
+        store.dispatch(addGameObject({...this.storeData}));
     }
 
     public setPosition(x: number, y: number){
@@ -89,13 +90,19 @@ export abstract class GameObject {
         }
     }
 
-    public remove() {
-        World.getScene().remove(this.mesh);
+    public removeFromWorld() {
+        this.storeUnsubscribe();
+        this.storeUnsubscribe = () => {};
+        World.removeGameObject(this);
         this.movable?.remove();
         this.clickable?.remove();
-        this.storeUnsubscribe();
+        store.dispatch(removeGameObject(this.id));
     }
 
+
+    public getMesh() {
+        return this.mesh;
+    }
     public onClick(){
         const isSelected = !this.storeData.isSelected
         store.dispatch(toggleSelectGameObject({

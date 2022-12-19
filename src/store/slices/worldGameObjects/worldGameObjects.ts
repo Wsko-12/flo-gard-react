@@ -3,7 +3,7 @@ import { RootState } from "../../store";
 
 export interface IGameObjectStoreData {
     id: string;
-    placed: {
+    position: {
         x: number,
         y: number
     } | null,
@@ -50,22 +50,15 @@ const worldGameObjects = createSlice({
         },
 
         updateGameObject: (state, action: PayloadAction<IGameObjectStoreData>) => {
-            const {id, isSelected} = action.payload
-            worldGameObjectsAdapter.setOne(state, action.payload);
-
-            if(isSelected){
-                state.cardOpened.push(id);
-            }else{
-                const index = state.cardOpened.indexOf(id);
-                state.cardOpened.splice(index, 1);
-            }
+            const {id} = action.payload
+            worldGameObjectsAdapter.updateOne(state, {id, changes: action.payload});
         },
     },
 
 
 });
 
-export const { addGameObject, toggleSelectGameObject, removeGameObject } = worldGameObjects.actions;
+export const { addGameObject, toggleSelectGameObject, removeGameObject, updateGameObject } = worldGameObjects.actions;
 
 
 export default worldGameObjects.reducer;

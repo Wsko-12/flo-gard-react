@@ -9,7 +9,7 @@ export class MovableDecorator {
     
     gameObject: GameObject;
     constructor(gameObject: GameObject){
-        this.position = gameObject.position.current;
+        this.position = gameObject.position;
         this.gameObject = gameObject; 
     }
 
@@ -22,13 +22,15 @@ export class MovableDecorator {
             return;
         }
 
+        this.gameObject.setBlockMaterial(this.checkCollision());
+
         const {x, z} = GameStore.cameraTarget;
         this.position.x = x;
         this.position.y = z;
         this.gameObject.setPosition(this.position.x, this.position.y);
     }
 
-    checkCollision = () => false;
+    checkCollision = () => this.gameObject.getCollider().isCollision();
     add(){
         LoopsManager.subscribe('update', this.move);
     }

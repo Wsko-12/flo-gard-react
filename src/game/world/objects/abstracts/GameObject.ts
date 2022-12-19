@@ -1,10 +1,11 @@
 import { BufferGeometry, Group, Mesh } from "three";
 import { selectEditedObjectId, selectEditedObjectIsOnMove, setEditedObject, setIsOnMove } from "../../../../store/slices/gameObjectOnEdit/gameObjectOnEdit";
-import { addGameObject, IGameObjectStoreData, removeGameObject, selectGameObjectById, toggleSelectGameObject } from "../../../../store/slices/worldGameObjects/worldGameObjects";
+import { addGameObject, IGameObjectStoreData, removeGameObject, selectGameObjectById, toggleSelectGameObject, updateGameObject } from "../../../../store/slices/worldGameObjects/worldGameObjects";
 import { store } from "../../../../store/store";
 import { generateGameObjectId } from "../../../../utils/utils";
 import { Point2 } from "../../environment/utils/Geometry";
 import World from "../../World";
+import { Collider } from "../colliders/Collider";
 import { ClickableDecorator } from "../decorators/ClickableDecorator";
 import { MovableDecorator } from "../decorators/MovableDecorator";
 
@@ -19,11 +20,8 @@ const defaultOptions: IGameObjectOptions = {
     isClickable: true,
 }
 export abstract class GameObject {
-
-    public position: {
-        current: Point2;
-        placed: Point2 | null;
-    };
+    protected abstract collider: Collider;
+    public position: Point2;
     public id: string;
     public storeData: IGameObjectStoreData;
     protected abstract mesh: Mesh | Group;
@@ -36,16 +34,12 @@ export abstract class GameObject {
 
     constructor(options: IGameObjectOptions = defaultOptions){
         this.options = options;
-        this.position = {
-            current: new Point2(0, 0),
-            // placed: null,
-            placed: new Point2(0, 0),
-        }
+        this.position = new Point2(0, 0)
 
         this.id = generateGameObjectId();
         this.storeData = {
             id: this.id,
-            placed: null,
+            position: null,
             isSelected: false,
             isMovable: !!options.isMovable,
         }
@@ -66,36 +60,33 @@ export abstract class GameObject {
             const onMoveNow = onEdit && selectEditedObjectIsOnMove(state);
             this.movable?.setIsMoving(onMoveNow);
 
-            // check flag when object in bad position
-            if(onMoveBefore && !onMoveNow){
-                const isCollision = this.movable.checkCollision();
+            const positionChanged = onMoveBefore && !onMoveNow;
+            if(positionChanged){
+                const isCollision = this.collider.isCollision();
                 if(!isCollision){
-                    this.setPlaced(this.position.current);
+                    this.savePosition();
+                    this.setBlockMaterial(false);
                     return;
                 }
 
-                // if have position before
-                if(this.position.placed){
-                    const {x, y} = this.position.placed;
-                    this.setPosition(x, y);
-                    return;
-                }
-
-                // if don't have position before 
-                if(!this.position.placed){
+                const savedPosition = data.position;
+                if(savedPosition){
+                    this.setPosition(savedPosition.x, savedPosition.y);
+                    this.setBlockMaterial(false);
+                }else{
                     this.removeFromWorld();
-                    return;
                 }
             }
         }
 
     }
 
-    public setPlaced({x, y}: Point2) {
+    protected savePosition() {
+        const { position } = this;
         store.dispatch(updateGameObject({
             ...this.storeData,
-            placed: {x, y},
-        }));
+            position: { x: position.x, y: position.y }
+        }))
     }
 
     protected applyDecorators() {
@@ -125,7 +116,7 @@ export abstract class GameObject {
         World.addGameObject(this);
         this.movable?.add();
         this.clickable?.add();
-        store.dispatch(addGameObject({...this.storeData}));
+        store.dispatch(addGameObject({...this.storeData, position: null, isSelected: false}));
         if(openCard){
             this.onClick();
             if(this.movable){
@@ -163,8 +154,10 @@ export abstract class GameObject {
             isSelected,
         }))
     }
-}
 
-function updateGameObject(arg0: { placed: { x: number; y: number; }; id: string; isSelected: boolean; isMovable: boolean; }): any {
-    throw new Error("Function not implemented.");
+    public getCollider = () => {
+        return this.collider;
+    };
+
+    public abstract  setBlockMaterial: (flag: boolean) => void;
 }

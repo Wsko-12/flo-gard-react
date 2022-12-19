@@ -1,5 +1,5 @@
 import { BufferGeometry } from "three";
-import { ClickHitBox } from "../abstracts/ClickHitBox";
+import { ClickHitBox } from "../colliders/ClickHitBox";
 
 export class ClickableDecorator {
     private hitBox: ClickHitBox;

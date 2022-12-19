@@ -3,6 +3,7 @@ import {
     CanvasTexture,
     DoubleSide,
     Group,
+    LinearFilter,
     Mesh,
     MeshBasicMaterial,
     MeshDepthMaterial,
@@ -65,6 +66,7 @@ export class Grass {
         this.grassHeightCanvas = this.createСanvas();
         this.grassHeightTexture = new CanvasTexture(this.grassHeightCanvas.canvas);
         this.grassHeightTexture.flipY = false;
+        this.grassHeightTexture.magFilter = LinearFilter;
         const mesh = this.createMesh();
         mesh.castShadow = true;
         mesh.receiveShadow = true;
@@ -92,7 +94,7 @@ export class Grass {
     };
 
     private createСanvas() {
-        const resolution = 2048;
+        const resolution = 64;
         const canvas = document.createElement('canvas');
         canvas.width = canvas.height = resolution;
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -113,7 +115,7 @@ export class Grass {
     private grow = (time: number) => {
         if (time % 180 === 0) {
             const { ctx, resolution } = this.grassHeightCanvas;
-            ctx.fillStyle = 'rgba(255,255,255,0.01)';
+            ctx.fillStyle = 'rgba(255,255,255,0.05)';
             ctx.fillRect(0, 0, resolution, resolution);
             this.grassHeightTexture.needsUpdate = true;
             this.updateObjectsOnGrass();

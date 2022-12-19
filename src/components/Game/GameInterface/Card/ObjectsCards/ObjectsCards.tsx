@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { selectSelectedObjectsIds } from '../../../../../store/slices/gameObject/gameObject';
+import { selectSelectedObjectsIds } from '../../../../../store/slices/worldGameObject/worldGameObject';
 import { useAppSelector } from '../../../../../store/store';
 import ObjectsCard from './ObjectCard/ObjectCard';
 

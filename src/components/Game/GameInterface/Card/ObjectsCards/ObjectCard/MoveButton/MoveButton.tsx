@@ -1,6 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo } from 'react';
-import { selectGameObjectOnMove, setOnMoveObject } from '../../../../../../../store/slices/gameObject/gameObject';
+import { selectGameObjectOnMove, setOnMoveObject } from '../../../../../../../store/slices/worldGameObject/worldGameObject';
 import { useAppDispatch, useAppSelector } from '../../../../../../../store/store';
 
 interface IMoveButtonProps {

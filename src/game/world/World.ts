@@ -16,17 +16,16 @@ export default class World {
         Environment.init();
 
         const pot1 = new Pot();
-        pot1.setPosition(0.5, 0);
 
         setTimeout(() => {
             pot1.addToWorld();
             setTimeout(() => {
                 pot1.removeFromWorld();
                 setTimeout(() => {
-                    pot1.addToWorld();
-                }, 5000)
-            }, 5000)
-        }, 5000)
+                    pot1.addToWorld(true);
+                }, 2000)
+            }, 3000)
+        }, 3000)
 
     }
 

@@ -1,6 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo, useCallback } from 'react';
-import { selectGameObjectById, toggleSelectGameObject } from '../../../../../../store/slices/gameObject/gameObject';
+import { selectGameObjectById, toggleSelectGameObject } from '../../../../../../store/slices/worldGameObject/worldGameObject';
 import { useAppDispatch, useAppSelector } from '../../../../../../store/store';
 import DraggableCard from '../../DraggableCard/DraggableCard';
 import MoveButton from './MoveButton/MoveButton';
@@ -21,7 +21,7 @@ export const ObjectsCard = memo<IObjectsCardProps>(({ id }) => {
             ...data,
             isSelected: false,
         }))
-    }, [])
+    }, [data, dispatch])
 
 
     if(!data){

@@ -1,5 +1,5 @@
 import { BufferGeometry, Group, Mesh } from "three";
-import { addGameObject, IGameObjectStoreData, removeGameObject, selectGameObjectById, selectGameObjectOnMove, toggleSelectGameObject } from "../../../../store/slices/gameObject/gameObject";
+import { addGameObject, IGameObjectStoreData, removeGameObject, selectGameObjectById, selectGameObjectOnMove, setOnMoveObject, toggleSelectGameObject } from "../../../../store/slices/worldGameObject/worldGameObject";
 import { store } from "../../../../store/store";
 import { generateGameObjectId } from "../../../../utils/utils";
 import { Point2 } from "../../environment/utils/Geometry";
@@ -75,12 +75,19 @@ export abstract class GameObject {
         }
     }
 
-    public addToWorld() {
+    public addToWorld(openCard: boolean = false) {
+        this.setPosition(0, 0);
         this.storeUnsubscribe = store.subscribe(this.applyStoreUpdate);
         World.addGameObject(this);
         this.movable?.add();
         this.clickable?.add();
         store.dispatch(addGameObject({...this.storeData}));
+        if(openCard){
+            this.onClick();
+            if(this.movable){
+                store.dispatch(setOnMoveObject(this.id));
+            }
+        }
     }
 
     public setPosition(x: number, y: number){
@@ -96,6 +103,7 @@ export abstract class GameObject {
         World.removeGameObject(this);
         this.movable?.remove();
         this.clickable?.remove();
+        this.storeData.isSelected = false;
         store.dispatch(removeGameObject(this.id));
     }
 

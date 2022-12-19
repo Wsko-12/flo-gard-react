@@ -1,17 +1,41 @@
 .card{
-    background-color: red;
+    background-color: white;
     position: fixed;
     top: 0;
     left: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #303030;
 
     header{
-        height: 10px;
-        background-color: blue;
-        width: 100%;
         cursor: grab;
+        display: flex;
+        padding: 4px;
+        align-items: center;
+
+        & span {
+            font-size: 15px;
+        }
 
         &:active {
             cursor: grabbing !important;
+        }
+
+        .drag {
+            transform: rotate(-90deg);
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close{
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            padding-top: 2px;
         }
     }
 

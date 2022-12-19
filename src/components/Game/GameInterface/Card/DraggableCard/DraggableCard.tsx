@@ -87,8 +87,18 @@ const DraggableCard = memo<IDraggableCardProps>(({children, closeCb}) => {
 
     return (
         <div className={styles.card} style={{transform: `translate(${x}px, ${y}px)`}}>
-            <header ref ={headerRef} {...bindDrag}
-            ><button onClick={closeCb}>Close</button></header>
+            <header ref ={headerRef} {...bindDrag}>
+                <div className={styles.drag}>
+                    <span className={`material-symbols-outlined`}>
+                        drag_indicator
+                    </span>
+                </div>
+                <button onClick={closeCb} className={styles.close}>
+                    <span className="material-symbols-outlined">
+                        close
+                    </span>
+                </button>
+            </header>
             <div className={styles.content}>
                 {children}
             </div>

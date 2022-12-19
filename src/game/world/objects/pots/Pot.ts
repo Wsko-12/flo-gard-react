@@ -7,7 +7,7 @@ export class Pot extends GameObject {
     constructor(){
         super();
         const geometry = Assets.getGeometry('pot_1');
-        this.mesh = new Mesh(geometry, new MeshBasicMaterial());        
+        this.mesh = new Mesh(geometry, new MeshBasicMaterial());
         this.applyDecorators();
 
         this.add();

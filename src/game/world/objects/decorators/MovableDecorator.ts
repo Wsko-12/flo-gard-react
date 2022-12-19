@@ -7,8 +7,8 @@ export class MovableDecorator {
     protected isMoving: boolean = false;
     position: Point2;
     gameObject: GameObject;
-    constructor(position: Point2, gameObject: GameObject){
-        this.position = position;
+    constructor(gameObject: GameObject){
+        this.position = gameObject.position;
         this.gameObject = gameObject;
         LoopsManager.subscribe('update', this.move)
     }

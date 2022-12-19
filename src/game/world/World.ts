@@ -12,7 +12,6 @@ export default class World {
         Day.init();
         Environment.init();
 
-        // new Pot();
         const pot1 = new Pot();
         pot1.setPosition(0.5, 0);
 

@@ -19,7 +19,7 @@ const defaultOptions: IGameObjectOptions = {
 }
 export abstract class GameObject {
 
-    protected position: Point2;
+    public position: Point2;
     public id: string;
     public storeData: IGameObjectStoreData;
     protected abstract mesh: Mesh | Group;
@@ -61,7 +61,7 @@ export abstract class GameObject {
         const { isMovable, isClickable } = this.options;
 
         if(isMovable){
-            this.movable = new MovableDecorator(this.position, this);
+            this.movable = new MovableDecorator(this);
         }
 
         if(isClickable){

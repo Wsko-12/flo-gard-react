@@ -16,20 +16,12 @@ const worldGameObjectsAdapter = createEntityAdapter<IGameObjectStoreData>({
 
 export interface IGameObjectsAdditionalState {
     selected: EntityId[]
-    onMove: {
-        object: EntityId | null,
-        isCanPlaced: boolean,
-    };
 }
 
 const worldGameObjects = createSlice({
     name: 'worldGameObject',
     initialState: worldGameObjectsAdapter.getInitialState<IGameObjectsAdditionalState>({
         selected: [],
-        onMove: {
-            object: null,
-            isCanPlaced: false,
-        },
     }),
     reducers: {
         addGameObject: (state, action: PayloadAction<IGameObjectStoreData>) => {
@@ -42,11 +34,7 @@ const worldGameObjects = createSlice({
             if(state.selected.includes(id)){
                 const index = state.selected.indexOf(id);
                 state.selected.splice(index, 1);
-                if(state.onMove.object === id){
-                    state.onMove.object = null;
-                }
             };
-
         },
 
         toggleSelectGameObject: (state, action: PayloadAction<IGameObjectStoreData>) => {
@@ -58,21 +46,14 @@ const worldGameObjects = createSlice({
             }else{
                 const index = state.selected.indexOf(id);
                 state.selected.splice(index, 1);
-                if(state.onMove.object === id){
-                    state.onMove.object = null;
-                }
             }
         },
-
-        setOnMoveObject: (state, action: PayloadAction<EntityId | null>) => {
-            state.onMove.object = action.payload;
-        }
     },
 
 
 });
 
-export const { addGameObject, toggleSelectGameObject, setOnMoveObject, removeGameObject } = worldGameObjects.actions;
+export const { addGameObject, toggleSelectGameObject, removeGameObject } = worldGameObjects.actions;
 
 
 export default worldGameObjects.reducer;
@@ -81,4 +62,3 @@ const adapterSelectors = worldGameObjectsAdapter.getSelectors<RootState>((state)
 
 export const selectSelectedObjectsIds = (state: RootState) => state.worldGameObjects.selected;
 export const selectGameObjectById = (id: EntityId) => (state: RootState) => adapterSelectors.selectById(state, id)
-export const selectGameObjectOnMove = (state: RootState) => state.worldGameObjects.onMove.object;

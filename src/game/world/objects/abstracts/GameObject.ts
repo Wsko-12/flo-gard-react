@@ -1,5 +1,6 @@
 import { BufferGeometry, Group, Mesh } from "three";
-import { addGameObject, IGameObjectStoreData, removeGameObject, selectGameObjectById, selectGameObjectOnMove, setOnMoveObject, toggleSelectGameObject } from "../../../../store/slices/worldGameObjects/worldGameObjects";
+import { selectEditedObject, selectEditedObjectIsOnMove, setEditedObject, setIsOnMove } from "../../../../store/slices/gameObjectOnEdit/gameObjectOnEdit";
+import { addGameObject, IGameObjectStoreData, removeGameObject, selectGameObjectById, toggleSelectGameObject } from "../../../../store/slices/worldGameObjects/worldGameObjects";
 import { store } from "../../../../store/store";
 import { generateGameObjectId } from "../../../../utils/utils";
 import { Point2 } from "../../environment/utils/Geometry";
@@ -37,7 +38,8 @@ export abstract class GameObject {
         this.options = options;
         this.position = {
             current: new Point2(0, 0),
-            placed: null,
+            // placed: null,
+            placed: new Point2(0, 0),
         }
 
         this.id = generateGameObjectId();
@@ -51,6 +53,7 @@ export abstract class GameObject {
 
     private applyStoreUpdate = () => {
         const state = store.getState();
+        const onEdit = selectEditedObject(state) === this.id;
         const data = selectGameObjectById(this.id)(state);
         if(!data){
             throw new Error(`[Object ${this.id} applyStoreData] don't saved in store`)
@@ -60,7 +63,7 @@ export abstract class GameObject {
 
         if(this.movable){
             const onMoveBefore = this.movable?.isMoving;
-            const onMoveNow = selectGameObjectOnMove(state) === this.id;
+            const onMoveNow = onEdit && selectEditedObjectIsOnMove(state);
             this.movable?.setIsMoving(onMoveNow);
 
             // check flag when object in bad position
@@ -69,6 +72,7 @@ export abstract class GameObject {
                 const isCollision = this.movable.checkCollision();
                 if(!isCollision){
                     this.setPlaced(this.position.current);
+                    return;
                 }
 
                 // if have position before
@@ -126,7 +130,8 @@ export abstract class GameObject {
         if(openCard){
             this.onClick();
             if(this.movable){
-                store.dispatch(setOnMoveObject(this.id));
+                store.dispatch(setEditedObject(this.id));
+                store.dispatch(setIsOnMove(true));
             }
         }
     }

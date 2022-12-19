@@ -1,8 +1,8 @@
-import { Mesh, Object3D, Raycaster, Scene } from "three";
+import { Mesh, Object3D, Raycaster } from "three";
 import GameCamera from "../renderer/gameCamera/GameCamera";
 import { HitBox } from "./objects/abstracts/HitBox";
 
-export class HitBoxScene {
+export class ClickHitBoxScene {
     private static raycaster = new Raycaster();
     private static hitBoxes: HitBox[] = [];
     private static hitBoxesMeshArray: Mesh[] = [];

@@ -1,5 +1,5 @@
 import { BufferGeometry, Mesh, MeshBasicMaterial } from "three";
-import { HitBoxScene } from "../../HitBoxScene";
+import { ClickHitBoxScene } from "../../ClickHitBoxScene";
 import World from "../../World";
 
 export class HitBox {
@@ -15,7 +15,7 @@ export class HitBox {
             this.onClick = onClick;
         }
 
-        HitBoxScene.add(this);
+        ClickHitBoxScene.add(this);
         World.getScene().add(this.mesh);
     }
 
@@ -28,7 +28,7 @@ export class HitBox {
     }
 
     remove() {
-        HitBoxScene.remove(this);
+        ClickHitBoxScene.remove(this);
     }
 
     getMesh() {

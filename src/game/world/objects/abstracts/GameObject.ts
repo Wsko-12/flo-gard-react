@@ -19,7 +19,10 @@ const defaultOptions: IGameObjectOptions = {
 }
 export abstract class GameObject {
 
-    public position: Point2;
+    public position: {
+        current: Point2;
+        placed: Point2 | null;
+    };
     public id: string;
     public storeData: IGameObjectStoreData;
     protected abstract mesh: Mesh | Group;
@@ -32,10 +35,15 @@ export abstract class GameObject {
 
     constructor(options: IGameObjectOptions = defaultOptions){
         this.options = options;
-        this.position = new Point2(0, 0);
+        this.position = {
+            current: new Point2(0, 0),
+            placed: null,
+        }
+
         this.id = generateGameObjectId();
         this.storeData = {
             id: this.id,
+            placed: null,
             isSelected: false,
             isMovable: !!options.isMovable,
         }
@@ -50,8 +58,41 @@ export abstract class GameObject {
 
         this.storeData.isSelected = data.isSelected;
 
-        const onMove = selectGameObjectOnMove(state) === this.id;
-        this.movable?.setIsMoving(onMove);
+        if(this.movable){
+            const onMoveBefore = this.movable?.isMoving;
+            const onMoveNow = selectGameObjectOnMove(state) === this.id;
+            this.movable?.setIsMoving(onMoveNow);
+
+            // check flag when object in bad position
+            if(onMoveBefore && !onMoveNow){
+                
+                const isCollision = this.movable.checkCollision();
+                if(!isCollision){
+                    this.setPlaced(this.position.current);
+                }
+
+                // if have position before
+                if(this.position.placed){
+                    const {x, y} = this.position.placed;
+                    this.setPosition(x, y);
+                    return;
+                }
+
+                // if don't have position before 
+                if(!this.position.placed){
+                    this.removeFromWorld();
+                    return;
+                }
+            }
+        }
+
+    }
+
+    public setPlaced({x, y}: Point2) {
+        store.dispatch(toggleSelectGameObject({
+            ...this.storeData,
+            placed: {x, y},
+        }));
     }
 
     protected applyDecorators() {
@@ -107,10 +148,10 @@ export abstract class GameObject {
         store.dispatch(removeGameObject(this.id));
     }
 
-
     public getMesh() {
         return this.mesh;
     }
+
     public onClick(){
         const isSelected = !this.storeData.isSelected
         store.dispatch(toggleSelectGameObject({

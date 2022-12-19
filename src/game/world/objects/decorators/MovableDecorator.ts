@@ -4,11 +4,12 @@ import { Point2 } from "../../environment/utils/Geometry";
 import { GameObject } from "../abstracts/GameObject";
 
 export class MovableDecorator {
-    protected isMoving: boolean = false;
+    public isMoving: boolean = false;
     position: Point2;
+    
     gameObject: GameObject;
     constructor(gameObject: GameObject){
-        this.position = gameObject.position;
+        this.position = gameObject.position.current;
         this.gameObject = gameObject; 
     }
 
@@ -27,6 +28,7 @@ export class MovableDecorator {
         this.gameObject.setPosition(this.position.x, this.position.y);
     }
 
+    checkCollision = () => true;
     add(){
         LoopsManager.subscribe('update', this.move);
     }

@@ -17,15 +17,8 @@ export default class World {
 
         const pot1 = new Pot();
 
-        setTimeout(() => {
-            pot1.addToWorld();
-            setTimeout(() => {
-                pot1.removeFromWorld();
-                setTimeout(() => {
-                    pot1.addToWorld(true);
-                }, 2000)
-            }, 3000)
-        }, 3000)
+        pot1.addToWorld(true);
+
 
     }
 

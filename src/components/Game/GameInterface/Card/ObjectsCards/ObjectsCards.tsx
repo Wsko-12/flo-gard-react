@@ -3,6 +3,7 @@ import { selectSelectedObjectsIds } from '../../../../../store/slices/gameObject
 import { useAppSelector } from '../../../../../store/store';
 import ObjectsCard from './ObjectCard/ObjectCard';
 
+
 export const ObjectsCards = memo(() => {
     const selectedIds = useAppSelector(selectSelectedObjectsIds);
 

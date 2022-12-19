@@ -1,7 +1,8 @@
 import { EntityId } from '@reduxjs/toolkit';
-import React, { memo } from 'react';
-import { selectGameObjectById } from '../../../../../../store/slices/gameObject/gameObject';
-import { useAppSelector } from '../../../../../../store/store';
+import React, { memo, useCallback } from 'react';
+import { selectGameObjectById, toggleSelectGameObject } from '../../../../../../store/slices/gameObject/gameObject';
+import { useAppDispatch, useAppSelector } from '../../../../../../store/store';
+import DraggableCard from '../../DraggableCard/DraggableCard';
 import MoveButton from './MoveButton/MoveButton';
 import styles from './object-card.module.scss';
 
@@ -10,16 +11,31 @@ interface IObjectsCardProps {
 }
 export const ObjectsCard = memo<IObjectsCardProps>(({ id }) => {
     const data = useAppSelector(selectGameObjectById(id));
+    const dispatch = useAppDispatch();
+
+    const closeCb = useCallback(() => {
+        if(!data){
+            return;
+        }
+        dispatch(toggleSelectGameObject({
+            ...data,
+            isSelected: false,
+        }))
+    }, [])
+
 
     if(!data){
         return null;
     }
 
+
     return (
-        <div className={styles.card}>
-            {data.id}
-            <MoveButton id={data.id} isMovable={data.isMovable}/>
-        </div>
+        <DraggableCard closeCb={closeCb}>
+            <div className={styles.card}>
+                {data.id}
+                <MoveButton id={data.id} isMovable={data.isMovable}/>
+            </div>
+        </DraggableCard>
     );
 });
 

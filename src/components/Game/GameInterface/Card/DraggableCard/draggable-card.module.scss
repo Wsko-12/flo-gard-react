@@ -1,0 +1,22 @@
+.card{
+    background-color: red;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    header{
+        height: 10px;
+        background-color: blue;
+        width: 100%;
+        cursor: grab;
+
+        &:active {
+            cursor: grabbing !important;
+        }
+    }
+
+    .content {
+        padding: 10px;
+        
+    }
+}

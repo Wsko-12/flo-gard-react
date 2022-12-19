@@ -35,6 +35,7 @@ const gameObjects = createSlice({
             }else{
                 const index = state.selected.indexOf(id);
                 state.selected.splice(index, 1);
+                state.onMove = null;
             }
         },
 

@@ -1,56 +1,63 @@
-import { Color, PerspectiveCamera, Scene, ShaderMaterial, WebGLRenderer, WebGLRenderTarget } from 'three';
+import {
+  Color,
+  PerspectiveCamera,
+  Scene,
+  ShaderMaterial,
+  WebGLRenderer,
+  WebGLRenderTarget,
+} from 'three';
 import { FullScreenQuad, Pass } from 'three/examples/jsm/postprocessing/Pass';
 
 export default class CartoonOutline extends Pass {
-    private scene: Scene | null = null;
-    private camera: PerspectiveCamera | null = null;
+  private scene: Scene | null = null;
+  private camera: PerspectiveCamera | null = null;
 
-    private material: ShaderMaterial;
+  private material: ShaderMaterial;
 
-    private fsQuad: FullScreenQuad;
-    public enabled = true;
-    public needsSwap = true;
-    public clear = false;
-    public renderToScreen = true;
+  private fsQuad: FullScreenQuad;
+  public enabled = true;
+  public needsSwap = true;
+  public clear = false;
+  public renderToScreen = true;
 
-    constructor(
-        properties: {
-            color: Color;
-            size: number;
-            difference: number;
+  constructor(
+    properties: {
+      color: Color;
+      size: number;
+      difference: number;
+    },
+    scene?: Scene,
+    camera?: PerspectiveCamera
+  ) {
+    super();
+    this.scene = scene || null;
+    this.camera = camera || null;
+
+    this.material = new ShaderMaterial({
+      uniforms: {
+        tDiffuse: { value: null },
+        tDepth: { value: null },
+        cameraNear: { value: camera?.near || 0.1 },
+        cameraFar: { value: camera?.far || 100 },
+        outlineColor: { value: properties.color },
+        outlineSize: { value: properties.size },
+        outlineDifference: { value: properties.difference },
+        resolution: {
+          value: {
+            x: window.innerWidth,
+            y: window.innerHeight,
+          },
         },
-        scene?: Scene,
-        camera?: PerspectiveCamera
-    ) {
-        super()
-        this.scene = scene || null;
-        this.camera = camera || null;
+      },
 
-        this.material = new ShaderMaterial({
-            uniforms: {
-                tDiffuse: { value: null },
-                tDepth: { value: null },
-                cameraNear: { value: camera?.near || 0.1 },
-                cameraFar: { value: camera?.far || 100 },
-                outlineColor: { value: properties.color },
-                outlineSize: { value: properties.size },
-                outlineDifference: { value: properties.difference },
-                resolution: {
-                    value: {
-                        x: window.innerWidth,
-                        y: window.innerHeight,
-                    },
-                },
-            },
-
-            vertexShader: /* glsl */ `
+      vertexShader: /* glsl */ `
                 varying vec2 vUv;
                 void main() {
                     vUv = uv;
                     gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
                 }`,
 
-            fragmentShader: /* glsl */ `
+      fragmentShader: /* glsl */ `
                 #include <common>
                 #include <packing>
                 precision lowp float;
@@ -95,55 +102,59 @@ export default class CartoonOutline extends Pass {
                     gl_FragColor = vec4(mix(texture.rgb, texture.rgb * 0.75, draw_outline),1.0);
 
                 }`,
-        });
+    });
 
-        this.fsQuad = new FullScreenQuad(this.material);
-    }
+    this.fsQuad = new FullScreenQuad(this.material);
+  }
 
-    public setScene(scene: Scene) {
-        this.scene = scene;
-    }
-    public setCamera(camera: PerspectiveCamera) {
-        this.camera = camera;
-        this.material.uniforms.cameraNear.value = camera.near;
-        this.material.uniforms.cameraFar.value = camera.far;
-    }
+  public setScene(scene: Scene) {
+    this.scene = scene;
+  }
+  public setCamera(camera: PerspectiveCamera) {
+    this.camera = camera;
+    this.material.uniforms.cameraNear.value = camera.near;
+    this.material.uniforms.cameraFar.value = camera.far;
+  }
 
-    public setSize(width: number, height: number) {
-        this.material.uniforms.resolution.value.x = width;
-        this.material.uniforms.resolution.value.y = height;
-    }
+  public setSize(width: number, height: number) {
+    this.material.uniforms.resolution.value.x = width;
+    this.material.uniforms.resolution.value.y = height;
+  }
 
-    public disable(value: boolean) {
-        this.enabled = !value;
-    }
+  public disable(value: boolean) {
+    this.enabled = !value;
+  }
 
-    public setOutlineColor(color: number) {
-        this.material.uniforms.outlineColor.value = new Color(color);
-    }
+  public setOutlineColor(color: number) {
+    this.material.uniforms.outlineColor.value = new Color(color);
+  }
 
-    public setOutlineDifference(difference: number) {
-        this.material.uniforms.outlineDifference.value = difference;
-    }
+  public setOutlineDifference(difference: number) {
+    this.material.uniforms.outlineDifference.value = difference;
+  }
 
-    public getOutlineDifference() {
-        return this.material.uniforms.outlineDifference.value;
-    }
+  public getOutlineDifference() {
+    return this.material.uniforms.outlineDifference.value;
+  }
 
-    public setOutlineSize(size: number) {
-        this.material.uniforms.outlineSize.value = size;
-    }
+  public setOutlineSize(size: number) {
+    this.material.uniforms.outlineSize.value = size;
+  }
 
-    public getOutlineSize() {
-        return this.material.uniforms.outlineSize.value;
-    }
+  public getOutlineSize() {
+    return this.material.uniforms.outlineSize.value;
+  }
 
-    public render(renderer: WebGLRenderer, writeBuffer: WebGLRenderTarget, readBuffer: WebGLRenderTarget): void {
-        if (this.scene && this.camera && this.enabled) {
-            this.material.uniforms.tDepth.value = readBuffer.depthTexture;
-            this.material.uniforms.tDiffuse.value = readBuffer.texture;
-            renderer.setRenderTarget(null);
-            this.fsQuad.render(renderer);
-        }
+  public render(
+    renderer: WebGLRenderer,
+    writeBuffer: WebGLRenderTarget,
+    readBuffer: WebGLRenderTarget
+  ): void {
+    if (this.scene && this.camera && this.enabled) {
+      this.material.uniforms.tDepth.value = readBuffer.depthTexture;
+      this.material.uniforms.tDiffuse.value = readBuffer.texture;
+      renderer.setRenderTarget(null);
+      this.fsQuad.render(renderer);
     }
+  }
 }

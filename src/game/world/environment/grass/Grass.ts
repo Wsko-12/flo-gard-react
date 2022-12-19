@@ -1,18 +1,18 @@
 import {
-    BufferGeometry,
-    CanvasTexture,
-    DoubleSide,
-    Group,
-    LinearFilter,
-    Mesh,
-    MeshBasicMaterial,
-    MeshDepthMaterial,
-    MeshPhongMaterial,
-    NearestFilter,
-    PlaneGeometry,
-    RGBADepthPacking,
-    Uniform,
-    Vector2,
+  BufferGeometry,
+  CanvasTexture,
+  DoubleSide,
+  Group,
+  LinearFilter,
+  Mesh,
+  MeshBasicMaterial,
+  MeshDepthMaterial,
+  MeshPhongMaterial,
+  NearestFilter,
+  PlaneGeometry,
+  RGBADepthPacking,
+  Uniform,
+  Vector2,
 } from 'three';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import Assets from '../../../../assets/Assets';
@@ -28,174 +28,174 @@ import { Point2 } from '../utils/Geometry';
 import Weed from './weed/Weed';
 
 export const UNIFORM_WIND_STRENGTH = {
-    value: 0.5,
+  value: 0.5,
 };
 
 export const UNIFORM_WIND_DIRECTION = {
-    value: new Vector2(1, 0),
+  value: new Vector2(1, 0),
 };
 
 export class Grass {
-    private group: Group;
-    private mover: Mesh;
-    private moverEnabled = false;
-    private uniforms = {
-        uTime: {
-            value: 0,
-        },
-        uGrassHeight: {
-            value: null,
-        },
-    };
+  private group: Group;
+  private mover: Mesh;
+  private moverEnabled = false;
+  private uniforms = {
+    uTime: {
+      value: 0,
+    },
+    uGrassHeight: {
+      value: null,
+    },
+  };
 
-    private grassHeightCanvas: {
-        ctx: CanvasRenderingContext2D;
-        canvas: HTMLCanvasElement;
-        resolution: number;
-    };
-    private grassHeightTexture: CanvasTexture;
+  private grassHeightCanvas: {
+    ctx: CanvasRenderingContext2D;
+    canvas: HTMLCanvasElement;
+    resolution: number;
+  };
+  private grassHeightTexture: CanvasTexture;
 
-    private weeds: Weed[] = [];
-    private weedsMeshesGroup = new Group();
+  private weeds: Weed[] = [];
+  private weedsMeshesGroup = new Group();
 
-    constructor() {
-        LoopsManager.subscribe('update', this.update);
-        LoopsManager.subscribe('userActions', this.mowGrass);
-        Day.subscribe(this.dayUpdate);
+  constructor() {
+    LoopsManager.subscribe('update', this.update);
+    LoopsManager.subscribe('userActions', this.mowGrass);
+    Day.subscribe(this.dayUpdate);
 
-        this.grassHeightCanvas = this.createСanvas();
-        this.grassHeightTexture = new CanvasTexture(this.grassHeightCanvas.canvas);
-        this.grassHeightTexture.flipY = false;
-        this.grassHeightTexture.magFilter = LinearFilter;
-        const mesh = this.createMesh();
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
+    this.grassHeightCanvas = this.createСanvas();
+    this.grassHeightTexture = new CanvasTexture(this.grassHeightCanvas.canvas);
+    this.grassHeightTexture.flipY = false;
+    this.grassHeightTexture.magFilter = LinearFilter;
+    const mesh = this.createMesh();
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
 
-        this.mover = this.createMover();
-        this.group = new Group();
-        this.group.add(mesh, this.mover, this.weedsMeshesGroup);
+    this.mover = this.createMover();
+    this.group = new Group();
+    this.group.add(mesh, this.mover, this.weedsMeshesGroup);
 
-        store.subscribe(() => {
-            this.moverEnabled = selectGrassMoverEnabled(store.getState());
-        })
+    store.subscribe(() => {
+      this.moverEnabled = selectGrassMoverEnabled(store.getState());
+    });
 
-        document.addEventListener('keydown', this.keyDownListener);
-        document.addEventListener('keyup', this.keyDownListener);
+    document.addEventListener('keydown', this.keyDownListener);
+    document.addEventListener('keyup', this.keyDownListener);
 
-        for (let i = 0; i < 15; i++) {
-            this.generateWeed();
-        }
+    for (let i = 0; i < 15; i++) {
+      this.generateWeed();
     }
+  }
 
-    private keyDownListener = (e: KeyboardEvent) => {
-        if (e.code === 'KeyM' && e.type === 'keydown' && !e.repeat) {
-            store.dispatch(setGrassMoverEnabled(!this.moverEnabled));
-        }
-    };
-
-    private createСanvas() {
-        const resolution = 64;
-        const canvas = document.createElement('canvas');
-        canvas.width = canvas.height = resolution;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const ctx = canvas.getContext('2d')!;
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, resolution, resolution);
-
-        return { canvas, ctx, resolution };
+  private keyDownListener = (e: KeyboardEvent) => {
+    if (e.code === 'KeyM' && e.type === 'keydown' && !e.repeat) {
+      store.dispatch(setGrassMoverEnabled(!this.moverEnabled));
     }
+  };
 
-    private dayUpdate = (time: number) => {
-        this.grow(time);
-        if (time === FULL_DAY_TIME - 1) {
-            this.generateWeed();
-        }
-    };
+  private createСanvas() {
+    const resolution = 64;
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = resolution;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const ctx = canvas.getContext('2d')!;
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, resolution, resolution);
 
-    private grow = (time: number) => {
-        if (time % 180 === 0) {
-            const { ctx, resolution } = this.grassHeightCanvas;
-            ctx.fillStyle = 'rgba(255,255,255,0.05)';
-            ctx.fillRect(0, 0, resolution, resolution);
-            this.grassHeightTexture.needsUpdate = true;
-            this.updateObjectsOnGrass();
-        }
-    };
+    return { canvas, ctx, resolution };
+  }
 
-    private createMover() {
-        const mover = new Mesh(
-            new PlaneGeometry(),
-            new MeshBasicMaterial({
-                map: Assets.getTexture('grassMover'),
-                alphaTest: 0.5,
-            })
-        );
-        mover.rotateX(-Math.PI / 2);
-        mover.position.y = 0.01;
-        return mover;
+  private dayUpdate = (time: number) => {
+    this.grow(time);
+    if (time === FULL_DAY_TIME - 1) {
+      this.generateWeed();
     }
+  };
 
-    private generateWeed() {
-        // use load here
-        const weed = new Weed();
-        this.weeds.push(weed);
-        this.weedsMeshesGroup.add(weed.getMesh());
+  private grow = (time: number) => {
+    if (time % 180 === 0) {
+      const { ctx, resolution } = this.grassHeightCanvas;
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      ctx.fillRect(0, 0, resolution, resolution);
+      this.grassHeightTexture.needsUpdate = true;
+      this.updateObjectsOnGrass();
     }
+  };
 
-    private removeWeeds(toRemove: number[]) {
-        this.weeds = this.weeds.filter((weed, i) => {
-            const isRemove = toRemove.includes(i);
-            if (isRemove) {
-                this.weedsMeshesGroup.remove(weed.getMesh());
-            }
-            return !isRemove;
-        });
-    }
+  private createMover() {
+    const mover = new Mesh(
+      new PlaneGeometry(),
+      new MeshBasicMaterial({
+        map: Assets.getTexture('grassMover'),
+        alphaTest: 0.5,
+      })
+    );
+    mover.rotateX(-Math.PI / 2);
+    mover.position.y = 0.01;
+    return mover;
+  }
 
-    private update = (time: number) => {
-        this.uniforms.uTime.value = time;
+  private generateWeed() {
+    // use load here
+    const weed = new Weed();
+    this.weeds.push(weed);
+    this.weedsMeshesGroup.add(weed.getMesh());
+  }
 
-        const { x, z } = GameStore.cameraTarget;
-        this.mover.position.set(x, 0.01, z);
+  private removeWeeds(toRemove: number[]) {
+    this.weeds = this.weeds.filter((weed, i) => {
+      const isRemove = toRemove.includes(i);
+      if (isRemove) {
+        this.weedsMeshesGroup.remove(weed.getMesh());
+      }
+      return !isRemove;
+    });
+  }
 
-        const strength = Math.abs(Math.sin(time * 0.1));
-        UNIFORM_WIND_STRENGTH.value = strength;
-    };
+  private update = (time: number) => {
+    this.uniforms.uTime.value = time;
 
-    private createMesh() {
-        const grassGeometry = Assets.getGeometry('grass');
-        const texture = Assets.getTexture('grass');
-        texture.minFilter = NearestFilter;
+    const { x, z } = GameStore.cameraTarget;
+    this.mover.position.set(x, 0.01, z);
 
-        const material = new MeshPhongMaterial({
-            color: 0x526644,
-            map: texture,
-            alphaTest: 0.5,
-            side: DoubleSide,
-        });
+    const strength = Math.abs(Math.sin(time * 0.1));
+    UNIFORM_WIND_STRENGTH.value = strength;
+  };
 
-        const grassHeightTexture = this.grassHeightTexture;
-        this.uniforms.uGrassHeight = new Uniform(grassHeightTexture);
+  private createMesh() {
+    const grassGeometry = Assets.getGeometry('grass');
+    const texture = Assets.getTexture('grass');
+    texture.minFilter = NearestFilter;
 
-        material.onBeforeCompile = (shader) => {
-            shader.uniforms.uTime = this.uniforms.uTime;
-            shader.uniforms.uGrassHeight = this.uniforms.uGrassHeight;
-            shader.uniforms.uWindStrength = UNIFORM_WIND_STRENGTH;
-            shader.uniforms.uWindDirection = UNIFORM_WIND_DIRECTION;
-            let vertex = shader.vertexShader;
-            vertex = vertex.replace(
-                '#include <common>',
-                `#include <common>
+    const material = new MeshPhongMaterial({
+      color: 0x526644,
+      map: texture,
+      alphaTest: 0.5,
+      side: DoubleSide,
+    });
+
+    const grassHeightTexture = this.grassHeightTexture;
+    this.uniforms.uGrassHeight = new Uniform(grassHeightTexture);
+
+    material.onBeforeCompile = (shader) => {
+      shader.uniforms.uTime = this.uniforms.uTime;
+      shader.uniforms.uGrassHeight = this.uniforms.uGrassHeight;
+      shader.uniforms.uWindStrength = UNIFORM_WIND_STRENGTH;
+      shader.uniforms.uWindDirection = UNIFORM_WIND_DIRECTION;
+      let vertex = shader.vertexShader;
+      vertex = vertex.replace(
+        '#include <common>',
+        `#include <common>
                  uniform float uTime;
                  uniform float uWindStrength;
                  uniform vec2 uWindDirection;
                  uniform sampler2D uGrassHeight;
                 `
-            );
+      );
 
-            vertex = vertex.replace(
-                '#include <fog_vertex>',
-                `#include <fog_vertex>
+      vertex = vertex.replace(
+        '#include <fog_vertex>',
+        `#include <fog_vertex>
 
                  vec3 vPosition = position;
 
@@ -234,58 +234,58 @@ export class Grass {
 
                  gl_Position = projectionMatrix * modelViewMatrix * vec4(vPosition, 1.0);
                 `
-            );
-            shader.vertexShader = vertex;
-        };
+      );
+      shader.vertexShader = vertex;
+    };
 
-        //merged
-        const geometries: BufferGeometry[] = [];
-        for (let x = 0; x < 5; x++) {
-            for (let y = 0; y < 5; y++) {
-                const geometry = grassGeometry.clone();
-                const shiftX = x * 2 - 4;
-                const shiftZ = y * 2 - 4;
+    //merged
+    const geometries: BufferGeometry[] = [];
+    for (let x = 0; x < 5; x++) {
+      for (let y = 0; y < 5; y++) {
+        const geometry = grassGeometry.clone();
+        const shiftX = x * 2 - 4;
+        const shiftZ = y * 2 - 4;
 
-                const angle = Math.floor(Math.random() * 4);
-                geometry.rotateY(Math.PI * angle);
+        const angle = Math.floor(Math.random() * 4);
+        geometry.rotateY(Math.PI * angle);
 
-                geometry.translate(shiftX, 0, shiftZ);
-                geometries.push(geometry);
-            }
-        }
+        geometry.translate(shiftX, 0, shiftZ);
+        geometries.push(geometry);
+      }
+    }
 
-        const merged = BufferGeometryUtils.mergeBufferGeometries(geometries);
+    const merged = BufferGeometryUtils.mergeBufferGeometries(geometries);
 
-        const mesh = new Mesh(merged, material);
+    const mesh = new Mesh(merged, material);
 
-        const depthMaterial = new MeshDepthMaterial({
-            depthPacking: RGBADepthPacking,
-            map: texture,
-            alphaTest: 0.5,
-        });
-        mesh.customDepthMaterial = depthMaterial;
+    const depthMaterial = new MeshDepthMaterial({
+      depthPacking: RGBADepthPacking,
+      map: texture,
+      alphaTest: 0.5,
+    });
+    mesh.customDepthMaterial = depthMaterial;
 
-        depthMaterial.onBeforeCompile = (shader) => {
-            shader.uniforms.uTime = this.uniforms.uTime;
-            shader.uniforms.uGrassHeight = this.uniforms.uGrassHeight;
-            shader.uniforms.uWindStrength = UNIFORM_WIND_STRENGTH;
-            shader.uniforms.uWindDirection = UNIFORM_WIND_DIRECTION;
+    depthMaterial.onBeforeCompile = (shader) => {
+      shader.uniforms.uTime = this.uniforms.uTime;
+      shader.uniforms.uGrassHeight = this.uniforms.uGrassHeight;
+      shader.uniforms.uWindStrength = UNIFORM_WIND_STRENGTH;
+      shader.uniforms.uWindDirection = UNIFORM_WIND_DIRECTION;
 
-            let vertex = shader.vertexShader;
+      let vertex = shader.vertexShader;
 
-            vertex = vertex.replace(
-                '#include <common>',
-                `#include <common>
+      vertex = vertex.replace(
+        '#include <common>',
+        `#include <common>
                 uniform float uTime;
                 uniform float uWindStrength;
                 uniform vec2 uWindDirection;
                 uniform sampler2D uGrassHeight;
                 `
-            );
+      );
 
-            vertex = vertex.replace(
-                '#include <clipping_planes_vertex>',
-                `#include <clipping_planes_vertex>
+      vertex = vertex.replace(
+        '#include <clipping_planes_vertex>',
+        `#include <clipping_planes_vertex>
                 vec3 vPosition = position;
 
                 // height
@@ -319,58 +319,58 @@ export class Grass {
                gl_Position = projectionMatrix * modelViewMatrix * vec4(vPosition, 1.0);
 
                 `
-            );
+      );
 
-            shader.vertexShader = vertex;
-        };
-
-        return mesh;
-    }
-
-    private mowGrass = () => {
-        this.mover.visible = this.moverEnabled;
-        if (!this.moverEnabled) {
-            return;
-        }
-
-        const { ctx, resolution } = this.grassHeightCanvas;
-        const { x, z } = GameStore.cameraTarget;
-
-        const canvas_x = ((x + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
-        const canvas_y = ((z + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
-        const radius = (this.mover.scale.x / (GROUND_SIZE * 1.5)) * resolution;
-        ctx.save();
-        ctx.fillStyle = 'black';
-        ctx.beginPath();
-        ctx.arc(canvas_x, canvas_y, radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-        this.grassHeightTexture.needsUpdate = true;
-
-        const mowPoint = new Point2(x, z);
-
-        const toRemove: number[] = [];
-        this.weeds.forEach((weed, i) => {
-            const weedPoint = weed.getPositionPoint();
-            const distance = mowPoint.getDistanceTo(weedPoint);
-            if (distance < 0.5) {
-                toRemove.push(i);
-            }
-        });
-
-        this.removeWeeds(toRemove);
+      shader.vertexShader = vertex;
     };
 
-    updateObjectsOnGrass(){
-        World.getGameObjects().forEach(object => {
-            const { ctx, resolution } = this.grassHeightCanvas;
+    return mesh;
+  }
 
-            object.updateGrassHeight(ctx, resolution);
-        });
-        this.grassHeightTexture.needsUpdate = true;
-    };
-
-    getMesh() {
-        return this.group;
+  private mowGrass = () => {
+    this.mover.visible = this.moverEnabled;
+    if (!this.moverEnabled) {
+      return;
     }
+
+    const { ctx, resolution } = this.grassHeightCanvas;
+    const { x, z } = GameStore.cameraTarget;
+
+    const canvas_x = ((x + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
+    const canvas_y = ((z + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
+    const radius = (this.mover.scale.x / (GROUND_SIZE * 1.5)) * resolution;
+    ctx.save();
+    ctx.fillStyle = 'black';
+    ctx.beginPath();
+    ctx.arc(canvas_x, canvas_y, radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+    this.grassHeightTexture.needsUpdate = true;
+
+    const mowPoint = new Point2(x, z);
+
+    const toRemove: number[] = [];
+    this.weeds.forEach((weed, i) => {
+      const weedPoint = weed.getPositionPoint();
+      const distance = mowPoint.getDistanceTo(weedPoint);
+      if (distance < 0.5) {
+        toRemove.push(i);
+      }
+    });
+
+    this.removeWeeds(toRemove);
+  };
+
+  updateObjectsOnGrass() {
+    World.getGameObjects().forEach((object) => {
+      const { ctx, resolution } = this.grassHeightCanvas;
+
+      object.updateGrassHeight(ctx, resolution);
+    });
+    this.grassHeightTexture.needsUpdate = true;
+  }
+
+  getMesh() {
+    return this.group;
+  }
 }

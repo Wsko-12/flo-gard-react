@@ -1,42 +1,46 @@
-import { BufferGeometry, Mesh, MeshBasicMaterial } from "three";
-import { ClickHitBoxScene } from "../../ClickHitBoxScene";
-import World from "../../World";
+import { BufferGeometry, Mesh, MeshBasicMaterial } from 'three';
+import { ClickHitBoxScene } from '../../ClickHitBoxScene';
+import World from '../../World';
 
 export class ClickHitBox {
-    protected static material = new MeshBasicMaterial({visible: false, color: 0xFF0000, wireframe: true, wireframeLinewidth: 3});
+  protected static material = new MeshBasicMaterial({
+    visible: false,
+    color: 0xff0000,
+    wireframe: true,
+    wireframeLinewidth: 3,
+  });
 
-    private mesh: Mesh;
-    private onClick: () => void = () => {};
-    constructor(geometry: BufferGeometry, onClick?: () => void){
-        this.mesh = new Mesh(geometry, ClickHitBox.material);
+  private mesh: Mesh;
+  private onClick: () => void = () => {};
+  constructor(geometry: BufferGeometry, onClick?: () => void) {
+    this.mesh = new Mesh(geometry, ClickHitBox.material);
 
-
-        if(onClick){
-            this.onClick = onClick;
-        }
-
-        this.add();
+    if (onClick) {
+      this.onClick = onClick;
     }
 
-    click(){
-        this.onClick();
-    }
+    this.add();
+  }
 
-    public setPosition(x: number, y: number){
-        this.mesh.position.set(x, 0, y);
-    }
+  click() {
+    this.onClick();
+  }
 
-    add() {
-        ClickHitBoxScene.add(this);
-        World.getScene().add(this.mesh);
-    }
+  public setPosition(x: number, y: number) {
+    this.mesh.position.set(x, 0, y);
+  }
 
-    remove() {
-        ClickHitBoxScene.remove(this);
-        World.getScene().remove(this.mesh);
-    }
+  add() {
+    ClickHitBoxScene.add(this);
+    World.getScene().add(this.mesh);
+  }
 
-    getMesh() {
-        return this.mesh;
-    }
+  remove() {
+    ClickHitBoxScene.remove(this);
+    World.getScene().remove(this.mesh);
+  }
+
+  getMesh() {
+    return this.mesh;
+  }
 }

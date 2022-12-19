@@ -1,5 +1,5 @@
 export interface AtlasItem {
-    name: string;
-    folder: string;
-    file: string;
+  name: string;
+  folder: string;
+  file: string;
 }

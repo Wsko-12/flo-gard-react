@@ -4,26 +4,23 @@ import { selectAssetsLoadingStatus } from '../../../store/slices/gameSlice/gameS
 import { useAppSelector } from '../../../store/store';
 import LoadingScreen from '../../LoadingScreen/LoadingScreen';
 
-
 const getTitle = (asset: EAssetType) => {
-    switch (asset) {
-        case EAssetType.geometry: 
-            return 'Loading geometries';
-        case EAssetType.image: 
-            return 'Loading image';
-        case EAssetType.texture: 
-            return 'Loading textures';
-        default: 
-            return 'Loading';
-    }
-}
+  switch (asset) {
+    case EAssetType.geometry:
+      return 'Loading geometries';
+    case EAssetType.image:
+      return 'Loading image';
+    case EAssetType.texture:
+      return 'Loading textures';
+    default:
+      return 'Loading';
+  }
+};
 
 export const AssetsLoadingScreen = memo(() => {
-    const assetsStatus = useAppSelector(selectAssetsLoadingStatus);
+  const assetsStatus = useAppSelector(selectAssetsLoadingStatus);
 
-    const title = getTitle(assetsStatus.asset);
+  const title = getTitle(assetsStatus.asset);
 
-    return (
-        <LoadingScreen title={title} progress={assetsStatus.progress} />
-    );
+  return <LoadingScreen title={title} progress={assetsStatus.progress} />;
 });

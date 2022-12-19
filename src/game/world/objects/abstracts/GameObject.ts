@@ -3,6 +3,7 @@ import { selectEditedObjectId, selectEditedObjectIsOnMove, setEditedObject, setI
 import { addGameObject, IGameObjectStoreData, removeGameObject, selectGameObjectById, toggleSelectGameObject, updateGameObject } from "../../../../store/slices/worldGameObjects/worldGameObjects";
 import { store } from "../../../../store/store";
 import { generateGameObjectId } from "../../../../utils/utils";
+import Environment from "../../environment/Environment";
 import { Point2 } from "../../environment/utils/Geometry";
 import World from "../../World";
 import { Collider } from "../colliders/Collider";
@@ -54,6 +55,7 @@ export abstract class GameObject {
         };
 
         this.storeData.isSelected = data.isSelected;
+        this.storeData.position = data.position;
 
         if(this.movable){
             const onMoveBefore = this.movable?.isMoving;
@@ -66,6 +68,7 @@ export abstract class GameObject {
                 if(!isCollision){
                     this.savePosition();
                     this.setBlockMaterial(false);
+                    Environment.updateObjectsOnGrass();
                     return;
                 }
 
@@ -73,6 +76,7 @@ export abstract class GameObject {
                 if(savedPosition){
                     this.setPosition(savedPosition.x, savedPosition.y);
                     this.setBlockMaterial(false);
+                    Environment.updateObjectsOnGrass();
                 }else{
                     this.removeFromWorld();
                 }
@@ -158,6 +162,10 @@ export abstract class GameObject {
     public getCollider = () => {
         return this.collider;
     };
+
+    public updateGrassHeight(ctx: CanvasRenderingContext2D, resolution: number){
+        this.collider.updateGrassHeight(ctx, resolution, this.storeData.position);
+    }
 
     public abstract  setBlockMaterial: (flag: boolean) => void;
 }

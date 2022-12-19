@@ -1,3 +1,4 @@
+import { GROUND_SIZE } from "../../../environment/ground/Ground";
 import { Point2 } from "../../../environment/utils/Geometry";
 import World from "../../../World";
 import { Collider } from "../Collider";
@@ -30,5 +31,22 @@ export class CircleCollider extends Collider {
     checkCircleCollider(collider: CircleCollider){
         const distance = this.position.getDistanceTo(collider.position);
         return distance < this.r + collider.r;
+    }
+
+    updateGrassHeight(ctx: CanvasRenderingContext2D, resolution: number, position: {x: number, y: number} | null): void {
+        if(!position){
+            return;
+        }
+        const {x, y} = position;
+        const r = this.r * 3;
+        const canvas_x = ((x + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
+        const canvas_y = ((y + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
+        const radius = (r / (GROUND_SIZE * 1.5)) * resolution;
+        ctx.save();
+        ctx.fillStyle = 'black';
+        ctx.beginPath();
+        ctx.arc(canvas_x, canvas_y, radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
     }
 }

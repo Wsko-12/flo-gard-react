@@ -21,6 +21,7 @@ import { store } from '../../../../store/store';
 import { GameStore } from '../../../gameStore/GameStore';
 import LoopsManager from '../../../loopsManager/LoopsManager';
 import Day, { FULL_DAY_TIME } from '../../day/Day';
+import World from '../../World';
 import { GROUND_SIZE } from '../ground/Ground';
 import { Point2 } from '../utils/Geometry';
 import Weed from './weed/Weed';
@@ -91,7 +92,7 @@ export class Grass {
     };
 
     private createСanvas() {
-        const resolution = 1024;
+        const resolution = 2048;
         const canvas = document.createElement('canvas');
         canvas.width = canvas.height = resolution;
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -115,6 +116,7 @@ export class Grass {
             ctx.fillStyle = 'rgba(255,255,255,0.01)';
             ctx.fillRect(0, 0, resolution, resolution);
             this.grassHeightTexture.needsUpdate = true;
+            this.updateObjectsOnGrass();
         }
     };
 
@@ -355,6 +357,15 @@ export class Grass {
         });
 
         this.removeWeeds(toRemove);
+    };
+
+    updateObjectsOnGrass(){
+        World.getGameObjects().forEach(object => {
+            const { ctx, resolution } = this.grassHeightCanvas;
+
+            object.updateGrassHeight(ctx, resolution);
+        });
+        this.grassHeightTexture.needsUpdate = true;
     };
 
     getMesh() {

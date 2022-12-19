@@ -1,4 +1,4 @@
-import { Mesh, MeshBasicMaterial } from "three";
+import { Mesh, MeshBasicMaterial, MeshPhongMaterial } from "three";
 import Assets from "../../../../assets/Assets";
 import { GameObject } from "../abstracts/GameObject";
 import { CircleCollider } from "../colliders/circleCollider/CircleCollider";
@@ -8,13 +8,15 @@ export class Pot extends GameObject {
     collider = new CircleCollider(this.position, 0.15);
     
     materials = {
-        stock: new MeshBasicMaterial(),
+        stock: new MeshPhongMaterial(),
         blocked: new MeshBasicMaterial({color: 0xff0000, transparent: true, opacity: 0.5}),
     }
     constructor(){
         super();
         const geometry = Assets.getGeometry('pot_1');
-        this.mesh = new Mesh(geometry, );
+        this.mesh = new Mesh(geometry, this.materials.stock);
+        this.mesh.castShadow = true;
+        this.mesh.receiveShadow = true;
         this.applyDecorators();
     }
 

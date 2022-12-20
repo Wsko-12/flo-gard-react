@@ -3,6 +3,7 @@ import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
 import gameInterfaceSettings from './slices/gameInterfaceSettings/gameInterfaceSettings';
 import gameObjectOnEdit from './slices/gameObjectOnEdit/gameObjectOnEdit';
 import gameSlice from './slices/gameSlice/gameSlice';
+import gameEntities from './slices/new/gameEntities';
 import worldGameObjects from './slices/worldGameObjects/worldGameObjects';
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
     gameInterfaceSetting: gameInterfaceSettings,
     worldGameObjects: worldGameObjects,
     gameObjectOnEdit: gameObjectOnEdit,
+    gameEntities: gameEntities,
   },
 });
 

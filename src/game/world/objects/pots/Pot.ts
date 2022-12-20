@@ -1,7 +1,7 @@
 import { Mesh, MeshBasicMaterial, MeshPhongMaterial } from 'three';
 import Assets from '../../../../assets/Assets';
 import { GameObject } from '../abstracts/GameObject';
-import { CircleCollider } from '../colliders/circleCollider/CircleCollider';
+import { CircleCollider } from '../new/worldObject/colliders/circleCollider/CircleCollider';
 
 export class Pot extends GameObject {
   mesh: Mesh;

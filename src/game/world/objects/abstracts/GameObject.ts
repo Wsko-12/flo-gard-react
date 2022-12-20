@@ -7,10 +7,10 @@ import {
 } from '../../../../store/slices/gameObjectOnEdit/gameObjectOnEdit';
 import {
   addGameObject,
-  IGameObjectStoreData,
+  IGameObjectWorldData,
   removeGameObject,
   selectGameObjectById,
-  toggleSelectGameObject,
+  toggleCardOpenedGameObject,
   updateGameObject,
 } from '../../../../store/slices/worldGameObjects/worldGameObjects';
 import { store } from '../../../../store/store';
@@ -36,7 +36,7 @@ export abstract class GameObject {
   protected abstract collider: Collider;
   public position: Point2;
   public id: string;
-  public storeData: IGameObjectStoreData;
+  public worldData: IGameObjectWorldData;
   protected abstract mesh: Mesh | Group;
   protected options: IGameObjectOptions;
 
@@ -49,11 +49,9 @@ export abstract class GameObject {
     this.position = new Point2(0, 0);
 
     this.id = generateGameObjectId();
-    this.storeData = {
+    this.worldData = {
       id: this.id,
       position: null,
-      isSelected: false,
-      isMovable: !!options.isMovable,
     };
   }
 
@@ -65,8 +63,7 @@ export abstract class GameObject {
       throw new Error(`[Object ${this.id} applyStoreData] don't saved in store`);
     }
 
-    this.storeData.isSelected = data.isSelected;
-    this.storeData.position = data.position;
+    this.worldData.position = data.position;
 
     if (this.movable) {
       const onMoveBefore = this.movable?.isMoving;
@@ -77,7 +74,7 @@ export abstract class GameObject {
       if (positionChanged) {
         const isCollision = this.collider.isCollision();
         if (!isCollision) {
-          this.savePosition();
+          this.savePositionToWorldData();
           this.setBlockMaterial(false);
           Environment.updateObjectsOnGrass();
           return;
@@ -95,11 +92,11 @@ export abstract class GameObject {
     }
   };
 
-  protected savePosition() {
+  protected savePositionToWorldData() {
     const { position } = this;
     store.dispatch(
       updateGameObject({
-        ...this.storeData,
+        ...this.worldData,
         position: { x: position.x, y: position.y },
       })
     );
@@ -134,7 +131,7 @@ export abstract class GameObject {
     World.addGameObject(this);
     this.movable?.add();
     this.clickable?.add();
-    store.dispatch(addGameObject({ ...this.storeData, position: null, isSelected: false }));
+    store.dispatch(addGameObject({ ...this.worldData, position: null }));
     if (openCard) {
       this.onClick();
       if (this.movable) {
@@ -157,7 +154,6 @@ export abstract class GameObject {
     World.removeGameObject(this);
     this.movable?.remove();
     this.clickable?.remove();
-    this.storeData.isSelected = false;
     store.dispatch(removeGameObject(this.id));
   }
 
@@ -166,13 +162,7 @@ export abstract class GameObject {
   }
 
   public onClick() {
-    const isSelected = !this.storeData.isSelected;
-    store.dispatch(
-      toggleSelectGameObject({
-        ...this.storeData,
-        isSelected,
-      })
-    );
+    store.dispatch(toggleCardOpenedGameObject(this.id));
   }
 
   public getCollider = () => {
@@ -180,7 +170,7 @@ export abstract class GameObject {
   };
 
   public updateGrassHeight(ctx: CanvasRenderingContext2D, resolution: number) {
-    this.collider.updateGrassHeight(ctx, resolution, this.storeData.position);
+    this.collider.updateGrassHeight(ctx, resolution, this.worldData.position);
   }
 
   public abstract setBlockMaterial: (flag: boolean) => void;

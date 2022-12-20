@@ -1,16 +1,14 @@
 import { createEntityAdapter, createSlice, EntityId, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
-export interface IGameObjectStoreData {
+export interface IGameObjectWorldData {
   id: string;
   position: {
     x: number;
     y: number;
   } | null;
-  isSelected: boolean;
-  isMovable: boolean;
 }
-const worldGameObjectsAdapter = createEntityAdapter<IGameObjectStoreData>({
+const worldGameObjectsAdapter = createEntityAdapter<IGameObjectWorldData>({
   selectId: (object) => object.id,
 });
 
@@ -24,7 +22,7 @@ const worldGameObjects = createSlice({
     cardOpened: [],
   }),
   reducers: {
-    addGameObject: (state, action: PayloadAction<IGameObjectStoreData>) => {
+    addGameObject: (state, action: PayloadAction<IGameObjectWorldData>) => {
       worldGameObjectsAdapter.addOne(state, action.payload);
     },
 
@@ -37,26 +35,27 @@ const worldGameObjects = createSlice({
       }
     },
 
-    toggleSelectGameObject: (state, action: PayloadAction<IGameObjectStoreData>) => {
-      const { id, isSelected } = action.payload;
-      worldGameObjectsAdapter.setOne(state, action.payload);
+    toggleCardOpenedGameObject: (state, action: PayloadAction<EntityId>) => {
+      const objectId = action.payload;
 
-      if (isSelected) {
-        state.cardOpened.push(id);
+      const isCardOpened = state.cardOpened.includes(objectId);
+
+      if (isCardOpened) {
+        const newCardOpened = state.cardOpened.filter((cardId) => cardId != objectId);
+        state.cardOpened = newCardOpened;
       } else {
-        const index = state.cardOpened.indexOf(id);
-        state.cardOpened.splice(index, 1);
+        state.cardOpened.push(objectId);
       }
     },
 
-    updateGameObject: (state, action: PayloadAction<IGameObjectStoreData>) => {
+    updateGameObject: (state, action: PayloadAction<IGameObjectWorldData>) => {
       const { id } = action.payload;
       worldGameObjectsAdapter.updateOne(state, { id, changes: action.payload });
     },
   },
 });
 
-export const { addGameObject, toggleSelectGameObject, removeGameObject, updateGameObject } =
+export const { addGameObject, toggleCardOpenedGameObject, removeGameObject, updateGameObject } =
   worldGameObjects.actions;
 
 export default worldGameObjects.reducer;

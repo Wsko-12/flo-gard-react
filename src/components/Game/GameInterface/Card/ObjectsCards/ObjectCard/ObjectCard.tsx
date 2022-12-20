@@ -2,7 +2,7 @@ import { EntityId } from '@reduxjs/toolkit';
 import React, { memo, useCallback } from 'react';
 import {
   selectGameObjectById,
-  toggleSelectGameObject,
+  toggleCardOpenedGameObject,
 } from '../../../../../../store/slices/worldGameObjects/worldGameObjects';
 import { useAppDispatch, useAppSelector } from '../../../../../../store/store';
 import DraggableCard from '../../DraggableCard/DraggableCard';
@@ -17,16 +17,8 @@ export const ObjectsCard = memo<IObjectsCardProps>(({ id }) => {
   const dispatch = useAppDispatch();
 
   const closeCb = useCallback(() => {
-    if (!data) {
-      return;
-    }
-    dispatch(
-      toggleSelectGameObject({
-        ...data,
-        isSelected: false,
-      })
-    );
-  }, [data, dispatch]);
+    dispatch(toggleCardOpenedGameObject(id));
+  }, [dispatch, id]);
 
   if (!data) {
     return null;

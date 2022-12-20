@@ -33,7 +33,7 @@ const EditObjectBar = memo<IEditObjectBarProps>(({ id }) => {
   if (objectOnEdit === id) {
     return (
       <>
-        <MoveButton isMovable={!!objectData?.isMovable} isOnMove={isOnMove} />
+        <MoveButton isMovable={true} isOnMove={isOnMove} />
         <button onClick={applyEdit}>Apply Edit</button>
       </>
     );

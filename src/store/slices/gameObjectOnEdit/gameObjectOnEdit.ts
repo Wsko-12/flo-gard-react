@@ -1,6 +1,6 @@
 import { createSlice, EntityId, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { removeGameObject, toggleSelectGameObject } from '../worldGameObjects/worldGameObjects';
+import { removeGameObject, toggleCardOpenedGameObject } from '../worldGameObjects/worldGameObjects';
 
 interface IGameObjectOnEditState {
   id: EntityId | null;
@@ -32,8 +32,9 @@ const gameObjectOnEdit = createSlice({
       }
     });
 
-    builder.addCase(toggleSelectGameObject, (state, action) => {
-      if (state.id === action.payload.id) {
+    builder.addCase(toggleCardOpenedGameObject, (state, action) => {
+      const id = action.payload;
+      if (state.id === id) {
         return initialState;
       }
     });

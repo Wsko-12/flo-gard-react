@@ -1,7 +1,8 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { addGameEntity } from '../../../../store/slices/new/gameEntities';
-import { store } from '../../../../store/store';
-import { GameEntity } from './GameEntity';
+import { addGameEntity } from '../../../store/slices/new/gameEntities';
+import { store } from '../../../store/store';
+
+import { GameEntity } from './entities/abstract/GameEntity';
 
 export class EntityManager {
   static entities: GameEntity[] = [];

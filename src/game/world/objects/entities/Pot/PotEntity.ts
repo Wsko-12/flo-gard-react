@@ -1,5 +1,5 @@
-import { generateGameObjectId } from '../../../../../../utils/utils';
-import { GameEntity } from '../../GameEntity';
+import { generateGameObjectId } from '../../../../../utils/utils';
+import { GameEntity } from '../abstract/GameEntity';
 import { PotInventory } from './PotInventory';
 import { PotWorld } from './PotWorld';
 

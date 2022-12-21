@@ -5,12 +5,26 @@ import {
   EntityId,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import {
-  IGameEntityStoreData,
-  IWorldObjectStoreData,
-} from '../../../game/world/objects/new/interfaces';
 import { IPosition2 } from '../../../ts/interfaces';
 import { RootState } from '../../store';
+
+export interface IWorldObjectStoreData {
+  position: { x: number; y: number } | null;
+  isMovable: boolean;
+}
+
+export interface IInventoryObjectStoreData {
+  imageUrl: string;
+  title: string;
+  static: boolean;
+}
+
+export interface IGameEntityStoreData {
+  id: EntityId;
+  inInventory: boolean;
+  world: IWorldObjectStoreData;
+  inventory: IInventoryObjectStoreData;
+}
 
 const gameEntitiesAdapter = createEntityAdapter<IGameEntityStoreData>({
   selectId: (gameEntity) => gameEntity.id,

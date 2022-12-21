@@ -3,15 +3,16 @@ import { BufferGeometry, Group, Mesh } from 'three';
 import {
   selectEntityOnMove,
   setEntityOnMoveCollision,
-} from '../../../../../store/slices/gameEntityOnEdit/gameEntityOnEdit';
-import { store } from '../../../../../store/store';
-import Environment from '../../../environment/Environment';
-import { Point2 } from '../../../environment/utils/Geometry';
-import World from '../../../World';
-import { MoveDecorator } from '../decorators/MoveDecorator';
-import { EntityManager } from '../EntityManager';
+} from '../../../../../../store/slices/gameEntityOnEdit/gameEntityOnEdit';
+import { IWorldObjectStoreData } from '../../../../../../store/slices/new/gameEntities';
+import { store } from '../../../../../../store/store';
+import Environment from '../../../../environment/Environment';
+import { Point2 } from '../../../../environment/utils/Geometry';
+import World from '../../../../World';
 
-import { IWorldObjectStoreData } from '../interfaces';
+import { MoveDecorator } from '../../../decorators/MoveDecorator';
+import { EntityManager } from '../../../EntityManager';
+
 import { ClickBox } from './clickBoxes/ClickBox';
 import { Collider } from './colliders/Collider';
 

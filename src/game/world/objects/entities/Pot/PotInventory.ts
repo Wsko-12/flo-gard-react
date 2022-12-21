@@ -1,4 +1,4 @@
-import { InventoryObject } from '../../inventoryObject/InventoryObject';
+import { InventoryObject } from '../abstract/inventoryObject/InventoryObject';
 
 export class PotInventory extends InventoryObject {
   title = 'pot';

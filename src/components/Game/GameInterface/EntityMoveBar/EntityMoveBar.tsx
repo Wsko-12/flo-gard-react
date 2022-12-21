@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { EntityManager } from '../../../../game/world/objects/new/EntityManager';
+import { EntityManager } from '../../../../game/world/objects/EntityManager';
 import {
   selectEntityOnMove,
   selectEntityOnMoveIsCollision,

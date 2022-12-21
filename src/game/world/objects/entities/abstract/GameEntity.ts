@@ -2,16 +2,17 @@ import { EntityId } from '@reduxjs/toolkit';
 import {
   selectEntityOnMove,
   setEntityOnMove,
-} from '../../../../store/slices/gameEntityOnEdit/gameEntityOnEdit';
+} from '../../../../../store/slices/gameEntityOnEdit/gameEntityOnEdit';
 import {
-  placeInInventoryGameEntity,
-  placeInWorldGameEntity,
   selectEntityDataById,
+  IGameEntityStoreData,
+  placeInWorldGameEntity,
+  placeInInventoryGameEntity,
   setEntityPosition,
-} from '../../../../store/slices/new/gameEntities';
-import { store } from '../../../../store/store';
-import { EntityManager } from './EntityManager';
-import { IGameEntityStoreData } from './interfaces';
+} from '../../../../../store/slices/new/gameEntities';
+import { store } from '../../../../../store/store';
+
+import { EntityManager } from '../../EntityManager';
 import { InventoryObject } from './inventoryObject/InventoryObject';
 import { WorldObject } from './worldObject/WorldObject';
 

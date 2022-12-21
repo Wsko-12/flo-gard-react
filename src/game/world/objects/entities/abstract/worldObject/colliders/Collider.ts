@@ -1,5 +1,5 @@
-import { IPosition2 } from '../../../../../../ts/interfaces';
-import { Point2 } from '../../../../environment/utils/Geometry';
+import { IPosition2 } from '../../../../../../../ts/interfaces';
+import { Point2 } from '../../../../../environment/utils/Geometry';
 import { GameEntity } from '../../GameEntity';
 
 export abstract class Collider {

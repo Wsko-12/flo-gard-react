@@ -1,6 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo, useCallback } from 'react';
-import { EntityManager } from '../../../../../../game/world/objects/new/EntityManager';
+import { EntityManager } from '../../../../../../game/world/objects/EntityManager';
 import { setEntityOnMove } from '../../../../../../store/slices/gameEntityOnEdit/gameEntityOnEdit';
 import {
   selectEntityDataById,

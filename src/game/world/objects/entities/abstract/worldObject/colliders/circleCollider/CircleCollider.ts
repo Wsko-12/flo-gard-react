@@ -1,7 +1,7 @@
-import { IPosition2 } from '../../../../../../../ts/interfaces';
-import { GROUND_SIZE } from '../../../../../environment/ground/Ground';
-import { Point2 } from '../../../../../environment/utils/Geometry';
-import { EntityManager } from '../../../EntityManager';
+import { IPosition2 } from '../../../../../../../../ts/interfaces';
+import { GROUND_SIZE } from '../../../../../../environment/ground/Ground';
+import { Point2 } from '../../../../../../environment/utils/Geometry';
+import { EntityManager } from '../../../../../EntityManager';
 import { Collider } from '../Collider';
 
 export class CircleCollider extends Collider {

@@ -1,10 +1,10 @@
 import { EntityId } from '@reduxjs/toolkit';
 import { Mesh, MeshPhongMaterial } from 'three';
-import Assets from '../../../../../../assets/Assets';
-import { toggleEntityCardOpened } from '../../../../../../store/slices/new/gameEntities';
-import { store } from '../../../../../../store/store';
-import { CircleCollider } from '../../worldObject/colliders/circleCollider/CircleCollider';
-import { WorldObject } from '../../worldObject/WorldObject';
+import Assets from '../../../../../assets/Assets';
+import { toggleEntityCardOpened } from '../../../../../store/slices/new/gameEntities';
+import { store } from '../../../../../store/store';
+import { CircleCollider } from '../abstract/worldObject/colliders/circleCollider/CircleCollider';
+import { WorldObject } from '../abstract/worldObject/WorldObject';
 
 export class PotWorld extends WorldObject {
   clickBoxGeometry = Assets.getGeometry('pot_1');

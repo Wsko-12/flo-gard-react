@@ -1,6 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo } from 'react';
-import { EntityManager } from '../../../game/world/objects/new/EntityManager';
+import { EntityManager } from '../../../game/world/objects/EntityManager';
 import { selectEntityDataById } from '../../../store/slices/new/gameEntities';
 import { useAppSelector } from '../../../store/store';
 

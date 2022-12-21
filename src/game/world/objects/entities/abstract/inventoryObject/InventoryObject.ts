@@ -1,4 +1,4 @@
-import { IInventoryObjectStoreData } from '../interfaces';
+import { IInventoryObjectStoreData } from '../../../../../../store/slices/new/gameEntities';
 
 export abstract class InventoryObject {
   abstract title: string;

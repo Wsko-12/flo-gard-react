@@ -1,6 +1,6 @@
 import { Mesh, Object3D, Raycaster } from 'three';
 import GameCamera from '../renderer/gameCamera/GameCamera';
-import { ClickBox } from './objects/new/worldObject/clickBoxes/ClickBox';
+import { ClickBox } from './objects/entities/abstract/worldObject/clickBoxes/ClickBox';
 
 export class ClickBoxScene {
   private static raycaster = new Raycaster();

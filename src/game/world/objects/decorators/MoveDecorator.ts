@@ -1,6 +1,6 @@
-import { GameStore } from '../../../../gameStore/GameStore';
-import LoopsManager from '../../../../loopsManager/LoopsManager';
-import { WorldObject } from '../worldObject/WorldObject';
+import { GameStore } from '../../../gameStore/GameStore';
+import LoopsManager from '../../../loopsManager/LoopsManager';
+import { WorldObject } from '../entities/abstract/worldObject/WorldObject';
 
 export class MoveDecorator {
   public isMoving = false;

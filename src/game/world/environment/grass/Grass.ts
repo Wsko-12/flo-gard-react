@@ -22,7 +22,7 @@ import { store } from '../../../../store/store';
 import { GameStore } from '../../../gameStore/GameStore';
 import LoopsManager from '../../../loopsManager/LoopsManager';
 import Day, { FULL_DAY_TIME } from '../../day/Day';
-import { EntityManager } from '../../objects/new/EntityManager';
+import { EntityManager } from '../../objects/EntityManager';
 import { GROUND_SIZE } from '../ground/Ground';
 import { Point2 } from '../utils/Geometry';
 import Weed from './weed/Weed';

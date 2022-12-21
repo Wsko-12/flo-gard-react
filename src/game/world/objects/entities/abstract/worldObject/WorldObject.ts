@@ -9,24 +9,25 @@ import { store } from '../../../../../../store/store';
 import Environment from '../../../../environment/Environment';
 import { Point2 } from '../../../../environment/utils/Geometry';
 import World from '../../../../World';
-
-import { MoveDecorator } from '../../../decorators/MoveDecorator';
-import { EntityManager } from '../../../EntityManager';
+import { MoveDecorator } from './decorators/MoveDecorator';
 
 import { ClickBox } from './clickBoxes/ClickBox';
 import { Collider } from './colliders/Collider';
 
 export abstract class WorldObject {
-  protected collider: Collider | null = null;
+  protected id: EntityId;
+
   public position: Point2 | null = null;
   protected mesh: Mesh | Group | null = null;
   protected meshPosition = new Point2(0, 0);
-  protected clickBoxGeometry: BufferGeometry | null = null;
-  protected id: EntityId;
-  protected collision = false;
 
   protected moveDecorator: MoveDecorator | null = null;
+  protected collider: Collider | null = null;
+  protected collision = false;
+
   protected clickBox: ClickBox | null = null;
+  protected clickBoxGeometry: BufferGeometry | null = null;
+
   constructor(id: EntityId) {
     this.id = id;
   }
@@ -49,9 +50,11 @@ export abstract class WorldObject {
     this.clickBox?.setMeshPosition(x, y);
     this.collider?.setPosition(x, y);
   }
+
   public getMeshPosition() {
     return this.meshPosition;
   }
+
   protected applyDecorators() {
     if (this.clickBoxGeometry) {
       this.clickBox = new ClickBox(this.clickBoxGeometry, this.onClick);
@@ -109,35 +112,13 @@ export abstract class WorldObject {
     const { position } = this;
     const isMovable = !!this.moveDecorator;
     return {
-      position: position
-        ? {
-            x: position.x,
-            y: position.y,
-          }
-        : null,
+      position: position ? position.getPositionObject() : null,
       isMovable,
     };
   }
 
   public applyStoreData(data: IWorldObjectStoreData, isOnMove: boolean) {
-    // apply moves
-    if (this.moveDecorator) {
-      const before = this.moveDecorator.isMoving;
-      const now = isOnMove;
-
-      if (before && !now) {
-        const isCollision = !!this.collider?.isCollision();
-        if (isCollision) {
-          if (data.position) {
-            const { x, y } = data.position;
-            this.setPosition(x, y);
-          } else {
-            EntityManager.placeEntityToInventory(this.id);
-          }
-        }
-      }
-      this.moveDecorator.setIsMoving(isOnMove);
-    }
+    this.moveDecorator?.setIsMoving(isOnMove);
 
     if (data.position) {
       const { x, y } = data.position;

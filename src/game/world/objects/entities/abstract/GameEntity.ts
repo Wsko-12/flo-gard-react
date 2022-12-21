@@ -47,7 +47,7 @@ export abstract class GameEntity {
     this.worldObject.applyStoreData(data.world, isOnMove);
   };
 
-  getStoreData(): IGameEntityStoreData {
+  public getStoreData(): IGameEntityStoreData {
     return {
       id: this.id,
       inInventory: this.inInventory,
@@ -56,12 +56,16 @@ export abstract class GameEntity {
     };
   }
 
-  placeInWorld() {
+  public getCollider() {
+    return this.worldObject.getCollider();
+  }
+
+  public placeInWorld() {
     this.worldObject.placeInWorld();
     store.dispatch(placeInWorldGameEntity(this.id));
   }
 
-  placeInInventory() {
+  public placeInInventory() {
     this.worldObject.placeInInventory();
     store.dispatch(placeInInventoryGameEntity(this.id));
   }
@@ -70,7 +74,7 @@ export abstract class GameEntity {
     const isCollision = !!this.worldObject.getCollider()?.isCollision();
     if (isCollision) {
       this.cancelMove();
-      return false;
+      return;
     }
 
     const mesh = this.worldObject.getMesh();
@@ -93,10 +97,6 @@ export abstract class GameEntity {
       this.placeInInventory();
     }
     store.dispatch(setEntityOnMove(null));
-  }
-
-  public getCollider() {
-    return this.worldObject.getCollider();
   }
 
   public updateGrassHeight(ctx: CanvasRenderingContext2D, resolution: number) {

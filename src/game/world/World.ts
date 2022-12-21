@@ -1,7 +1,6 @@
 import { Scene } from 'three';
 import Day from './day/Day';
 import Environment from './environment/Environment';
-import { PotEntity } from './objects/entities/Pot/PotEntity';
 
 export default class World {
   static scene: Scene | null = null;
@@ -11,9 +10,6 @@ export default class World {
 
     Day.init();
     Environment.init();
-
-    new PotEntity();
-    new PotEntity();
   }
 
   static getScene() {

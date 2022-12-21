@@ -23,6 +23,6 @@ export default class Environment {
     if (!this.grass) {
       throw new Error('[Environment updateObjectsOnGrass] grass undefined');
     }
-    this.grass.updateObjectsOnGrass();
+    // this.grass.updateObjectsOnGrass();
   }
 }

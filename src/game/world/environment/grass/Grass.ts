@@ -22,7 +22,6 @@ import { store } from '../../../../store/store';
 import { GameStore } from '../../../gameStore/GameStore';
 import LoopsManager from '../../../loopsManager/LoopsManager';
 import Day, { FULL_DAY_TIME } from '../../day/Day';
-import { EntityManager } from '../../objects/EntityManager';
 import { GROUND_SIZE } from '../ground/Ground';
 import { Point2 } from '../utils/Geometry';
 import Weed from './weed/Weed';
@@ -118,7 +117,7 @@ export class Grass {
       ctx.fillStyle = 'rgba(255,255,255,0.05)';
       ctx.fillRect(0, 0, resolution, resolution);
       this.grassHeightTexture.needsUpdate = true;
-      this.updateObjectsOnGrass();
+      // this.updateObjectsOnGrass();
     }
   };
 
@@ -361,13 +360,13 @@ export class Grass {
     this.removeWeeds(toRemove);
   };
 
-  updateObjectsOnGrass() {
-    EntityManager.getEntities().forEach((object) => {
-      const { ctx, resolution } = this.grassHeightCanvas;
-      object.updateGrassHeight(ctx, resolution);
-    });
-    this.grassHeightTexture.needsUpdate = true;
-  }
+  // updateObjectsOnGrass() {
+  //   // EntityManager.getEntities().forEach((object) => {
+  //   //   const { ctx, resolution } = this.grassHeightCanvas;
+  //   //   object.updateGrassHeight(ctx, resolution);
+  //   // });
+  //   // this.grassHeightTexture.needsUpdate = true;
+  // }
 
   getMesh() {
     return this.group;

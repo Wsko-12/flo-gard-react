@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
+import gameEntityOnEdit from './slices/gameEntityOnEdit/gameEntityOnEdit';
 import gameInterfaceSettings from './slices/gameInterfaceSettings/gameInterfaceSettings';
-import gameObjectOnEdit from './slices/gameObjectOnEdit/gameObjectOnEdit';
 import gameSlice from './slices/gameSlice/gameSlice';
 import gameEntities from './slices/new/gameEntities';
 import worldGameObjects from './slices/worldGameObjects/worldGameObjects';
@@ -11,7 +11,7 @@ export const store = configureStore({
     game: gameSlice,
     gameInterfaceSetting: gameInterfaceSettings,
     worldGameObjects: worldGameObjects,
-    gameObjectOnEdit: gameObjectOnEdit,
+    gameEntityOnEdit: gameEntityOnEdit,
     gameEntities: gameEntities,
   },
 });

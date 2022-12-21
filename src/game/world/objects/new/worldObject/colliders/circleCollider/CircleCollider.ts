@@ -12,19 +12,7 @@ export class CircleCollider extends Collider {
     this.r = radius;
   }
   isCollision() {
-    let collision = false;
-    World.getGameObjects().forEach(({ getCollider }) => {
-      const collider = getCollider();
-      if (collider !== this) {
-        if (collider instanceof CircleCollider) {
-          if (this.checkCircleCollider(collider)) {
-            collision = true;
-          }
-        }
-      }
-    });
-
-    return collision;
+    return false;
   }
 
   checkCircleCollider(collider: CircleCollider) {

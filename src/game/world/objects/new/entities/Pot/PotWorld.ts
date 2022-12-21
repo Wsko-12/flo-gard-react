@@ -1,0 +1,28 @@
+import { EntityId } from '@reduxjs/toolkit';
+import { Mesh, MeshBasicMaterial } from 'three';
+import Assets from '../../../../../../assets/Assets';
+import { toggleEntityCardOpened } from '../../../../../../store/slices/new/gameEntities';
+import { store } from '../../../../../../store/store';
+import { WorldObject } from '../../worldObject/WorldObject';
+
+export class PotWorld extends WorldObject {
+  clickBoxGeometry = Assets.getGeometry('pot_1');
+  mesh = new Mesh(Assets.getGeometry('pot_1'), new MeshBasicMaterial());
+
+  constructor(id: EntityId) {
+    super(id);
+    this.applyDecorators();
+  }
+
+  placeInWorld() {
+    super.placeInWorld();
+    store.dispatch(toggleEntityCardOpened(this.id));
+  }
+
+  protected onClick = () => {
+    if (this.moveDecorator?.isMoving) {
+      return;
+    }
+    store.dispatch(toggleEntityCardOpened(this.id!));
+  };
+}

@@ -362,12 +362,11 @@ export class Grass {
   };
 
   updateObjectsOnGrass() {
-    World.getGameObjects().forEach((object) => {
-      const { ctx, resolution } = this.grassHeightCanvas;
-
-      object.updateGrassHeight(ctx, resolution);
-    });
-    this.grassHeightTexture.needsUpdate = true;
+    // World.getGameObjects().forEach((object) => {
+    //   const { ctx, resolution } = this.grassHeightCanvas;
+    //   object.updateGrassHeight(ctx, resolution);
+    // });
+    // this.grassHeightTexture.needsUpdate = true;
   }
 
   getMesh() {

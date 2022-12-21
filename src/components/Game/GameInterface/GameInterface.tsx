@@ -2,6 +2,8 @@ import React, { memo } from 'react';
 import GrassMovingButton from './buttons/GrassMovingButton';
 import Clocks from './Clocks/Clocks';
 import ObjectsCards from './Card/ObjectsCards/ObjectsCards';
+import Inventory from './Inventory';
+import EntityMoveBar from './EntityMoveBar/EntityMoveBar';
 
 const GameInterface = memo(() => {
   return (
@@ -9,6 +11,8 @@ const GameInterface = memo(() => {
       <GrassMovingButton />
       <ObjectsCards />
       <Clocks />
+      <Inventory />
+      <EntityMoveBar />
     </div>
   );
 });

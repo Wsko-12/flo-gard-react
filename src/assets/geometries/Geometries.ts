@@ -29,6 +29,9 @@ class Geometries {
   };
 
   static get(name: string) {
+    if (!this.loaded[name]) {
+      throw new Error(`[Assets geometry get] Geometry ${name} undefined`);
+    }
     return this.loaded[name];
   }
 }

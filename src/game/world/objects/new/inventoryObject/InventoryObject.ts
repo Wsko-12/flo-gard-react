@@ -1,11 +1,14 @@
 import { IInventoryObjectStoreData } from '../interfaces';
 
-export class InventoryObject {
+export abstract class InventoryObject {
+  abstract title: string;
+  abstract imageUrl: string;
+  abstract static: boolean;
   getStoreData(): IInventoryObjectStoreData {
     return {
-      imageUrl: '',
-      title: '',
-      static: false,
+      imageUrl: this.imageUrl,
+      title: this.title,
+      static: this.static,
     };
   }
 }

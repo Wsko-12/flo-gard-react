@@ -20,6 +20,7 @@ export class MoveDecorator {
     }
 
     const { x, z } = GameStore.cameraTarget;
+    this.worldObject.checkCollision();
     this.worldObject.setMeshPosition(x, z);
   };
 

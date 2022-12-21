@@ -4,7 +4,7 @@ import {
   selectEntityOnMove,
   setEntityOnMoveCollision,
 } from '../../../../../../store/slices/gameEntityOnEdit/gameEntityOnEdit';
-import { IWorldObjectStoreData } from '../../../../../../store/slices/new/gameEntities';
+import { IWorldObjectStoreData } from '../../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { store } from '../../../../../../store/store';
 import Environment from '../../../../environment/Environment';
 import { Point2 } from '../../../../environment/utils/Geometry';

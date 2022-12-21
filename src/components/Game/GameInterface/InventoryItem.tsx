@@ -1,7 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo } from 'react';
 import { EntityManager } from '../../../game/world/objects/EntityManager';
-import { selectEntityDataById } from '../../../store/slices/new/gameEntities';
+import { selectEntityDataById } from '../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { useAppSelector } from '../../../store/store';
 
 interface IInventoryItemProps {

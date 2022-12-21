@@ -34,7 +34,7 @@ interface IGameEntitiesAdditionalState {
   cardOpened: EntityId[];
 }
 
-const gameEntities = createSlice({
+const gameEntitiesSlice = createSlice({
   name: 'gameEntities',
   initialState: gameEntitiesAdapter.getInitialState<IGameEntitiesAdditionalState>({
     cardOpened: [],
@@ -117,7 +117,7 @@ const gameEntities = createSlice({
   },
 });
 
-export default gameEntities.reducer;
+export default gameEntitiesSlice.reducer;
 
 export const {
   addGameEntity,
@@ -128,7 +128,7 @@ export const {
   placeInWorldGameEntity,
   placeInInventoryGameEntity,
   setEntityPosition,
-} = gameEntities.actions;
+} = gameEntitiesSlice.actions;
 
 const adapterSelectors = gameEntitiesAdapter.getSelectors((state: RootState) => state.gameEntities);
 

@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { selectEntityOnMove } from '../../../../../store/slices/gameEntityOnEdit/gameEntityOnEdit';
-import { selectOpenedEntitiesCard } from '../../../../../store/slices/new/gameEntities';
+import { selectOpenedEntitiesCard } from '../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { useAppSelector } from '../../../../../store/store';
 import ObjectsCard from './ObjectCard/ObjectCard';
 

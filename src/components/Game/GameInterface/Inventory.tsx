@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { selectEntityOnMove } from '../../../store/slices/gameEntityOnEdit/gameEntityOnEdit';
-import { selectEntitiesIds } from '../../../store/slices/new/gameEntities';
+import { selectEntitiesIds } from '../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { useAppSelector } from '../../../store/store';
 import InventoryItem from './InventoryItem';
 

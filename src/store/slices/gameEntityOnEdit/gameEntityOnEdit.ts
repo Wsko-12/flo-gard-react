@@ -1,6 +1,6 @@
 import { createSlice, EntityId, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { placeInWorldGameEntity } from '../new/gameEntities';
+import { placeInWorldGameEntity } from '../gameEntitiesSlice/gameEntitiesSlice';
 
 export interface IGameEntityOnEditState {
   onMove: {

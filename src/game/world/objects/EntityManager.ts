@@ -1,5 +1,5 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { addGameEntity } from '../../../store/slices/new/gameEntities';
+import { addGameEntity } from '../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { store } from '../../../store/store';
 
 import { GameEntity } from './entities/abstract/GameEntity';

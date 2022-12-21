@@ -5,7 +5,7 @@ import { setEntityOnMove } from '../../../../../../store/slices/gameEntityOnEdit
 import {
   selectEntityDataById,
   toggleEntityCardOpened,
-} from '../../../../../../store/slices/new/gameEntities';
+} from '../../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { useAppDispatch, useAppSelector } from '../../../../../../store/store';
 import DraggableCard from '../../DraggableCard/DraggableCard';
 import styles from './object-card.module.scss';

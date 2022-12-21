@@ -9,7 +9,7 @@ import {
   placeInWorldGameEntity,
   placeInInventoryGameEntity,
   setEntityPosition,
-} from '../../../../../store/slices/new/gameEntities';
+} from '../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { store } from '../../../../../store/store';
 
 import { EntityManager } from '../../EntityManager';

@@ -22,7 +22,7 @@ import { store } from '../../../../store/store';
 import { GameStore } from '../../../gameStore/GameStore';
 import LoopsManager from '../../../loopsManager/LoopsManager';
 import Day, { FULL_DAY_TIME } from '../../day/Day';
-import World from '../../World';
+import { EntityManager } from '../../objects/new/EntityManager';
 import { GROUND_SIZE } from '../ground/Ground';
 import { Point2 } from '../utils/Geometry';
 import Weed from './weed/Weed';
@@ -362,11 +362,11 @@ export class Grass {
   };
 
   updateObjectsOnGrass() {
-    // World.getGameObjects().forEach((object) => {
-    //   const { ctx, resolution } = this.grassHeightCanvas;
-    //   object.updateGrassHeight(ctx, resolution);
-    // });
-    // this.grassHeightTexture.needsUpdate = true;
+    EntityManager.getEntities().forEach((object) => {
+      const { ctx, resolution } = this.grassHeightCanvas;
+      object.updateGrassHeight(ctx, resolution);
+    });
+    this.grassHeightTexture.needsUpdate = true;
   }
 
   getMesh() {

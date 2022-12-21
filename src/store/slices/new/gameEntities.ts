@@ -5,7 +5,6 @@ import {
   EntityId,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { Point2 } from '../../../game/world/environment/utils/Geometry';
 import {
   IGameEntityStoreData,
   IWorldObjectStoreData,

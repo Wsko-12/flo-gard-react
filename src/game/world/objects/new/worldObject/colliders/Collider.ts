@@ -1,3 +1,4 @@
+import { IPosition2 } from '../../../../../../ts/interfaces';
 import { Point2 } from '../../../../environment/utils/Geometry';
 import { GameEntity } from '../../GameEntity';
 
@@ -11,6 +12,6 @@ export abstract class Collider {
   abstract updateGrassHeight(
     ctx: CanvasRenderingContext2D,
     resolution: number,
-    position: { x: number; y: number } | null
+    position: IPosition2 | null
   ): void;
 }

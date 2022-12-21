@@ -1,5 +1,5 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { Mesh, MeshBasicMaterial } from 'three';
+import { Mesh, MeshBasicMaterial, MeshPhongMaterial } from 'three';
 import Assets from '../../../../../../assets/Assets';
 import { toggleEntityCardOpened } from '../../../../../../store/slices/new/gameEntities';
 import { store } from '../../../../../../store/store';
@@ -8,11 +8,13 @@ import { WorldObject } from '../../worldObject/WorldObject';
 
 export class PotWorld extends WorldObject {
   clickBoxGeometry = Assets.getGeometry('pot_1');
-  mesh = new Mesh(Assets.getGeometry('pot_1'), new MeshBasicMaterial());
+  mesh = new Mesh(Assets.getGeometry('pot_1'), new MeshPhongMaterial());
 
   constructor(id: EntityId) {
     super(id);
     this.collider = new CircleCollider(0.15);
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = true;
     this.applyDecorators();
   }
 

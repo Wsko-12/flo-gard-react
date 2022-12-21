@@ -1,6 +1,6 @@
+import { IPosition2 } from '../../../../../../../ts/interfaces';
 import { GROUND_SIZE } from '../../../../../environment/ground/Ground';
 import { Point2 } from '../../../../../environment/utils/Geometry';
-import World from '../../../../../World';
 import { EntityManager } from '../../../EntityManager';
 import { Collider } from '../Collider';
 
@@ -44,7 +44,7 @@ export class CircleCollider extends Collider {
   updateGrassHeight(
     ctx: CanvasRenderingContext2D,
     resolution: number,
-    position: { x: number; y: number } | null
+    position: IPosition2 | null
   ): void {
     if (!position) {
       return;

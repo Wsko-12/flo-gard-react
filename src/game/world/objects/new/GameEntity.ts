@@ -97,4 +97,8 @@ export abstract class GameEntity {
   public getCollider() {
     return this.worldObject.getCollider();
   }
+
+  public updateGrassHeight(ctx: CanvasRenderingContext2D, resolution: number) {
+    this.worldObject.getCollider()?.updateGrassHeight(ctx, resolution, this.worldObject.position);
+  }
 }

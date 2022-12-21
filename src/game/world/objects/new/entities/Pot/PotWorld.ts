@@ -1,5 +1,5 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { Mesh, MeshBasicMaterial, MeshPhongMaterial } from 'three';
+import { Mesh, MeshPhongMaterial } from 'three';
 import Assets from '../../../../../../assets/Assets';
 import { toggleEntityCardOpened } from '../../../../../../store/slices/new/gameEntities';
 import { store } from '../../../../../../store/store';

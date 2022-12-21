@@ -6,7 +6,6 @@ import {
 } from '../../../../../store/slices/gameEntityOnEdit/gameEntityOnEdit';
 import { store } from '../../../../../store/store';
 import Environment from '../../../environment/Environment';
-import { Grass } from '../../../environment/grass/Grass';
 import { Point2 } from '../../../environment/utils/Geometry';
 import World from '../../../World';
 import { MoveDecorator } from '../decorators/MoveDecorator';

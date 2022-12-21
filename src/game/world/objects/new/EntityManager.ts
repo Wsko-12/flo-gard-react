@@ -18,6 +18,10 @@ export class EntityManager {
     return entity;
   }
 
+  static getEntities() {
+    return this.entities;
+  }
+
   static placeEntityToWorld(id: EntityId) {
     const entity = this.getEntityById(id);
 

@@ -18,6 +18,7 @@ export abstract class WorldObject {
   protected collider: Collider | null = null;
   public position: Point2 | null = null;
   protected mesh: Mesh | Group | null = null;
+  protected meshPosition = new Point2(0, 0);
   protected clickBoxGeometry: BufferGeometry | null = null;
   protected id: EntityId;
   protected collision = false;
@@ -25,7 +26,6 @@ export abstract class WorldObject {
   protected moveDecorator: MoveDecorator | null = null;
   protected clickBox: ClickBox | null = null;
   constructor(id: EntityId) {
-    // this.position = new Point2(0, 0);
     this.id = id;
   }
 
@@ -42,13 +42,14 @@ export abstract class WorldObject {
       return;
     }
 
+    this.meshPosition.set(x, y);
     this.mesh.position.set(x, 0, y);
-
-    if (this.clickBox) {
-      this.clickBox.setMeshPosition(x, y);
-    }
+    this.clickBox?.setMeshPosition(x, y);
+    this.collider?.setPosition(x, y);
   }
-
+  public getMeshPosition() {
+    return this.meshPosition;
+  }
   protected applyDecorators() {
     if (this.clickBoxGeometry) {
       this.clickBox = new ClickBox(this.clickBoxGeometry, this.onClick);
@@ -65,7 +66,7 @@ export abstract class WorldObject {
     if (!this.mesh) {
       return;
     }
-
+    this.setMeshPosition(0, 0);
     World.getScene().add(this.mesh);
     this.clickBox?.add();
     this.moveDecorator?.add();
@@ -81,7 +82,6 @@ export abstract class WorldObject {
     this.clickBox?.remove();
     this.moveDecorator?.remove();
     this.moveDecorator?.setIsMoving(false);
-
     this.position = null;
   }
 

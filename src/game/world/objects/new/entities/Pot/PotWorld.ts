@@ -3,6 +3,7 @@ import { Mesh, MeshBasicMaterial } from 'three';
 import Assets from '../../../../../../assets/Assets';
 import { toggleEntityCardOpened } from '../../../../../../store/slices/new/gameEntities';
 import { store } from '../../../../../../store/store';
+import { CircleCollider } from '../../worldObject/colliders/circleCollider/CircleCollider';
 import { WorldObject } from '../../worldObject/WorldObject';
 
 export class PotWorld extends WorldObject {
@@ -11,6 +12,7 @@ export class PotWorld extends WorldObject {
 
   constructor(id: EntityId) {
     super(id);
+    this.collider = new CircleCollider(0.15);
     this.applyDecorators();
   }
 

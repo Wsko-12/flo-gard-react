@@ -7,6 +7,7 @@ import {
   placeInInventoryGameEntity,
   placeInWorldGameEntity,
   selectEntityDataById,
+  setEntityPosition,
 } from '../../../../store/slices/new/gameEntities';
 import { store } from '../../../../store/store';
 import { EntityManager } from './EntityManager';
@@ -40,7 +41,7 @@ export abstract class GameEntity {
     if (!data) {
       return;
     }
-
+    this.inInventory = data.inInventory;
     const isOnMove = selectEntityOnMove(state) == this.id;
     this.worldObject.applyStoreData(data.world, isOnMove);
   };
@@ -65,8 +66,6 @@ export abstract class GameEntity {
   }
 
   public applyMove() {
-    store.dispatch(setEntityOnMove(null));
-
     const isCollision = !!this.worldObject.getCollider()?.isCollision();
     if (isCollision) {
       this.cancelMove();
@@ -77,18 +76,25 @@ export abstract class GameEntity {
     if (!mesh) {
       return;
     }
-    const { x, z } = mesh.position;
-    this.worldObject.setPosition(x, z);
+
+    const position = this.worldObject.getMeshPosition().getPositionObject();
+    const { x, y } = position;
+    this.worldObject.setPosition(x, y);
+    store.dispatch(setEntityPosition({ id: this.id, position }));
+    store.dispatch(setEntityOnMove(null));
   }
 
   public cancelMove() {
-    store.dispatch(setEntityOnMove(null));
-
     if (this.worldObject.position) {
       const { x, y } = this.worldObject.position;
       this.worldObject.setPosition(x, y);
     } else {
       this.placeInInventory();
     }
+    store.dispatch(setEntityOnMove(null));
+  }
+
+  public getCollider() {
+    return this.worldObject.getCollider();
   }
 }

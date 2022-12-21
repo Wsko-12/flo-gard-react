@@ -5,10 +5,12 @@ import {
   EntityId,
   PayloadAction,
 } from '@reduxjs/toolkit';
+import { Point2 } from '../../../game/world/environment/utils/Geometry';
 import {
   IGameEntityStoreData,
   IWorldObjectStoreData,
 } from '../../../game/world/objects/new/interfaces';
+import { IPosition2 } from '../../../ts/interfaces';
 import { RootState } from '../../store';
 
 const gameEntitiesAdapter = createEntityAdapter<IGameEntityStoreData>({
@@ -38,6 +40,27 @@ const gameEntities = createSlice({
       gameEntitiesAdapter.updateOne(state, { id, changes: action.payload });
     },
 
+    setEntityPosition: (
+      state,
+      action: PayloadAction<{ id: EntityId; position: IPosition2 | null }>
+    ) => {
+      const { id, position } = action.payload;
+
+      const selectors = gameEntitiesAdapter.getSelectors();
+      const entity = selectors.selectById(state, id);
+      if (entity) {
+        gameEntitiesAdapter.updateOne(state, {
+          id,
+          changes: {
+            world: {
+              ...entity.world,
+              position: position ? { x: position.x, y: position.y } : null,
+            },
+          },
+        });
+      }
+    },
+
     placeInWorldGameEntity: (state, action: PayloadAction<EntityId>) => {
       const id = action.payload;
       gameEntitiesAdapter.updateOne(state, { id, changes: { inInventory: false } });
@@ -45,7 +68,17 @@ const gameEntities = createSlice({
 
     placeInInventoryGameEntity: (state, action: PayloadAction<EntityId>) => {
       const id = action.payload;
-      gameEntitiesAdapter.updateOne(state, { id, changes: { inInventory: true } });
+      const selectors = gameEntitiesAdapter.getSelectors();
+      const entity = selectors.selectById(state, id);
+      if (entity) {
+        gameEntitiesAdapter.updateOne(state, {
+          id,
+          changes: {
+            inInventory: true,
+            world: { ...entity.world, position: null },
+          },
+        });
+      }
       if (state.cardOpened.includes(id)) {
         state.cardOpened = state.cardOpened.filter((entityId) => entityId !== id);
       }
@@ -81,6 +114,7 @@ export const {
   updateEntityWorldData,
   placeInWorldGameEntity,
   placeInInventoryGameEntity,
+  setEntityPosition,
 } = gameEntities.actions;
 
 const adapterSelectors = gameEntitiesAdapter.getSelectors((state: RootState) => state.gameEntities);

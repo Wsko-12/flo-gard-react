@@ -1,3 +1,5 @@
+import { IPosition2 } from '../../../../ts/interfaces';
+
 const NUM_PREC = 4;
 
 export function roundNum(num: number, precision = NUM_PREC): number {
@@ -25,12 +27,24 @@ export class Point2 {
     return 0;
   }
 
+  set(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+
   public getCirclePoint(angle: number, radius = 1) {
     return new Point2(this.x + Math.cos(angle) * radius, this.y + Math.sin(angle) * radius);
   }
 
   getCordsArr(): [number, number] {
     return [this.x, this.y];
+  }
+
+  getPositionObject(): IPosition2 {
+    return {
+      x: this.x,
+      y: this.y,
+    };
   }
 }
 

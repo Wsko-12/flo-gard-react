@@ -1,18 +1,39 @@
 import { GROUND_SIZE } from '../../../../../environment/ground/Ground';
 import { Point2 } from '../../../../../environment/utils/Geometry';
 import World from '../../../../../World';
+import { EntityManager } from '../../../EntityManager';
 import { Collider } from '../Collider';
 
 export class CircleCollider extends Collider {
   position = new Point2(0, 0);
   r: number;
-  constructor(position: Point2, radius: number) {
+  constructor(radius: number) {
     super();
-    this.position = position;
     this.r = radius;
   }
+
   isCollision() {
-    return false;
+    const entities = EntityManager.getEntities();
+    for (let i = 0; i < entities.length; i++) {
+      const entity = entities[i];
+
+      if (entity.inInventory) {
+        continue;
+      }
+
+      const collider = entity.getCollider();
+      if (!collider || collider === this) {
+        continue;
+      }
+
+      if (collider instanceof CircleCollider) {
+        const isCollide = this.checkCircleCollider(collider);
+        if (isCollide) {
+          return entity;
+        }
+      }
+    }
+    return null;
   }
 
   checkCircleCollider(collider: CircleCollider) {

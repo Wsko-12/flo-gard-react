@@ -47,3 +47,5 @@ export const { setEntityOnMove, setEntityOnMoveCollision } = gameEntityOnEdit.ac
 export default gameEntityOnEdit.reducer;
 
 export const selectEntityOnMove = (state: RootState) => state.gameEntityOnEdit.onMove.id;
+export const selectEntityOnMoveIsCollision = (state: RootState) =>
+  state.gameEntityOnEdit.onMove.isCollision;

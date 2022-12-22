@@ -1,3 +1,4 @@
+import { ClickBoxScene } from '../../../../../world/ClickBoxScene/ClickBoxScene';
 import { Point2, Vector2 } from '../../../../../world/environment/utils/Geometry';
 import CameraOrbitController from '../CameraOrbitController';
 export interface ICustomMouseEvent {
@@ -163,12 +164,7 @@ export default class OrbitControllerHandler {
       e.preventDefault();
       if (e.button === 0) {
         if (e.timeStamp - this.mouse.clicked.timestamp < 150 && !this.mouse.clicked.moved) {
-          // ClickBoxScene.click(e.clientX, e.clientY);
-          // const event = OrbitControllerHandler.createPointerEvent('ECustomEvents.click', [
-          //     e.clientX,
-          //     e.clientY,
-          // ]);
-          // this.eventHandler?.dispatchEvent(event);
+          ClickBoxScene.click(e.clientX, e.clientY);
         }
         this.mouse.clicked.flag = false;
         this.mouse.clicked.moved = false;

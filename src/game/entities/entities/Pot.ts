@@ -7,6 +7,7 @@ export class Pot extends IndependentGameEntity {
     title: 'Pot',
   };
 
+  clickGeometry = new BoxGeometry();
   mesh = new Mesh(new BoxGeometry(), new MeshBasicMaterial());
   constructor() {
     super();

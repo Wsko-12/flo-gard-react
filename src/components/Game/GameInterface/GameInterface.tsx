@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import GrassMovingButton from './buttons/GrassMovingButton';
+import EntityCards from './Card/EntityCards';
 import Clocks from './Clocks/Clocks';
 import Inventory from './Inventory/Inventory';
 
@@ -9,6 +10,7 @@ const GameInterface = memo(() => {
       <GrassMovingButton />
       <Clocks />
       <Inventory />
+      <EntityCards />
     </div>
   );
 });

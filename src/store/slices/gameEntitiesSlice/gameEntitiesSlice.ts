@@ -38,15 +38,28 @@ const gameEntitiesSlice = createSlice({
       };
       gameEntitiesAdapter.updateOne(state.entities, update);
     },
+
+    toggleCardOpened: (state, action: PayloadAction<EntityId>) => {
+      const id = action.payload;
+      const index = state.cardOpened.indexOf(id);
+
+      if (index === -1) {
+        state.cardOpened.push(id);
+      } else {
+        state.cardOpened.splice(index, 1);
+      }
+    },
   },
 });
 
 export default gameEntitiesSlice.reducer;
 
-export const { addGameEntity, updateEntity } = gameEntitiesSlice.actions;
+export const { addGameEntity, updateEntity, toggleCardOpened } = gameEntitiesSlice.actions;
 const entityAdapterSelectors = gameEntitiesAdapter.getSelectors(
   (state: RootState) => state.gameEntities.entities
 );
 export const selectEntitiesIds = entityAdapterSelectors.selectIds;
 export const selectEntityById = (id: EntityId) => (state: RootState) =>
   entityAdapterSelectors.selectById(state, id);
+
+export const selectOpenedCardsIds = (state: RootState) => state.gameEntities.cardOpened;

@@ -39,7 +39,7 @@ const gameEntitiesSlice = createSlice({
       gameEntitiesAdapter.updateOne(state.entities, update);
     },
 
-    toggleCardOpened: (state, action: PayloadAction<EntityId>) => {
+    toggleEntityCardOpened: (state, action: PayloadAction<EntityId>) => {
       const id = action.payload;
       const index = state.cardOpened.indexOf(id);
 
@@ -69,8 +69,13 @@ const gameEntitiesSlice = createSlice({
 
 export default gameEntitiesSlice.reducer;
 
-export const { addGameEntity, updateEntity, toggleCardOpened, openEntityCard, closeEntityCard } =
-  gameEntitiesSlice.actions;
+export const {
+  addGameEntity,
+  updateEntity,
+  toggleEntityCardOpened,
+  openEntityCard,
+  closeEntityCard,
+} = gameEntitiesSlice.actions;
 const entityAdapterSelectors = gameEntitiesAdapter.getSelectors(
   (state: RootState) => state.gameEntities.entities
 );

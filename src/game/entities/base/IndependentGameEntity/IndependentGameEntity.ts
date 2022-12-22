@@ -2,7 +2,7 @@ import { BufferGeometry, Group, Mesh } from 'three';
 import {
   closeEntityCard,
   openEntityCard,
-  toggleCardOpened,
+  toggleEntityCardOpened,
 } from '../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { store } from '../../../../store/store';
 import { IPosition2 } from '../../../../ts/interfaces';
@@ -59,6 +59,6 @@ export abstract class IndependentGameEntity extends GameEntity {
   }
 
   private onClick = () => {
-    store.dispatch(toggleCardOpened(this.id));
+    store.dispatch(toggleEntityCardOpened(this.id));
   };
 }

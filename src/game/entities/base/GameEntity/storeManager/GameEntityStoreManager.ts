@@ -14,7 +14,7 @@ export class GameEntityStoreManager {
     this.unsubscribe = store.subscribe(this.storeListener);
   }
 
-  protected getState(): IEntityState {
+  public getState(): IEntityState {
     const { id, inInventory, inventoryData, isIndependent } = this.entity;
     return {
       id,
@@ -25,9 +25,8 @@ export class GameEntityStoreManager {
   }
 
   protected storeListener = () => {
-    const data = {} as IEntityState;
-
-    this.entity.inInventory = data.inInventory;
+    // const data = {} as IEntityState;
+    // this.entity.inInventory = data.inInventory;
   };
 
   update() {

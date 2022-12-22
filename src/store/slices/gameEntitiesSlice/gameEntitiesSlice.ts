@@ -1,4 +1,10 @@
-import { createEntityAdapter, createSlice, EntityId, EntityState } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSlice,
+  EntityId,
+  EntityState,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { IEntityState } from '../../../game/entities/base/GameEntity/GameEntity';
 
 const gameEntitiesAdapter = createEntityAdapter<IEntityState>({
@@ -18,7 +24,13 @@ const initialState: IGameEntitiesState = {
 const gameEntitiesSlice = createSlice({
   name: 'gameEntities',
   initialState,
-  reducers: {},
+  reducers: {
+    addGameEntity: (state, action: PayloadAction<IEntityState>) => {
+      gameEntitiesAdapter.addOne(state.entities, action.payload);
+    },
+  },
 });
 
 export default gameEntitiesSlice.reducer;
+
+export const { addGameEntity } = gameEntitiesSlice.actions;

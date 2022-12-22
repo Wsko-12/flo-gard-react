@@ -22,7 +22,7 @@ export abstract class GameEntity {
   public inInventory = true;
   abstract readonly inventoryData: IEntityInventoryData;
 
-  private storeManager: GameEntityStoreManager;
+  public storeManager: GameEntityStoreManager;
 
   constructor() {
     this.id = generateEntityId();

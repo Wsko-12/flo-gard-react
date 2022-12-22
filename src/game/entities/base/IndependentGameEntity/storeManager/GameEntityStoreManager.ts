@@ -1,8 +1,7 @@
-import { IEntityState } from '../../GameEntity/GameEntity';
 import { GameEntityStoreManager } from '../../GameEntity/storeManager/GameEntityStoreManager';
 import { IIndependentEntityState, IndependentGameEntity } from '../IndependentGameEntity';
 
-export abstract class IndependentGameEntityStoreManager extends GameEntityStoreManager {
+export class IndependentGameEntityStoreManager extends GameEntityStoreManager {
   entity: IndependentGameEntity;
 
   constructor(entity: IndependentGameEntity) {
@@ -10,7 +9,7 @@ export abstract class IndependentGameEntityStoreManager extends GameEntityStoreM
     this.entity = entity;
   }
 
-  protected getState(): IIndependentEntityState {
+  public getState(): IIndependentEntityState {
     const base = super.getState();
 
     const { position } = this.entity;
@@ -21,9 +20,8 @@ export abstract class IndependentGameEntityStoreManager extends GameEntityStoreM
   }
 
   protected storeListener = () => {
-    const data = {} as IEntityState;
-
-    this.entity.inInventory = data.inInventory;
+    // const data = {} as IEntityState;
+    // this.entity.inInventory = data.inInventory;
   };
 
   update() {

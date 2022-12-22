@@ -6,6 +6,7 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import { IEntityState } from '../../../game/entities/base/GameEntity/GameEntity';
+import { RootState } from '../../store';
 
 const gameEntitiesAdapter = createEntityAdapter<IEntityState>({
   selectId: (entity) => entity.id,
@@ -34,3 +35,9 @@ const gameEntitiesSlice = createSlice({
 export default gameEntitiesSlice.reducer;
 
 export const { addGameEntity } = gameEntitiesSlice.actions;
+const entityAdapterSelectors = gameEntitiesAdapter.getSelectors(
+  (state: RootState) => state.gameEntities.entities
+);
+export const selectEntitiesIds = entityAdapterSelectors.selectIds;
+export const selectEntityById = (id: EntityId) => (state: RootState) =>
+  entityAdapterSelectors.selectById(state, id);

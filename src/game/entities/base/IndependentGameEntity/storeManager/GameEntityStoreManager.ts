@@ -11,7 +11,6 @@ export class IndependentGameEntityStoreManager extends GameEntityStoreManager {
 
   public getState(): IIndependentEntityState {
     const base = super.getState();
-
     const { position } = this.entity;
     return {
       ...base,

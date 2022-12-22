@@ -1,6 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 import { Group, Mesh } from 'three';
 import { generateEntityId } from '../../../../utils/utils';
+import { EntityManager } from '../../EntityManager';
 import { GameEntityStoreManager } from './storeManager/GameEntityStoreManager';
 
 export interface IEntityInventoryData {
@@ -27,6 +28,10 @@ export abstract class GameEntity {
   constructor() {
     this.id = generateEntityId();
     this.storeManager = new GameEntityStoreManager(this);
+  }
+
+  public init() {
+    EntityManager.addEntity(this);
   }
 
   public placeInWorld() {

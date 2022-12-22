@@ -15,11 +15,13 @@ const gameEntitiesAdapter = createEntityAdapter<IEntityState>({
 interface IGameEntitiesState {
   entities: EntityState<IEntityState>;
   cardOpened: EntityId[];
+  onMove: EntityId | null;
 }
 
 const initialState: IGameEntitiesState = {
   entities: gameEntitiesAdapter.getInitialState(),
   cardOpened: [],
+  onMove: null,
 };
 
 const gameEntitiesSlice = createSlice({
@@ -64,6 +66,16 @@ const gameEntitiesSlice = createSlice({
         state.cardOpened.splice(index, 1);
       }
     },
+
+    setEntityOnMove: (state, action: PayloadAction<EntityId>) => {
+      state.onMove = action.payload;
+    },
+
+    deleteEntityOnMove: (state, action: PayloadAction<EntityId>) => {
+      if (state.onMove === action.payload) {
+        state.onMove = null;
+      }
+    },
   },
 });
 
@@ -75,6 +87,8 @@ export const {
   toggleEntityCardOpened,
   openEntityCard,
   closeEntityCard,
+  setEntityOnMove,
+  deleteEntityOnMove,
 } = gameEntitiesSlice.actions;
 const entityAdapterSelectors = gameEntitiesAdapter.getSelectors(
   (state: RootState) => state.gameEntities.entities
@@ -84,3 +98,5 @@ export const selectEntityById = (id: EntityId) => (state: RootState) =>
   entityAdapterSelectors.selectById(state, id);
 
 export const selectOpenedCardsIds = (state: RootState) => state.gameEntities.cardOpened;
+
+export const selectEntityOnMove = (state: RootState) => state.gameEntities.onMove;

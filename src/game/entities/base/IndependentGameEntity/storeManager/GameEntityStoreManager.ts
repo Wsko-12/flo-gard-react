@@ -1,3 +1,8 @@
+import {
+  selectEntityById,
+  selectEntityOnMove,
+} from '../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
+import { store } from '../../../../../store/store';
 import { GameEntityStoreManager } from '../../GameEntity/storeManager/GameEntityStoreManager';
 import { IIndependentEntityState, IndependentGameEntity } from '../IndependentGameEntity';
 
@@ -7,6 +12,7 @@ export class IndependentGameEntityStoreManager extends GameEntityStoreManager {
   constructor(entity: IndependentGameEntity) {
     super(entity);
     this.entity = entity;
+    this.subscribe();
   }
 
   public getState(): IIndependentEntityState {
@@ -18,10 +24,15 @@ export class IndependentGameEntityStoreManager extends GameEntityStoreManager {
     };
   }
 
-  protected storeListener = () => {
-    // const data = {} as IEntityState;
-    // this.entity.inInventory = data.inInventory;
-  };
+  protected storeListener() {
+    const globalState = store.getState();
+    const state = selectEntityById(this.entity.id)(globalState);
+
+    const onMove = selectEntityOnMove(globalState) === this.entity.id;
+    this.entity.setIsOnMove(onMove);
+
+    super.storeListener(state);
+  }
 
   // update() {
   //   // const data = this.getState();

@@ -13,6 +13,7 @@ import styles from './draggable-card.module.scss';
 interface IDraggableCardProps {
   children: ReactNode;
   closeCb: () => void;
+  visible?: boolean;
 }
 
 export const useDraggable = (
@@ -95,12 +96,15 @@ export const useDraggable = (
   };
 };
 
-const DraggableCard = memo<IDraggableCardProps>(({ children, closeCb }) => {
+const DraggableCard = memo<IDraggableCardProps>(({ children, closeCb, visible = true }) => {
   const headerRef = useRef<HTMLElement>(null);
   const { x, y, bind: bindDrag } = useDraggable(headerRef);
 
   return (
-    <div className={styles.card} style={{ transform: `translate(${x}px, ${y}px)` }}>
+    <div
+      className={styles.card}
+      style={{ transform: `translate(${x}px, ${y}px)`, display: visible ? 'block' : 'none' }}
+    >
       <header ref={headerRef} {...bindDrag}>
         <div className={styles.drag}>
           <span className={`material-symbols-outlined`}>drag_indicator</span>

@@ -21,6 +21,10 @@ export class ClickBox {
     ClickBoxScene.removeClickBox(this);
   }
 
+  setPosition(x: number, y: number) {
+    this.mesh.position.set(x, 0, y);
+  }
+
   public getMesh() {
     return this.mesh;
   }

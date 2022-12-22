@@ -1,14 +1,14 @@
-import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three';
+import { Mesh, MeshBasicMaterial, SphereGeometry } from 'three';
 import { IEntityInventoryData } from '../base/GameEntity/GameEntity';
 import { IndependentGameEntity } from '../base/IndependentGameEntity/IndependentGameEntity';
 
-export class Pot extends IndependentGameEntity {
+export class Sphere extends IndependentGameEntity {
   inventoryData: IEntityInventoryData = {
-    title: 'Pot',
+    title: 'Sphere',
   };
 
-  clickGeometry = new BoxGeometry();
-  mesh = new Mesh(new BoxGeometry(), new MeshBasicMaterial());
+  clickGeometry = new SphereGeometry();
+  mesh = new Mesh(new SphereGeometry(), new MeshBasicMaterial());
   constructor() {
     super();
     this.init();

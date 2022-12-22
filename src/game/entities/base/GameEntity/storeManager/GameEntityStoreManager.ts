@@ -1,4 +1,7 @@
-import { updateEntity } from '../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
+import {
+  selectEntityById,
+  updateEntity,
+} from '../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { store } from '../../../../../store/store';
 import { GameEntity, IEntityState } from '../GameEntity';
 
@@ -7,12 +10,12 @@ export class GameEntityStoreManager {
   unsubscribe = () => {};
   constructor(entity: GameEntity) {
     this.entity = entity;
-
     this.subscribe();
   }
 
-  private subscribe() {
-    this.unsubscribe = store.subscribe(this.storeListener);
+  protected subscribe() {
+    this.unsubscribe();
+    this.unsubscribe = store.subscribe(() => this.storeListener());
   }
 
   public getState(): IEntityState {
@@ -25,10 +28,16 @@ export class GameEntityStoreManager {
     };
   }
 
-  protected storeListener = () => {
-    // const data = selectEntityById();
-    // this.entity.inInventory = data.inInventory;
-  };
+  protected storeListener(state?: IEntityState) {
+    if (!state) {
+      const globalState = store.getState();
+      state = selectEntityById(this.entity.id)(globalState);
+    }
+
+    if (!state) {
+      return;
+    }
+  }
 
   updateState() {
     store.dispatch(updateEntity(this.getState()));

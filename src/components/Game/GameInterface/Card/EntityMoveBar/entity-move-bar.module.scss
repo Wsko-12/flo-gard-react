@@ -1,0 +1,31 @@
+.container {
+    position: fixed;
+    display: flex;
+    gap: 10px;
+    top: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    & > button {
+        background-color: white;
+        border-radius: 100px;
+        width: 35px;
+        height: 35px;
+        border: 1px solid black;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        & span {
+            font-size: 25px;
+            margin: auto;
+        }
+
+    }
+    .apply {
+        color: lightgreen;
+    }
+
+    .cancel {
+        color: crimson;
+    }
+}

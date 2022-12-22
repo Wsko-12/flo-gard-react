@@ -36,12 +36,12 @@ export abstract class GameEntity {
 
   public placeInWorld() {
     this.inInventory = false;
-    this.storeManager.update();
+    this.storeManager.updateState();
   }
 
   public placeInInventory() {
     this.inInventory = true;
-    this.storeManager.update();
+    this.storeManager.updateState();
   }
 
   public getMesh() {

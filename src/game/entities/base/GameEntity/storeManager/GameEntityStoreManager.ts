@@ -1,3 +1,4 @@
+import { updateEntity } from '../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { store } from '../../../../../store/store';
 import { GameEntity, IEntityState } from '../GameEntity';
 
@@ -25,11 +26,11 @@ export class GameEntityStoreManager {
   }
 
   protected storeListener = () => {
-    // const data = {} as IEntityState;
+    // const data = selectEntityById();
     // this.entity.inInventory = data.inInventory;
   };
 
-  update() {
-    // store.dispatch(...)
+  updateState() {
+    store.dispatch(updateEntity(this.getState()));
   }
 }

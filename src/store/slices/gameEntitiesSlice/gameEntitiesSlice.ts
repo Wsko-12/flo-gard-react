@@ -29,12 +29,21 @@ const gameEntitiesSlice = createSlice({
     addGameEntity: (state, action: PayloadAction<IEntityState>) => {
       gameEntitiesAdapter.addOne(state.entities, action.payload);
     },
+
+    updateEntity: (state, action: PayloadAction<IEntityState>) => {
+      const { id } = action.payload;
+      const update = {
+        id,
+        changes: action.payload,
+      };
+      gameEntitiesAdapter.updateOne(state.entities, update);
+    },
   },
 });
 
 export default gameEntitiesSlice.reducer;
 
-export const { addGameEntity } = gameEntitiesSlice.actions;
+export const { addGameEntity, updateEntity } = gameEntitiesSlice.actions;
 const entityAdapterSelectors = gameEntitiesAdapter.getSelectors(
   (state: RootState) => state.gameEntities.entities
 );

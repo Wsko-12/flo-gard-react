@@ -23,8 +23,8 @@ export class IndependentGameEntityStoreManager extends GameEntityStoreManager {
     // this.entity.inInventory = data.inInventory;
   };
 
-  update() {
-    // const data = this.getState();
-    // store.dispatch(...)
-  }
+  // update() {
+  //   // const data = this.getState();
+  //   // store.dispatch(...)
+  // }
 }

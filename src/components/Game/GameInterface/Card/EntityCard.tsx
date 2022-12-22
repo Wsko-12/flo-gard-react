@@ -18,8 +18,9 @@ const EntityCard = memo<IEntityCardProps>(({ id }) => {
   }
 
   return (
-    <DraggableCard closeCb={() => entityInstance.openCard()}>
+    <DraggableCard closeCb={() => entityInstance.closeCard()}>
       <p>{entityState.id}</p>
+      <button onClick={() => entityInstance.placeInInventory()}>To Inventory</button>
     </DraggableCard>
   );
 });

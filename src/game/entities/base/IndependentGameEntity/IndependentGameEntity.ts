@@ -1,5 +1,9 @@
 import { BufferGeometry, Group, Mesh } from 'three';
-import { toggleCardOpened } from '../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
+import {
+  closeEntityCard,
+  openEntityCard,
+  toggleCardOpened,
+} from '../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { store } from '../../../../store/store';
 import { IPosition2 } from '../../../../ts/interfaces';
 import { Point2 } from '../../../world/environment/utils/Geometry';
@@ -32,16 +36,29 @@ export abstract class IndependentGameEntity extends GameEntity {
   }
 
   public placeInWorld() {
+    this.openCard();
     World.getScene().add(this.mesh);
     this.clickBox?.add();
     super.placeInWorld();
   }
 
+  public placeInInventory() {
+    this.closeCard();
+    World.getScene().remove(this.mesh);
+    this.clickBox?.remove();
+    this.position = null;
+    super.placeInInventory();
+  }
+
   public openCard() {
-    store.dispatch(toggleCardOpened(this.id));
+    store.dispatch(openEntityCard(this.id));
+  }
+
+  public closeCard() {
+    store.dispatch(closeEntityCard(this.id));
   }
 
   private onClick = () => {
-    this.openCard();
+    store.dispatch(toggleCardOpened(this.id));
   };
 }

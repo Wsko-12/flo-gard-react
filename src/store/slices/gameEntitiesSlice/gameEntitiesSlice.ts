@@ -49,12 +49,28 @@ const gameEntitiesSlice = createSlice({
         state.cardOpened.splice(index, 1);
       }
     },
+
+    openEntityCard: (state, action: PayloadAction<EntityId>) => {
+      const id = action.payload;
+      if (!state.cardOpened.includes(id)) {
+        state.cardOpened.push(id);
+      }
+    },
+
+    closeEntityCard: (state, action: PayloadAction<EntityId>) => {
+      const id = action.payload;
+      const index = state.cardOpened.indexOf(id);
+      if (index !== -1) {
+        state.cardOpened.splice(index, 1);
+      }
+    },
   },
 });
 
 export default gameEntitiesSlice.reducer;
 
-export const { addGameEntity, updateEntity, toggleCardOpened } = gameEntitiesSlice.actions;
+export const { addGameEntity, updateEntity, toggleCardOpened, openEntityCard, closeEntityCard } =
+  gameEntitiesSlice.actions;
 const entityAdapterSelectors = gameEntitiesAdapter.getSelectors(
   (state: RootState) => state.gameEntities.entities
 );

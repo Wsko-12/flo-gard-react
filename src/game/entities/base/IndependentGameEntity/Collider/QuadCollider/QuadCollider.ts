@@ -67,9 +67,6 @@ export class QuadCollider extends Collider {
     if (collider instanceof CircleCollider) {
       const quad = new Quad(points);
       const circle = new Circle(collider.position, collider.r);
-      if (quad.isCircleIn(circle)) {
-        console.log(quad, circle);
-      }
       return quad.isCircleIn(circle);
     }
     return false;

@@ -4,6 +4,7 @@ import { Circle, Point2 } from '../../../../../world/environment/utils/Geometry'
 import { EntityManager } from '../../../../EntityManager';
 import { IndependentGameEntity } from '../../IndependentGameEntity';
 import { Collider } from '../Collider';
+import { QuadCollider } from '../QuadCollider/QuadCollider';
 
 export class CircleCollider extends Collider {
   public r: number;
@@ -45,6 +46,9 @@ export class CircleCollider extends Collider {
   private checkCollision(collider: Collider) {
     if (collider instanceof CircleCollider) {
       return this.checkCircleCollider(collider);
+    }
+    if (collider instanceof QuadCollider) {
+      return collider.checkCollision(this);
     }
     return false;
   }

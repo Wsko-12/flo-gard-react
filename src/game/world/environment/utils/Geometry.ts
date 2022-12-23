@@ -381,7 +381,6 @@ export class Quad {
     for (let i = 0; i < thisPoints.length; i++) {
       const point = thisPoints[i];
       if (circle.isPointIn(point)) {
-        console.log('FIRST');
         return true;
       }
     }
@@ -391,15 +390,12 @@ export class Quad {
     for (let i = 0; i < thisPoints.length; i++) {
       const line = thisLines[i];
       if (line.isIntersectsCircle(circle)) {
-        console.log('SECOND', i);
-
         return true;
       }
     }
 
     // then check center circle inside Quad;
     if (this.isPointIn(circle.center)) {
-      console.log('THIRD');
       return true;
     }
 

@@ -19,10 +19,10 @@ const EntityMoveBar = memo<IEntityMoveBarProps>(({ id }) => {
     <div className={styles.container}>
       {isRotate && (
         <div>
-          <button className={styles.rotate}>
+          <button className={styles.rotate} onClick={() => entityInstance.rotate(-1)}>
             <span className="material-symbols-outlined">rotate_right</span>
           </button>
-          <button className={styles.rotate}>
+          <button className={styles.rotate} onClick={() => entityInstance.rotate(1)}>
             <span className="material-symbols-outlined">rotate_left</span>
           </button>
         </div>

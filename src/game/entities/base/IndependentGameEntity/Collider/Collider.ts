@@ -10,10 +10,13 @@ export abstract class Collider {
     wireframe: true,
   });
   public position = new Point2(0, 0);
+  public rotation = 0;
 
-  public setPosition(x: number, y: number) {
+  public setPosition(x: number, y: number, angle: number) {
     this.position.set(x, y);
     this.mesh.position.set(x, 0.001, y);
+    this.mesh.rotation.set(0, angle, 0);
+    this.rotation = angle;
   }
 
   abstract isCollision(): GameEntity | null;

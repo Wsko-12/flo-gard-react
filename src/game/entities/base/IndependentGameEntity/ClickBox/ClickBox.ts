@@ -21,8 +21,9 @@ export class ClickBox {
     ClickBoxScene.removeClickBox(this);
   }
 
-  setPosition(x: number, y: number) {
+  setPosition(x: number, y: number, angle: number) {
     this.mesh.position.set(x, 0, y);
+    this.mesh.rotation.set(0, angle, 0);
   }
 
   public getMesh() {

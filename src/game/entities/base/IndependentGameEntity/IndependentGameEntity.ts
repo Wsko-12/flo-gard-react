@@ -30,6 +30,7 @@ export abstract class IndependentGameEntity extends GameEntity {
   public readonly isIndependent = true;
   public position: Point2 | null = null;
   private meshPosition: Point2 = new Point2(0, 0);
+  private meshRotation = 0;
   public isOnMove = false;
   public abstract isRotate: boolean;
 
@@ -86,11 +87,14 @@ export abstract class IndependentGameEntity extends GameEntity {
     store.dispatch(toggleEntityCardOpened(this.id));
   };
 
-  private setMeshPosition(x: number, y: number) {
+  private setMeshPosition(x: number, y: number, angle: number) {
     this.meshPosition.set(x, y);
+    this.meshRotation = angle;
+
     this.mesh.position.set(x, 0, y);
-    this.clickBox?.setPosition(x, y);
-    this.collider.setPosition(x, y);
+    this.mesh.rotation.set(0, angle, 0);
+    this.clickBox?.setPosition(x, y, angle);
+    this.collider.setPosition(x, y, angle);
   }
 
   public setIsOnMove(flag: boolean, callPlaceInInventory = true) {
@@ -106,7 +110,7 @@ export abstract class IndependentGameEntity extends GameEntity {
       } else {
         if (this.position) {
           const { x, y } = this.position;
-          this.setMeshPosition(x, y);
+          this.setMeshPosition(x, y, 0);
         }
 
         store.dispatch(deleteEntityOnMove(this.id));
@@ -120,12 +124,13 @@ export abstract class IndependentGameEntity extends GameEntity {
     }
 
     const { x, y } = this.meshPosition;
+    const angle = this.meshRotation;
     if (!this.position) {
       this.position = new Point2(x, y);
     } else {
       this.position.set(x, y);
     }
-    this.setMeshPosition(x, y);
+    this.setMeshPosition(x, y, angle);
     Environment.pressGrassByEntities();
     this.storeManager.updateState();
     this.setIsOnMove(false);
@@ -136,7 +141,12 @@ export abstract class IndependentGameEntity extends GameEntity {
       return;
     }
     const { x, z } = GameStore.cameraTarget;
-    this.setMeshPosition(x, z);
+    this.setMeshPosition(x, z, this.meshRotation);
+  }
+
+  public rotate(dir: 1 | -1) {
+    const angle = (Math.PI / 8) * dir;
+    this.meshRotation += angle;
   }
 
   private moveCb = () => this.move();

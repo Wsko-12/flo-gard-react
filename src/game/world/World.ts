@@ -16,6 +16,7 @@ export default class World {
     new Sphere();
     new Sphere();
     new Cube();
+    new Cube();
   }
 
   static getScene() {

@@ -30,10 +30,11 @@ export class QuadCollider extends Collider {
     const array = Array.from(geometry.getAttribute('position').array);
     const A = array.splice(0, 3);
     const B = array.splice(0, 3);
-    // here C must be first;
-    const C = array.splice(0, 3);
+    // here D must be first;
     const D = array.splice(0, 3);
+    const C = array.splice(0, 3);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return [A, B, C, D].map(([x, _, y]) => new Point2(x, y)) as [Point2, Point2, Point2, Point2];
   }
 
@@ -61,13 +62,26 @@ export class QuadCollider extends Collider {
     }
     return null;
   }
+  private checkCircleCollider(collider: CircleCollider) {
+    const points = this.getPoints();
+    const quad = new Quad(points);
+    const circle = new Circle(collider.position, collider.r);
+    return quad.isCircleIn(circle);
+  }
+
+  private checkQuadCollider(collider: QuadCollider) {
+    const points = this.getPoints();
+    const thisQuad = new Quad(points);
+    const colliderQuad = new Quad(collider.getPoints());
+    return thisQuad.isQuadIn(colliderQuad);
+  }
 
   checkCollision(collider: Collider) {
-    const points = this.getPoints();
     if (collider instanceof CircleCollider) {
-      const quad = new Quad(points);
-      const circle = new Circle(collider.position, collider.r);
-      return quad.isCircleIn(circle);
+      return this.checkCircleCollider(collider);
+    }
+    if (collider instanceof QuadCollider) {
+      return this.checkQuadCollider(collider);
     }
     return false;
   }

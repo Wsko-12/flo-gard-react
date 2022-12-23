@@ -27,6 +27,8 @@ export class Cube extends IndependentGameEntity {
     }
     super.move();
     const isCollision = this.collider.isCollision();
-    this.mesh.material.transparent = !!isCollision;
+    if (this.mesh.material.transparent != !!isCollision) {
+      this.mesh.material.transparent = !!isCollision;
+    }
   }
 }

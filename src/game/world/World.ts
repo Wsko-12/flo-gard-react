@@ -14,6 +14,7 @@ export default class World {
     Environment.init();
 
     new Sphere();
+    new Sphere();
     new Cube();
   }
 

@@ -16,8 +16,7 @@ export abstract class Collider {
     this.mesh.position.set(x, 0.001, y);
   }
 
-  //abstract isCollision(): GameEntity | null;
-  abstract isCollision(): boolean;
+  abstract isCollision(): GameEntity | null;
   abstract pressGrass(
     ctx: CanvasRenderingContext2D,
     resolution: number,

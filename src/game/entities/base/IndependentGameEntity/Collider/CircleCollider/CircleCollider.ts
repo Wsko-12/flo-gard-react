@@ -1,6 +1,6 @@
 import { CircleGeometry, Mesh } from 'three';
 import { GROUND_SIZE } from '../../../../../world/environment/ground/Ground';
-import { Point2 } from '../../../../../world/environment/utils/Geometry';
+import { Circle, Point2 } from '../../../../../world/environment/utils/Geometry';
 import { EntityManager } from '../../../../EntityManager';
 import { IndependentGameEntity } from '../../IndependentGameEntity';
 import { Collider } from '../Collider';
@@ -36,12 +36,10 @@ export class CircleCollider extends Collider {
 
       const isCollide = this.checkCollision(collider);
       if (isCollide) {
-        // return entity;
-        return true;
+        return entity;
       }
     }
-    // return null;
-    return false;
+    return null;
   }
 
   private checkCollision(collider: Collider) {
@@ -52,9 +50,9 @@ export class CircleCollider extends Collider {
   }
 
   private checkCircleCollider(collider: CircleCollider) {
-    const distance = this.position.getDistanceTo(collider.position);
-    const rSum = this.r + collider.r;
-    return distance < rSum;
+    const thisCircle = new Circle(this.position, this.r);
+    const colliderCircle = new Circle(collider.position, collider.r);
+    return thisCircle.isCircleIn(colliderCircle);
   }
 
   public pressGrass(

@@ -236,13 +236,18 @@ export class Line {
     }
 
     const lineVector = new Vector2(this.end.x - this.start.x, this.end.y - this.start.y);
+    const far =
+      this.start.getDistanceTo(circle.center) < this.end.getDistanceTo(circle.center)
+        ? this.end
+        : this.start;
 
-    const O = this.start;
+    const O = far;
     const C = circle.center;
     const OC = new Vector2(C.x - O.x, C.y - O.y);
 
     const OT_length = lineVector.normalize().dot(OC);
-    if (OT_length > this.getLength()) {
+
+    if (Math.abs(OT_length) > this.getLength()) {
       return false;
     }
     const CT_length = Math.sqrt(OC.getLength() ** 2 - OT_length ** 2);
@@ -376,6 +381,7 @@ export class Quad {
     for (let i = 0; i < thisPoints.length; i++) {
       const point = thisPoints[i];
       if (circle.isPointIn(point)) {
+        console.log('FIRST');
         return true;
       }
     }
@@ -385,12 +391,15 @@ export class Quad {
     for (let i = 0; i < thisPoints.length; i++) {
       const line = thisLines[i];
       if (line.isIntersectsCircle(circle)) {
+        console.log('SECOND', i);
+
         return true;
       }
     }
 
     // then check center circle inside Quad;
     if (this.isPointIn(circle.center)) {
+      console.log('THIRD');
       return true;
     }
 

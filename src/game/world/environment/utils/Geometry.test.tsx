@@ -269,6 +269,18 @@ describe('Geometry', () => {
         const circle = new Circle(center, 1);
         expect(quad.isCircleIn(circle)).toBe(true);
       }
+      {
+        const A = new Point2(0.9155105948448181, 0.7797432541847229);
+        const B = new Point2(1.9155105352401733, 0.7797432541847229);
+        const C = new Point2(0.9155105948448181, -0.2202567458152771);
+        const D = new Point2(1.9155105352401733, -0.2202567458152771);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const center = new Point2(0, 0);
+        const circle = new Circle(center, 0.5);
+        expect(quad.isCircleIn(circle)).toBe(false);
+      }
     });
   });
 
@@ -349,6 +361,15 @@ describe('Geometry', () => {
         const line = new Line(A, B);
         const center = new Point2(0, 0);
         const circle = new Circle(center, 1);
+        expect(line.isIntersectsCircle(circle)).toBe(false);
+      }
+      {
+        const C = new Point2(0.9155105948448181, -0.2202567458152771);
+        const D = new Point2(1.9155105352401733, -0.2202567458152771);
+
+        const line = new Line(C, D);
+        const center = new Point2(0, 0);
+        const circle = new Circle(center, 0.5);
         expect(line.isIntersectsCircle(circle)).toBe(false);
       }
     });

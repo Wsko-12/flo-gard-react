@@ -5,10 +5,10 @@ import { IndependentGameEntity } from '../base/IndependentGameEntity/Independent
 
 export class Cube extends IndependentGameEntity {
   collider = new QuadCollider([
-    [-1, 1],
-    [1, 1],
-    [-1, -1],
-    [1, -1],
+    [-0.5, 0.5],
+    [0.5, 0.5],
+    [-0.5, -0.5],
+    [0.5, -0.5],
   ]);
   inventoryData: IEntityInventoryData = {
     title: 'Cube',

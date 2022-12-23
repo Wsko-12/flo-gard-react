@@ -1,5 +1,8 @@
 import { Mesh, PlaneGeometry, Vector3 } from 'three';
-import { Point2 } from '../../../../../world/environment/utils/Geometry';
+import { Circle, Point2, Quad } from '../../../../../world/environment/utils/Geometry';
+import { EntityManager } from '../../../../EntityManager';
+import { IndependentGameEntity } from '../../IndependentGameEntity';
+import { CircleCollider } from '../CircleCollider/CircleCollider';
 import { Collider } from '../Collider';
 
 export class QuadCollider extends Collider {
@@ -21,23 +24,55 @@ export class QuadCollider extends Collider {
     this.mesh = new Mesh(plane, Collider.material);
   }
 
-  getPoints() {
+  getPoints(): [Point2, Point2, Point2, Point2] {
     const geometry = this.mesh.geometry.clone();
     geometry.translate(this.position.x, 0, this.position.y);
     const array = Array.from(geometry.getAttribute('position').array);
-    const points: number[][] = [];
-    for (let i = 0; i < 4; i++) {
-      const point = array.splice(0, 3);
-      points.push(point);
-    }
+    const A = array.splice(0, 3);
+    const B = array.splice(0, 3);
+    // here C must be first;
+    const C = array.splice(0, 3);
+    const D = array.splice(0, 3);
 
-    return points.map(([x, _, y]) => new Point2(x, y));
+    return [A, B, C, D].map(([x, _, y]) => new Point2(x, y)) as [Point2, Point2, Point2, Point2];
   }
 
   isCollision() {
+    const entities = EntityManager.getEntities();
+    for (let i = 0; i < entities.length; i++) {
+      const entity = entities[i];
+      if (entity.inInventory) {
+        continue;
+      }
+      if (!(entity instanceof IndependentGameEntity)) {
+        continue;
+      }
+
+      const collider = entity.getCollider();
+
+      if (collider === this) {
+        continue;
+      }
+
+      const isCollide = this.checkCollision(collider);
+      if (isCollide) {
+        return entity;
+      }
+    }
+    return null;
+  }
+
+  checkCollision(collider: Collider) {
     const points = this.getPoints();
-    console.log(points);
-    return true;
+    if (collider instanceof CircleCollider) {
+      const quad = new Quad(points);
+      const circle = new Circle(collider.position, collider.r);
+      if (quad.isCircleIn(circle)) {
+        console.log(quad, circle);
+      }
+      return quad.isCircleIn(circle);
+    }
+    return false;
   }
   pressGrass() {}
 }

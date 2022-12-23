@@ -46,6 +46,10 @@ export class Point2 {
       y: this.y,
     };
   }
+
+  clone() {
+    return new Point2(this.x, this.y);
+  }
 }
 
 export class Point3 {
@@ -178,5 +182,77 @@ export class Vector3 {
     this.z *= scalar;
     this.length = this.getLength();
     return this;
+  }
+}
+
+export class Line {
+  start: Point2;
+  end: Point2;
+  constructor(start: Point2, end: Point2) {
+    this.start = start;
+    this.end = end;
+  }
+
+  getLength() {
+    const x = this.start.x - this.end.x;
+    const y = this.start.y - this.end.y;
+    return Math.sqrt(x ** 2 + y ** 2);
+  }
+}
+
+export class Triangle {
+  A: Point2;
+  B: Point2;
+  C: Point2;
+
+  a: Line;
+  b: Line;
+  c: Line;
+
+  constructor(points: [Point2, Point2, Point2]) {
+    //http://joxi.ru/eAOyMgoIE4ekwm
+    //https://microexcel.ru/vysota-treugolnika-formuly/
+
+    this.A = points[0].clone();
+    this.B = points[1].clone();
+    this.C = points[2].clone();
+
+    this.a = new Line(this.A, this.C);
+    this.b = new Line(this.A, this.B);
+    this.c = new Line(this.B, this.C);
+  }
+
+  getHalfPerimeter() {
+    const a = this.a.getLength();
+    const b = this.b.getLength();
+    const c = this.c.getLength();
+
+    return (a + b + c) / 2;
+  }
+
+  getHeight() {
+    const p = this.getHalfPerimeter();
+    const a = this.a.getLength();
+    const b = this.b.getLength();
+    const c = this.c.getLength();
+    const h = (2 * Math.sqrt(p * (p - a) * (p - b) * (p - c))) / a;
+    return h;
+  }
+
+  getSquare() {
+    const a = this.a.getLength();
+    const h = this.getHeight();
+    return 0.5 * a * h;
+  }
+
+  isPointIn(point: Point2) {
+    const origSquare = this.getSquare();
+
+    const triangle_1 = new Triangle([point, this.A, this.B]);
+    const triangle_2 = new Triangle([point, this.B, this.C]);
+    const triangle_3 = new Triangle([point, this.C, this.A]);
+
+    const sumSquare = triangle_1.getSquare() + triangle_2.getSquare() + triangle_3.getSquare();
+    return Math.abs(origSquare - sumSquare) < 0.00000001;
   }
 }

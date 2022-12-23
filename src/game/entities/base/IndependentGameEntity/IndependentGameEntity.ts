@@ -155,7 +155,7 @@ export abstract class IndependentGameEntity extends GameEntity {
   }
 
   public rotate(dir: 1 | -1) {
-    const angle = (Math.PI / 8) * dir;
+    const angle = (Math.PI / 16) * dir;
     this.meshRotation += angle;
   }
 
@@ -166,6 +166,6 @@ export abstract class IndependentGameEntity extends GameEntity {
   }
 
   public pressGrass(ctx: CanvasRenderingContext2D, resolution: number) {
-    this.collider.pressGrass(ctx, resolution, this.placed.position);
+    this.collider.pressGrass(ctx, resolution, this.placed.position, this.placed.angle);
   }
 }

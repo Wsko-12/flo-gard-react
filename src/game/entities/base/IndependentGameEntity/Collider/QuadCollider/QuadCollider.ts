@@ -1,4 +1,5 @@
 import { Mesh, PlaneGeometry, Vector3 } from 'three';
+import { GROUND_SIZE } from '../../../../../world/environment/ground/Ground';
 import { Circle, Point2, Quad } from '../../../../../world/environment/utils/Geometry';
 import { EntityManager } from '../../../../EntityManager';
 import { IndependentGameEntity } from '../../IndependentGameEntity';
@@ -24,10 +25,18 @@ export class QuadCollider extends Collider {
     this.mesh = new Mesh(plane, Collider.material);
   }
 
-  getPoints(): [Point2, Point2, Point2, Point2] {
+  getPoints(position?: Point2 | null, rotation?: number): [Point2, Point2, Point2, Point2] {
     const geometry = this.mesh.geometry.clone();
-    geometry.rotateY(this.rotation);
-    geometry.translate(this.position.x, 0, this.position.y);
+    if (position && rotation !== undefined) {
+      // its only for grass paint
+      const scale = 1.25;
+      geometry.scale(scale, scale, scale);
+      geometry.rotateY(rotation);
+      geometry.translate(position.x, 0, position.y);
+    } else {
+      geometry.rotateY(this.rotation);
+      geometry.translate(this.position.x, 0, this.position.y);
+    }
     const array = Array.from(geometry.getAttribute('position').array);
     const A = array.splice(0, 3);
     const B = array.splice(0, 3);
@@ -86,5 +95,34 @@ export class QuadCollider extends Collider {
     }
     return false;
   }
-  pressGrass() {}
+  pressGrass(
+    ctx: CanvasRenderingContext2D,
+    resolution: number,
+    position: Point2 | null,
+    rotation: number
+  ) {
+    if (!position) {
+      return;
+    }
+    const points = this.getPoints(position, rotation);
+    for (let i = 0; i <= points.length; i++) {
+      if (i === points.length) {
+        ctx.fill();
+        ctx.restore();
+        return;
+      }
+
+      const { x, y } = points[i];
+      const canvas_x = ((x + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
+      const canvas_y = ((y + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
+      if (i === 0) {
+        ctx.save();
+        ctx.fillStyle = 'black';
+        ctx.beginPath();
+        ctx.moveTo(canvas_x, canvas_y);
+        continue;
+      }
+      ctx.lineTo(canvas_x, canvas_y);
+    }
+  }
 }

@@ -23,7 +23,8 @@ export abstract class Collider {
   abstract pressGrass(
     ctx: CanvasRenderingContext2D,
     resolution: number,
-    position: Point2 | null
+    position: Point2 | null,
+    rotation: number
   ): void;
 
   public add() {

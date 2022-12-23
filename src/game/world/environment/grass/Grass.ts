@@ -1,4 +1,5 @@
 import {
+  BackSide,
   BufferGeometry,
   CanvasTexture,
   DoubleSide,
@@ -75,6 +76,14 @@ export class Grass {
     this.mover = this.createMover();
     this.group = new Group();
     this.group.add(mesh, this.mover, this.weedsMeshesGroup);
+
+    const canvasPlane = new Mesh(
+      new PlaneGeometry(GROUND_SIZE, GROUND_SIZE),
+      new MeshBasicMaterial({ map: this.grassHeightTexture, side: BackSide, visible: false })
+    );
+    canvasPlane.rotateX(Math.PI / 2);
+    canvasPlane.position.y = 0.1;
+    this.group.add(canvasPlane);
 
     store.subscribe(() => {
       this.moverEnabled = selectGrassMoverEnabled(store.getState());

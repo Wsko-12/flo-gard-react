@@ -19,6 +19,8 @@ import Assets from '../../../../assets/Assets';
 import { selectGrassMoverEnabled } from '../../../../store/slices/gameSlice/gameSelectors';
 import { setGrassMoverEnabled } from '../../../../store/slices/gameSlice/gameSlice';
 import { store } from '../../../../store/store';
+import { IndependentGameEntity } from '../../../entities/base/IndependentGameEntity/IndependentGameEntity';
+import { EntityManager } from '../../../entities/EntityManager';
 import { GameStore } from '../../../gameStore/GameStore';
 import LoopsManager from '../../../loopsManager/LoopsManager';
 import Day, { FULL_DAY_TIME } from '../../day/Day';
@@ -117,7 +119,7 @@ export class Grass {
       ctx.fillStyle = 'rgba(255,255,255,0.05)';
       ctx.fillRect(0, 0, resolution, resolution);
       this.grassHeightTexture.needsUpdate = true;
-      // this.updateObjectsOnGrass();
+      this.pressGrassByEntities();
     }
   };
 
@@ -360,13 +362,22 @@ export class Grass {
     this.removeWeeds(toRemove);
   };
 
-  // updateObjectsOnGrass() {
-  //   // EntityManager.getEntities().forEach((object) => {
-  //   //   const { ctx, resolution } = this.grassHeightCanvas;
-  //   //   object.updateGrassHeight(ctx, resolution);
-  //   // });
-  //   // this.grassHeightTexture.needsUpdate = true;
-  // }
+  pressGrassByEntities() {
+    const entities = EntityManager.getEntities();
+    const { ctx, resolution } = this.grassHeightCanvas;
+    for (let i = 0; i < entities.length; i++) {
+      const entity = entities[i];
+      if (entity.inInventory) {
+        continue;
+      }
+      if (!(entity instanceof IndependentGameEntity)) {
+        continue;
+      }
+
+      entity.pressGrass(ctx, resolution);
+    }
+    this.grassHeightTexture.needsUpdate = true;
+  }
 
   getMesh() {
     return this.group;

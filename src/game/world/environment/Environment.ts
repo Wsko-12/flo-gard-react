@@ -19,10 +19,10 @@ export default class Environment {
     scene.add(this.sky.getMesh(), this.ground.getMesh(), this.grass.getMesh(), this.sun.getMesh());
   }
 
-  public static updateObjectsOnGrass() {
+  public static pressGrassByEntities() {
     if (!this.grass) {
       throw new Error('[Environment updateObjectsOnGrass] grass undefined');
     }
-    // this.grass.updateObjectsOnGrass();
+    this.grass.pressGrassByEntities();
   }
 }

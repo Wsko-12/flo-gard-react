@@ -10,10 +10,12 @@ import { store } from '../../../../store/store';
 import { IPosition2 } from '../../../../ts/interfaces';
 import { GameStore } from '../../../gameStore/GameStore';
 import LoopsManager from '../../../loopsManager/LoopsManager';
+import Environment from '../../../world/environment/Environment';
 import { Point2 } from '../../../world/environment/utils/Geometry';
 import World from '../../../world/World';
 import { GameEntity, IEntityState } from '../GameEntity/GameEntity';
 import { ClickBox } from './ClickBox/ClickBox';
+import { Collider } from './Collider/Collider';
 import { IndependentGameEntityStoreManager } from './storeManager/GameEntityStoreManager';
 
 export interface IIndependentEntityState extends IEntityState {
@@ -22,13 +24,13 @@ export interface IIndependentEntityState extends IEntityState {
 
 export abstract class IndependentGameEntity extends GameEntity {
   abstract mesh: Mesh | Group;
+  abstract collider: Collider;
   abstract clickGeometry: BufferGeometry;
   public readonly isIndependent = true;
   public position: Point2 | null = null;
   private meshPosition: Point2 = new Point2(0, 0);
   public isOnMove = false;
 
-  // public storeManager: IndependentGameEntityStoreManager;
   protected clickBox: ClickBox | null = null;
 
   constructor() {
@@ -84,6 +86,7 @@ export abstract class IndependentGameEntity extends GameEntity {
     this.meshPosition.set(x, y);
     this.mesh.position.set(x, 0, y);
     this.clickBox?.setPosition(x, y);
+    this.collider.setPosition(x, y);
   }
 
   public setIsOnMove(flag: boolean, callPlaceInInventory = true) {
@@ -108,12 +111,18 @@ export abstract class IndependentGameEntity extends GameEntity {
   }
 
   public applyPosition() {
+    if (this.collider.isCollision()) {
+      return;
+    }
+
     const { x, y } = this.meshPosition;
     if (!this.position) {
       this.position = new Point2(x, y);
     } else {
       this.position.set(x, y);
     }
+    this.setMeshPosition(x, y);
+    Environment.pressGrassByEntities();
     this.storeManager.updateState();
     this.setIsOnMove(false);
   }
@@ -125,4 +134,12 @@ export abstract class IndependentGameEntity extends GameEntity {
     const { x, z } = GameStore.cameraTarget;
     this.setMeshPosition(x, z);
   };
+
+  public getCollider() {
+    return this.collider;
+  }
+
+  public pressGrass(ctx: CanvasRenderingContext2D, resolution: number) {
+    this.collider.pressGrass(ctx, resolution, this.position);
+  }
 }

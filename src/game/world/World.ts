@@ -13,7 +13,7 @@ export default class World {
     Day.init();
     Environment.init();
 
-    new Cube();
+    new Sphere();
     new Sphere();
   }
 

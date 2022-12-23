@@ -198,6 +198,34 @@ export class Line {
     const y = this.start.y - this.end.y;
     return Math.sqrt(x ** 2 + y ** 2);
   }
+
+  isIntersectLine(line: Line) {
+    const x1 = this.start.x;
+    const y1 = this.start.y;
+
+    const x2 = this.end.x;
+    const y2 = this.end.y;
+
+    const x3 = line.start.x;
+    const y3 = line.start.y;
+
+    const x4 = line.end.x;
+    const y4 = line.end.y;
+
+    const den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+
+    if (den === 0) {
+      return false;
+    }
+
+    const tNum = (x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4);
+    const uNum = (x1 - x3) * (y1 - y2) - (y1 - y3) * (x1 - x2);
+
+    const t = tNum / den;
+    const u = uNum / den;
+
+    return 0 < t && t < 1 && 0 < u && u < 1;
+  }
 }
 
 export class Triangle {
@@ -210,16 +238,13 @@ export class Triangle {
   c: Line;
 
   constructor(points: [Point2, Point2, Point2]) {
-    //http://joxi.ru/eAOyMgoIE4ekwm
-    //https://microexcel.ru/vysota-treugolnika-formuly/
-
     this.A = points[0].clone();
     this.B = points[1].clone();
     this.C = points[2].clone();
 
-    this.a = new Line(this.A, this.C);
-    this.b = new Line(this.A, this.B);
-    this.c = new Line(this.B, this.C);
+    this.a = new Line(this.A, this.B);
+    this.b = new Line(this.B, this.C);
+    this.c = new Line(this.C, this.A);
   }
 
   getHalfPerimeter() {
@@ -254,5 +279,72 @@ export class Triangle {
 
     const sumSquare = triangle_1.getSquare() + triangle_2.getSquare() + triangle_3.getSquare();
     return Math.abs(origSquare - sumSquare) < 0.00000001;
+  }
+}
+
+export class Quad {
+  A: Point2;
+  B: Point2;
+  C: Point2;
+  D: Point2;
+
+  a: Line;
+  b: Line;
+  c: Line;
+  d: Line;
+
+  triangle_1: Triangle;
+  triangle_2: Triangle;
+
+  constructor(points: [Point2, Point2, Point2, Point2]) {
+    this.A = points[0].clone();
+    this.B = points[1].clone();
+    this.C = points[2].clone();
+    this.D = points[3].clone();
+
+    this.a = new Line(this.A, this.B);
+    this.b = new Line(this.B, this.C);
+    this.c = new Line(this.C, this.D);
+    this.d = new Line(this.D, this.A);
+
+    this.triangle_1 = new Triangle([this.A, this.B, this.C]);
+    this.triangle_2 = new Triangle([this.A, this.D, this.C]);
+  }
+
+  getSquare() {
+    const square_1 = this.triangle_1.getSquare();
+    const square_2 = this.triangle_2.getSquare();
+    return square_1 + square_2;
+  }
+
+  isPointIn(point: Point2) {
+    return this.triangle_1.isPointIn(point) || this.triangle_2.isPointIn(point);
+  }
+
+  isQuadIn(quad: Quad) {
+    // first check intersection lines;
+    const thisLines = [this.a, this.b, this.c, this.d];
+    const quadLines = [quad.a, quad.b, quad.c, quad.d];
+
+    for (let i = 0; i < thisLines.length; i++) {
+      const line = thisLines[i];
+      for (let j = 0; j < quadLines.length; j++) {
+        const quadLine = quadLines[j];
+        if (line.isIntersectLine(quadLine)) {
+          return true;
+        }
+      }
+    }
+
+    // if lines didn't intersect check one point
+    // situation when one quad fully unside secondQuad;
+    if (this.isPointIn(quad.A)) {
+      return true;
+    }
+    if (quad.isPointIn(this.A)) {
+      return true;
+    }
+
+    return false;
   }
 }

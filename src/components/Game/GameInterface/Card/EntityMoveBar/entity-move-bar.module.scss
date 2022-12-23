@@ -1,31 +1,46 @@
 .container {
     position: fixed;
-    display: flex;
-    gap: 10px;
     top: 60%;
     left: 50%;
     transform: translateX(-50%);
+    display: flex;
+    // flex-direction: column;
+    gap: 15px;
 
-    & > button {
-        background-color: white;
+    & > div {
+        display: flex;
+        gap: 10px;
+    }
+
+    & button {
+        background-color: transparent;
         border-radius: 100px;
         width: 35px;
         height: 35px;
-        border: 1px solid black;
+        border: none;
         cursor: pointer;
         padding: 0;
         display: flex;
+        color: white;
+        text-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.5);
+
+        &.rotate {
+
+        }
+
+        &.apply {
+
+        }
+    
+        &.cancel {
+
+        }
+
         & span {
             font-size: 25px;
             margin: auto;
         }
 
     }
-    .apply {
-        color: lightgreen;
-    }
 
-    .cancel {
-        color: crimson;
-    }
 }

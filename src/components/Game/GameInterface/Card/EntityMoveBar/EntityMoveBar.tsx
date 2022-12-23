@@ -14,14 +14,27 @@ const EntityMoveBar = memo<IEntityMoveBarProps>(({ id }) => {
     return null;
   }
 
+  const isRotate = entityInstance.isRotate;
   return (
     <div className={styles.container}>
-      <button className={styles.apply} onClick={() => entityInstance.applyPosition()}>
-        <span className="material-symbols-outlined">done</span>
-      </button>
-      <button className={styles.cancel} onClick={() => entityInstance.setIsOnMove(false)}>
-        <span className="material-symbols-outlined">close</span>
-      </button>
+      {isRotate && (
+        <div>
+          <button className={styles.rotate}>
+            <span className="material-symbols-outlined">rotate_right</span>
+          </button>
+          <button className={styles.rotate}>
+            <span className="material-symbols-outlined">rotate_left</span>
+          </button>
+        </div>
+      )}
+      <div>
+        <button className={styles.apply} onClick={() => entityInstance.applyPosition()}>
+          <span className="material-symbols-outlined">done</span>
+        </button>
+        <button className={styles.cancel} onClick={() => entityInstance.setIsOnMove(false)}>
+          <span className="material-symbols-outlined">close</span>
+        </button>
+      </div>
     </div>
   );
 });

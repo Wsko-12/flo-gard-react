@@ -20,6 +20,7 @@ import { IndependentGameEntityStoreManager } from './storeManager/GameEntityStor
 
 export interface IIndependentEntityState extends IEntityState {
   position: IPosition2 | null;
+  isRotate: boolean;
 }
 
 export abstract class IndependentGameEntity extends GameEntity {
@@ -30,6 +31,7 @@ export abstract class IndependentGameEntity extends GameEntity {
   public position: Point2 | null = null;
   private meshPosition: Point2 = new Point2(0, 0);
   public isOnMove = false;
+  public abstract isRotate: boolean;
 
   protected clickBox: ClickBox | null = null;
 

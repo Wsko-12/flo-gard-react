@@ -13,6 +13,7 @@ export class Cube extends IndependentGameEntity {
   inventoryData: IEntityInventoryData = {
     title: 'Cube',
   };
+  isRotate = true;
 
   clickGeometry = new BoxGeometry();
   mesh = new Mesh(new BoxGeometry(), new MeshBasicMaterial({ transparent: true, opacity: 0.1 }));

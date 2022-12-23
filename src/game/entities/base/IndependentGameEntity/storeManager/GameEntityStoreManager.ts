@@ -21,6 +21,7 @@ export class IndependentGameEntityStoreManager extends GameEntityStoreManager {
     return {
       ...base,
       position: position ? position.getPositionObject() : null,
+      isRotate: this.entity.isRotate,
     };
   }
 

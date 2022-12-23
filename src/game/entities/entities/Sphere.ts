@@ -9,7 +9,10 @@ export class Sphere extends IndependentGameEntity {
   };
   collider = new CircleCollider(0.5);
   clickGeometry = new SphereGeometry(0.5);
-  mesh = new Mesh(new SphereGeometry(0.5), new MeshBasicMaterial());
+  mesh = new Mesh(
+    new SphereGeometry(0.5),
+    new MeshBasicMaterial({ transparent: true, opacity: 0.1 })
+  );
   constructor() {
     super();
     this.init();

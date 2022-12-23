@@ -47,6 +47,7 @@ export abstract class IndependentGameEntity extends GameEntity {
   public placeInWorld() {
     this.position = null;
     this.openCard();
+    this.collider.add();
     World.getScene().add(this.mesh);
     this.clickBox?.add();
     LoopsManager.subscribe('update', this.move);
@@ -58,6 +59,7 @@ export abstract class IndependentGameEntity extends GameEntity {
   public placeInInventory() {
     this.closeCard(false);
     World.getScene().remove(this.mesh);
+    this.collider.remove();
     this.clickBox?.remove();
     LoopsManager.unsubscribe('update', this.move);
     this.setIsOnMove(false, false);

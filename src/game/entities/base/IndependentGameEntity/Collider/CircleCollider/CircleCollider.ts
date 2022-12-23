@@ -1,3 +1,4 @@
+import { CircleGeometry, Mesh } from 'three';
 import { GROUND_SIZE } from '../../../../../world/environment/ground/Ground';
 import { Point2 } from '../../../../../world/environment/utils/Geometry';
 import { EntityManager } from '../../../../EntityManager';
@@ -6,9 +7,14 @@ import { Collider } from '../Collider';
 
 export class CircleCollider extends Collider {
   public r: number;
+  protected mesh: Mesh;
   constructor(r: number) {
     super();
     this.r = r;
+
+    const geometry = new CircleGeometry(r * 1.005, 16);
+    geometry.rotateX(Math.PI / 2);
+    this.mesh = new Mesh(geometry, Collider.material);
   }
 
   isCollision() {
@@ -30,10 +36,12 @@ export class CircleCollider extends Collider {
 
       const isCollide = this.checkCollision(collider);
       if (isCollide) {
-        return entity;
+        // return entity;
+        return true;
       }
     }
-    return null;
+    // return null;
+    return false;
   }
 
   private checkCollision(collider: Collider) {

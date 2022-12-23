@@ -1,4 +1,4 @@
-import { Line, Point2, Quad, Triangle } from './Geometry';
+import { Circle, Line, Point2, Quad, Triangle } from './Geometry';
 
 describe('Geometry', () => {
   describe('Triangle', () => {
@@ -146,6 +146,16 @@ describe('Geometry', () => {
         const point = new Point2(-5.2947, 3.80947);
         expect(quad.isPointIn(point)).toBe(true);
       }
+
+      {
+        const A = new Point2(-6, 6);
+        const B = new Point2(-6, 2);
+        const C = new Point2(-2, 2);
+        const D = new Point2(-2, 6);
+        const quad = new Quad([A, B, C, D]);
+        const point = new Point2(-4, 4);
+        expect(quad.isPointIn(point)).toBe(true);
+      }
     });
 
     test('isQuadIn', () => {
@@ -233,6 +243,92 @@ describe('Geometry', () => {
         const line_2 = new Line(C, D);
 
         expect(line_1.isIntersectLine(line_2)).toBe(true);
+      }
+    });
+
+    test('isIntersectsCircle', () => {
+      {
+        const A = new Point2(0, 0);
+        const B = new Point2(1, 1);
+        const line = new Line(A, B);
+        const center = new Point2(0, 0);
+        const circle = new Circle(center, 1);
+        expect(line.isIntersectsCircle(circle)).toBe(true);
+      }
+      {
+        const A = new Point2(-2, 0);
+        const B = new Point2(2, 1);
+        const line = new Line(A, B);
+        const center = new Point2(0, 0);
+        const circle = new Circle(center, 1);
+        expect(line.isIntersectsCircle(circle)).toBe(true);
+      }
+      {
+        const A = new Point2(-3.14, 2);
+        const B = new Point2(2.3, 3.46);
+        const line = new Line(A, B);
+        const center = new Point2(1.18, 1.68);
+        const circle = new Circle(center, 2);
+        expect(line.isIntersectsCircle(circle)).toBe(true);
+      }
+      {
+        const A = new Point2(-3.14, 2);
+        const B = new Point2(-0.94, 3.78);
+        const line = new Line(A, B);
+        const center = new Point2(1.18, 1.68);
+        const circle = new Circle(center, 2);
+        expect(line.isIntersectsCircle(circle)).toBe(false);
+      }
+    });
+  });
+
+  describe('Circle', () => {
+    test('isPointIn', () => {
+      {
+        const center = new Point2(0, 0);
+        const circle = new Circle(center, 2);
+        const point = new Point2(1, 1);
+        expect(circle.isPointIn(point)).toBe(true);
+      }
+
+      {
+        const center = new Point2(0, 0);
+        const circle = new Circle(center, 1);
+        const point = new Point2(1, 1);
+        expect(circle.isPointIn(point)).toBe(false);
+      }
+    });
+
+    test('isCircleIn', () => {
+      {
+        const center_1 = new Point2(0, 0);
+        const circle_1 = new Circle(center_1, 1);
+
+        const center_2 = new Point2(3, 0);
+        const circle_2 = new Circle(center_2, 1);
+
+        expect(circle_1.isCircleIn(circle_2)).toBe(false);
+      }
+
+      {
+        const center_1 = new Point2(0, 0);
+        const circle_1 = new Circle(center_1, 1);
+
+        const center_2 = new Point2(2, 0);
+        const circle_2 = new Circle(center_2, 1);
+
+        expect(circle_1.isCircleIn(circle_2)).toBe(false);
+      }
+
+      {
+        const center_1 = new Point2(0, 0);
+        const circle_1 = new Circle(center_1, 5);
+
+        const center_2 = new Point2(1, 0);
+        const circle_2 = new Circle(center_2, 1);
+
+        expect(circle_1.isCircleIn(circle_2)).toBe(true);
+        expect(circle_2.isCircleIn(circle_1)).toBe(true);
       }
     });
   });

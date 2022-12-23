@@ -139,7 +139,10 @@ export class Vector2 {
   }
 
   public dot(vec: Vector2) {
-    return (this.x / this.length) * vec.x + this.y / this.length + vec.y;
+    const length = this.getLength();
+    const x = this.x / length;
+    const y = this.y / length;
+    return x * vec.x + y * vec.y;
   }
 }
 
@@ -225,6 +228,22 @@ export class Line {
     const u = uNum / den;
 
     return 0 < t && t < 1 && 0 < u && u < 1;
+  }
+
+  isIntersectsCircle(circle: Circle) {
+    if (circle.isPointIn(this.start) || circle.isPointIn(this.end)) {
+      return true;
+    }
+
+    const lineVector = new Vector2(this.end.x - this.start.x, this.end.y - this.start.y);
+
+    const O = this.start;
+    const C = circle.center;
+    const OC = new Vector2(C.x - O.x, C.y - O.y);
+
+    const OT_length = lineVector.normalize().dot(OC);
+    const CT_length = Math.sqrt(OC.getLength() ** 2 - OT_length ** 2);
+    return CT_length <= circle.radius;
   }
 }
 
@@ -337,7 +356,7 @@ export class Quad {
     }
 
     // if lines didn't intersect check one point
-    // situation when one quad fully unside secondQuad;
+    // situation when one quad fully inside secondQuad;
     if (this.isPointIn(quad.A)) {
       return true;
     }
@@ -346,5 +365,25 @@ export class Quad {
     }
 
     return false;
+  }
+}
+
+export class Circle {
+  center: Point2;
+  radius: number;
+  constructor(center: Point2, radius: number) {
+    this.center = center;
+    this.radius = radius;
+  }
+
+  isPointIn(point: Point2) {
+    const distance = this.center.getDistanceTo(point);
+    return distance < this.radius;
+  }
+
+  isCircleIn(circle: Circle) {
+    const distance = this.center.getDistanceTo(circle.center);
+    const radSum = this.radius + circle.radius;
+    return distance < radSum;
   }
 }

@@ -242,6 +242,9 @@ export class Line {
     const OC = new Vector2(C.x - O.x, C.y - O.y);
 
     const OT_length = lineVector.normalize().dot(OC);
+    if (OT_length > this.getLength()) {
+      return false;
+    }
     const CT_length = Math.sqrt(OC.getLength() ** 2 - OT_length ** 2);
     return CT_length <= circle.radius;
   }
@@ -361,6 +364,33 @@ export class Quad {
       return true;
     }
     if (quad.isPointIn(this.A)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  isCircleIn(circle: Circle) {
+    // first check quad corners inside circle
+    const thisPoints = [this.A, this.B, this.C, this.D];
+    for (let i = 0; i < thisPoints.length; i++) {
+      const point = thisPoints[i];
+      if (circle.isPointIn(point)) {
+        return true;
+      }
+    }
+
+    // then check edges intersect with circle
+    const thisLines = [this.a, this.b, this.c, this.d];
+    for (let i = 0; i < thisPoints.length; i++) {
+      const line = thisLines[i];
+      if (line.isIntersectsCircle(circle)) {
+        return true;
+      }
+    }
+
+    // then check center circle inside Quad;
+    if (this.isPointIn(circle.center)) {
       return true;
     }
 

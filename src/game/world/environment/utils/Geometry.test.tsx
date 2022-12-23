@@ -207,6 +207,69 @@ describe('Geometry', () => {
         expect(quad_2.isQuadIn(quad_1)).toBe(true);
       }
     });
+
+    test('isCircleIn', () => {
+      {
+        const A = new Point2(1, 4);
+        const B = new Point2(1, 2);
+        const C = new Point2(3, 2);
+        const D = new Point2(3, 4);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const center = new Point2(0, 0);
+        const circle = new Circle(center, 1);
+        expect(quad.isCircleIn(circle)).toBe(false);
+      }
+      {
+        const A = new Point2(-2.56, 1.94);
+        const B = new Point2(2.8, 4.42);
+        const C = new Point2(3, 2);
+        const D = new Point2(-2.24, 1.4);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const center = new Point2(0, 0);
+        const circle = new Circle(center, 1);
+        expect(quad.isCircleIn(circle)).toBe(false);
+      }
+      {
+        const A = new Point2(-2.56, 1.94);
+        const B = new Point2(2.8, 4.42);
+        const C = new Point2(3, 2);
+        const D = new Point2(-2.24, 1.4);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const center = new Point2(0, 1);
+        const circle = new Circle(center, 1);
+        expect(quad.isCircleIn(circle)).toBe(true);
+      }
+      {
+        const A = new Point2(-2.56, 1.94);
+        const B = new Point2(2.8, 4.42);
+        const C = new Point2(3, 2);
+        const D = new Point2(-2.24, 1.4);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const center = new Point2(-3.28, 2.3);
+        const circle = new Circle(center, 1);
+        expect(quad.isCircleIn(circle)).toBe(true);
+      }
+      {
+        const A = new Point2(-6.16, 4.1);
+        const B = new Point2(2.8, 4.42);
+        const C = new Point2(3, 2);
+        const D = new Point2(-3.92, 0.62);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const center = new Point2(-3.28, 2.3);
+        const circle = new Circle(center, 1);
+        expect(quad.isCircleIn(circle)).toBe(true);
+      }
+    });
   });
 
   describe('Line', () => {
@@ -277,6 +340,15 @@ describe('Geometry', () => {
         const line = new Line(A, B);
         const center = new Point2(1.18, 1.68);
         const circle = new Circle(center, 2);
+        expect(line.isIntersectsCircle(circle)).toBe(false);
+      }
+      {
+        const A = new Point2(0, 4);
+        const B = new Point2(0, 2);
+
+        const line = new Line(A, B);
+        const center = new Point2(0, 0);
+        const circle = new Circle(center, 1);
         expect(line.isIntersectsCircle(circle)).toBe(false);
       }
     });

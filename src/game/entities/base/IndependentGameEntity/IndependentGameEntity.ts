@@ -21,6 +21,7 @@ import { IndependentGameEntityStoreManager } from './storeManager/GameEntityStor
 export interface IIndependentEntityState extends IEntityState {
   position: IPosition2 | null;
   isRotate: boolean;
+  angle: number;
 }
 
 export abstract class IndependentGameEntity extends GameEntity {
@@ -28,7 +29,14 @@ export abstract class IndependentGameEntity extends GameEntity {
   abstract collider: Collider;
   abstract clickGeometry: BufferGeometry;
   public readonly isIndependent = true;
-  public position: Point2 | null = null;
+  public placed: {
+    position: Point2 | null;
+    angle: number;
+  } = {
+    position: null,
+    angle: 0,
+  };
+  // public position: Point2 | null = null;
   private meshPosition: Point2 = new Point2(0, 0);
   private meshRotation = 0;
   public isOnMove = false;
@@ -48,14 +56,15 @@ export abstract class IndependentGameEntity extends GameEntity {
   }
 
   public placeInWorld() {
-    this.position = null;
+    this.placed.position = null;
+    this.placed.angle = 0;
+    this.meshRotation = 0;
     this.openCard();
     this.collider.add();
     World.getScene().add(this.mesh);
     this.clickBox?.add();
     LoopsManager.subscribe('update', this.moveCb);
     this.setIsOnMove(true);
-
     super.placeInWorld();
   }
 
@@ -74,7 +83,7 @@ export abstract class IndependentGameEntity extends GameEntity {
   }
 
   public closeCard(callPlaceInInventory = true) {
-    if (this.position === null && callPlaceInInventory) {
+    if (this.placed.position === null && callPlaceInInventory) {
       this.placeInInventory();
     }
     store.dispatch(closeEntityCard(this.id));
@@ -100,7 +109,7 @@ export abstract class IndependentGameEntity extends GameEntity {
   public setIsOnMove(flag: boolean, callPlaceInInventory = true) {
     if (this.isOnMove != flag) {
       this.isOnMove = flag;
-      if (!flag && this.position === null && callPlaceInInventory) {
+      if (!flag && this.placed.position === null && callPlaceInInventory) {
         this.placeInInventory();
         return;
       }
@@ -108,9 +117,10 @@ export abstract class IndependentGameEntity extends GameEntity {
       if (flag) {
         store.dispatch(setEntityOnMove(this.id));
       } else {
-        if (this.position) {
-          const { x, y } = this.position;
-          this.setMeshPosition(x, y, 0);
+        if (this.placed.position) {
+          const { x, y } = this.placed.position;
+          const { angle } = this.placed;
+          this.setMeshPosition(x, y, angle);
         }
 
         store.dispatch(deleteEntityOnMove(this.id));
@@ -122,13 +132,13 @@ export abstract class IndependentGameEntity extends GameEntity {
     if (this.collider.isCollision()) {
       return;
     }
-
     const { x, y } = this.meshPosition;
     const angle = this.meshRotation;
-    if (!this.position) {
-      this.position = new Point2(x, y);
+    this.placed.angle = angle;
+    if (!this.placed.position) {
+      this.placed.position = new Point2(x, y);
     } else {
-      this.position.set(x, y);
+      this.placed.position.set(x, y);
     }
     this.setMeshPosition(x, y, angle);
     Environment.pressGrassByEntities();
@@ -156,6 +166,6 @@ export abstract class IndependentGameEntity extends GameEntity {
   }
 
   public pressGrass(ctx: CanvasRenderingContext2D, resolution: number) {
-    this.collider.pressGrass(ctx, resolution, this.position);
+    this.collider.pressGrass(ctx, resolution, this.placed.position);
   }
 }

@@ -26,8 +26,8 @@ export class QuadCollider extends Collider {
 
   getPoints(): [Point2, Point2, Point2, Point2] {
     const geometry = this.mesh.geometry.clone();
-    geometry.translate(this.position.x, 0, this.position.y);
     geometry.rotateY(this.rotation);
+    geometry.translate(this.position.x, 0, this.position.y);
     const array = Array.from(geometry.getAttribute('position').array);
     const A = array.splice(0, 3);
     const B = array.splice(0, 3);

@@ -17,11 +17,12 @@ export class IndependentGameEntityStoreManager extends GameEntityStoreManager {
 
   public getState(): IIndependentEntityState {
     const base = super.getState();
-    const { position } = this.entity;
+    const { position, angle } = this.entity.placed;
     return {
       ...base,
       position: position ? position.getPositionObject() : null,
       isRotate: this.entity.isRotate,
+      angle,
     };
   }
 

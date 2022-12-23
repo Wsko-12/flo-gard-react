@@ -50,7 +50,7 @@ export abstract class IndependentGameEntity extends GameEntity {
     this.collider.add();
     World.getScene().add(this.mesh);
     this.clickBox?.add();
-    LoopsManager.subscribe('update', this.move);
+    LoopsManager.subscribe('update', this.moveCb);
     this.setIsOnMove(true);
 
     super.placeInWorld();
@@ -61,7 +61,7 @@ export abstract class IndependentGameEntity extends GameEntity {
     World.getScene().remove(this.mesh);
     this.collider.remove();
     this.clickBox?.remove();
-    LoopsManager.unsubscribe('update', this.move);
+    LoopsManager.unsubscribe('update', this.moveCb);
     this.setIsOnMove(false, false);
     super.placeInInventory();
   }
@@ -129,13 +129,15 @@ export abstract class IndependentGameEntity extends GameEntity {
     this.setIsOnMove(false);
   }
 
-  private move = () => {
+  protected move() {
     if (!this.isOnMove) {
       return;
     }
     const { x, z } = GameStore.cameraTarget;
     this.setMeshPosition(x, z);
-  };
+  }
+
+  private moveCb = () => this.move();
 
   public getCollider() {
     return this.collider;

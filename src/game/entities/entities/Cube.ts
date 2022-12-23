@@ -20,4 +20,8 @@ export class Cube extends IndependentGameEntity {
     super();
     this.init();
   }
+
+  protected move(): void {
+    super.move();
+  }
 }

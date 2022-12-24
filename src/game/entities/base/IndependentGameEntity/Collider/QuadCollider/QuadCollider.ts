@@ -7,25 +7,49 @@ import { CircleCollider } from '../CircleCollider/CircleCollider';
 import { Collider } from '../Collider';
 
 export class QuadCollider extends Collider {
-  protected mesh: Mesh;
-  private corners: Point2[];
-  constructor(corners: [number, number][]) {
-    super();
-    this.corners = corners.map(([x, y]) => new Point2(x, y));
-
+  static getMeshByCorners(corners: Point2[]) {
     const points: Vector3[] = [];
-    corners.forEach(([x, z]) => points.push(new Vector3(x, 0, z)));
+    corners.forEach(({ x, y }) => points.push(new Vector3(x, 0, y)));
     const plane = new PlaneGeometry(2, 2);
     plane.rotateX(Math.PI / 2);
     const atr = plane.getAttribute('position');
     const array = atr.array as number[];
     for (let i = 0; i < atr.count; i++) {
-      array[i * 3] = corners[i][0];
+      let pI = i;
+      // change D to C and C to D for correct mesh edges
+      if (i === 2) {
+        pI = 3;
+      }
+      if (i === 3) {
+        pI = 2;
+      }
+      array[i * 3] = corners[pI].x;
       array[i * 3 + 1] = 0;
-      array[i * 3 + 2] = corners[i][1];
+      array[i * 3 + 2] = corners[pI].y;
     }
 
-    this.mesh = new Mesh(plane, Collider.material);
+    return new Mesh(plane, Collider.material);
+  }
+  protected mesh: Mesh;
+  private corners: Point2[];
+  constructor(corners: [number, number][]) {
+    /*     
+   **corners** 
+   0        1
+    |¯¯¯¯¯¯|
+    |      |
+    |______|
+   3        2
+
+   A        B
+    |¯¯¯¯¯¯|
+    |      |
+    |______|
+   D        C
+    */
+    super();
+    this.corners = corners.map(([x, y]) => new Point2(x, y));
+    this.mesh = QuadCollider.getMeshByCorners(this.corners);
   }
 
   getPoints(position?: Point2 | null, rotation?: number): [Point2, Point2, Point2, Point2] {

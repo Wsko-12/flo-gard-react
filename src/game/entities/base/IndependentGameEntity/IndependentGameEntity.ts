@@ -1,4 +1,4 @@
-import { BufferGeometry, Group, Mesh } from 'three';
+import { BufferGeometry, Group, Mesh, MeshBasicMaterial, MeshPhongMaterial, Object3D } from 'three';
 import {
   closeEntityCard,
   deleteEntityOnMove,
@@ -25,6 +25,25 @@ export interface IIndependentEntityState extends IEntityState {
 }
 
 export abstract class IndependentGameEntity extends GameEntity {
+  static setMeshTransparent(mesh: Object3D, flag: boolean) {
+    const set = function setTransparent(mesh: Object3D) {
+      if (!(mesh instanceof Mesh || mesh instanceof Group)) {
+        return;
+      }
+
+      if (mesh instanceof Mesh) {
+        if (
+          mesh.material instanceof MeshBasicMaterial ||
+          mesh.material instanceof MeshPhongMaterial
+        ) {
+          mesh.material.transparent = flag;
+        }
+      } else {
+        mesh.children.forEach(setTransparent);
+      }
+    };
+    set(mesh);
+  }
   abstract mesh: Mesh | Group;
   abstract collider: Collider;
   abstract clickGeometry: BufferGeometry;
@@ -104,6 +123,9 @@ export abstract class IndependentGameEntity extends GameEntity {
     this.mesh.rotation.set(0, angle, 0);
     this.clickBox?.setPosition(x, y, angle);
     this.collider.setPosition(x, y, angle);
+
+    const isCollision = !!this.collider.isCollision();
+    IndependentGameEntity.setMeshTransparent(this.mesh, isCollision);
   }
 
   public setIsOnMove(flag: boolean, callPlaceInInventory = true) {

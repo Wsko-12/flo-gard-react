@@ -31,16 +31,18 @@ export class QuadCollider extends Collider {
   getPoints(position?: Point2 | null, rotation?: number): [Point2, Point2, Point2, Point2] {
     const points = this.corners.map((point) => point.clone());
 
+    let { x, y } = this.position;
+    let angle = this.rotation;
+
     if (position && rotation !== undefined) {
       // its only for grass paint
-      points.forEach((point) => point.rotate(-rotation));
-      const { x, y } = position;
-      points.forEach((point) => point.translate(x, y));
-    } else {
-      points.forEach((point) => point.rotate(-this.rotation));
-      const { x, y } = this.position;
-      points.forEach((point) => point.translate(x, y));
+      x = position.x;
+      y = position.y;
+      angle = rotation;
     }
+
+    points.forEach((point) => point.rotate(-angle));
+    points.forEach((point) => point.translate(x, y));
 
     return points as [Point2, Point2, Point2, Point2];
   }

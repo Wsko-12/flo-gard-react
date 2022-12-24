@@ -1,9 +1,11 @@
 import { EntityId } from '@reduxjs/toolkit';
 import React, { memo, useState } from 'react';
 import { Pot } from '../../../../../../game/entities/entities/pots/Pot';
+import { IPotGroundState } from '../../../../../../game/entities/entities/pots/PotGround';
 import { EntityManager } from '../../../../../../game/entities/EntityManager';
 import { selectEntityById } from '../../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { useAppSelector } from '../../../../../../store/store';
+import EntityCardProgressSlider from '../../components/EntityCardProgressSlider/EntityCardProgressSlider';
 import GroundSelectModal from './GroundSelectModal/GroundSelectModal';
 
 interface IGroundPartCardProps {
@@ -12,7 +14,7 @@ interface IGroundPartCardProps {
 }
 
 const GroundPartCard = memo<IGroundPartCardProps>(({ groundId, potId }) => {
-  const groundState = useAppSelector(selectEntityById(groundId));
+  const groundState = useAppSelector(selectEntityById(groundId)) as IPotGroundState;
   const potInstance = EntityManager.getEntityById(potId);
   const [isGroundSelect, setIsGroundSelect] = useState(false);
 
@@ -40,7 +42,16 @@ const GroundPartCard = memo<IGroundPartCardProps>(({ groundId, potId }) => {
 
   return (
     <div>
-      Ground <button onClick={() => potInstance.setGround(null)}>Remove</button>
+      <p>Ground</p>
+      <EntityCardProgressSlider value={groundState.adds.wet} icon={'humidity_low'} />
+      <button onClick={() => potInstance.pourGround()}>
+        <span className="material-symbols-outlined">humidity_low</span>
+      </button>
+      <button onClick={() => potInstance.setGround(null)}>
+        <span className="material-symbols-outlined" style={{ color: 'red' }}>
+          delete
+        </span>
+      </button>
     </div>
   );
 });

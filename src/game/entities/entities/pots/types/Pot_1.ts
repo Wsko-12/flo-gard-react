@@ -24,6 +24,7 @@ export class Pot_1 extends Pot {
       transparent: true,
       opacity: 0.1,
       map: Assets.getTexture('pots_ground'),
+      shininess: 0,
     })
   );
   constructor() {

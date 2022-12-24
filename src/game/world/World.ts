@@ -13,6 +13,7 @@ export default class World {
     Day.init();
     Environment.init();
     new Pot_1();
+    new Pot_1();
     new PotGround();
   }
 

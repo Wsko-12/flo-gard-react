@@ -8,6 +8,7 @@ export abstract class Collider {
   static material = new MeshBasicMaterial({
     color: 0x0000ff,
     wireframe: true,
+    visible: false,
   });
   public position = new Point2(0, 0);
   public rotation = 0;

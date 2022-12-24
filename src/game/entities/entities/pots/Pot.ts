@@ -1,12 +1,12 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { Group, Mesh } from 'three';
+import { BufferGeometry, Group, Mesh, MeshPhongMaterial } from 'three';
 import { EGameEntityTypes, IEntityAddsState } from '../../base/GameEntity/GameEntity';
 import {
   IIndependentEntityState,
   IndependentGameEntity,
 } from '../../base/IndependentGameEntity/IndependentGameEntity';
 import { EntityManager } from '../../EntityManager';
-import { PotGround } from './PotGround';
+import { getPotGroundColorByWet, PotGround } from './PotGround';
 
 export interface IPotAddsState extends IEntityAddsState {
   groundId: EntityId | null;
@@ -19,16 +19,22 @@ export abstract class Pot extends IndependentGameEntity {
   type = EGameEntityTypes.pot;
   abstract mesh: Group;
   abstract potMesh: Mesh;
-  abstract groundMesh: Mesh;
+  abstract groundMesh: Mesh<BufferGeometry, MeshPhongMaterial>;
   ground: PotGround | null = null;
   constructor() {
     super();
   }
 
   public placeInWorld(): void {
-    super.placeInWorld();
-    this.ground = null;
+    this.setGround(null);
     this.updateGroundMesh();
+    super.placeInWorld();
+  }
+
+  public placeInInventory(): void {
+    this.setGround(null);
+    this.updateGroundMesh();
+    super.placeInInventory();
   }
 
   public init(): void {
@@ -42,9 +48,6 @@ export abstract class Pot extends IndependentGameEntity {
     super.init();
   }
 
-  private updateGroundMesh() {
-    this.groundMesh.visible = !!this.ground;
-  }
   public setGround(groundId: EntityId | null) {
     if (groundId) {
       const ground = EntityManager.getEntityById(groundId);
@@ -61,6 +64,21 @@ export abstract class Pot extends IndependentGameEntity {
     }
     this.updateGroundMesh();
     this.storeManager.updateState();
+  }
+
+  public pourGround() {
+    if (!this.ground) {
+      return;
+    }
+    this.ground.pour();
+    this.updateGroundMesh();
+  }
+  private updateGroundMesh() {
+    this.groundMesh.visible = !!this.ground;
+    if (this.ground) {
+      const { wet } = this.ground.state;
+      this.groundMesh.material.color.set(getPotGroundColorByWet(wet));
+    }
   }
 
   public getAddsState(): IPotAddsState {

@@ -5,6 +5,7 @@ import {
   IIndependentEntityState,
   IndependentGameEntity,
 } from '../../base/IndependentGameEntity/IndependentGameEntity';
+import { EntityManager } from '../../EntityManager';
 import { PotGround } from './PotGround';
 
 export interface IPotAddsState extends IEntityAddsState {
@@ -26,7 +27,8 @@ export abstract class Pot extends IndependentGameEntity {
 
   public placeInWorld(): void {
     super.placeInWorld();
-    this.groundMesh.visible = false;
+    this.ground = null;
+    this.updateGroundMesh();
   }
 
   public init(): void {
@@ -38,6 +40,27 @@ export abstract class Pot extends IndependentGameEntity {
 
     this.mesh.add(groundMesh, potMesh);
     super.init();
+  }
+
+  private updateGroundMesh() {
+    this.groundMesh.visible = !!this.ground;
+  }
+  public setGround(groundId: EntityId | null) {
+    if (groundId) {
+      const ground = EntityManager.getEntityById(groundId);
+      if (!ground || !ground.inInventory || !(ground instanceof PotGround)) {
+        return;
+      }
+      this.ground = ground;
+      ground.placeInWorld();
+    } else {
+      if (this.ground) {
+        this.ground.remove();
+      }
+      this.ground = null;
+    }
+    this.updateGroundMesh();
+    this.storeManager.updateState();
   }
 
   public getAddsState(): IPotAddsState {

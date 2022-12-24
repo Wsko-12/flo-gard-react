@@ -6,14 +6,17 @@ import {
   selectEntityOnMove,
 } from '../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { useAppSelector } from '../../../../../store/store';
+import EntityCardMenu, { useEntityCardMenu } from '../components/EntityCardMenu';
 import DraggableCard from '../DraggableCard/DraggableCard';
 import { IEntityCardProps } from '../EntityCard';
 import EntityMoveBar from '../EntityMoveBar/EntityMoveBar';
+import GroundPartCard from './GroundPartCard/GroundPartCard';
 
 const PotCard = memo<IEntityCardProps>(({ id }) => {
   const entityState = useAppSelector(selectEntityById(id)) as IPotState;
   const entityInstance = EntityManager.getEntityById(id);
   const onMove = useAppSelector(selectEntityOnMove);
+  const menuBind = useEntityCardMenu(entityInstance);
 
   if (!entityState || !entityInstance || !(entityInstance instanceof Pot)) {
     return null;
@@ -23,12 +26,8 @@ const PotCard = memo<IEntityCardProps>(({ id }) => {
   return (
     <>
       <DraggableCard closeCb={() => entityInstance.closeCard()} visible={!entityOnMove}>
-        <button onClick={() => entityInstance.placeInInventory()}>
-          <span className="material-symbols-outlined">inventory_2</span>
-        </button>
-        <button onClick={() => entityInstance.setIsOnMove(true)}>
-          <span className="material-symbols-outlined">open_with</span>
-        </button>
+        <GroundPartCard groundId={entityState.adds.groundId} potId={id} />
+        <EntityCardMenu {...menuBind} />
       </DraggableCard>
       {entityOnMove && <EntityMoveBar id={id} />}
     </>

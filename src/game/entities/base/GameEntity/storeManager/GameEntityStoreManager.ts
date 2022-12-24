@@ -1,4 +1,5 @@
 import {
+  removeGameEntity,
   selectEntityById,
   updateEntity,
 } from '../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
@@ -41,7 +42,11 @@ export class GameEntityStoreManager {
     }
   }
 
-  updateState() {
+  public updateState() {
     store.dispatch(updateEntity(this.getState()));
+  }
+
+  public removeState() {
+    store.dispatch(removeGameEntity(this.entity.id));
   }
 }

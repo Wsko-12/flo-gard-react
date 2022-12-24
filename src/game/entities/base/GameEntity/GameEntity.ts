@@ -65,4 +65,9 @@ export abstract class GameEntity {
   public getAddsState(): IEntityAddsState | null {
     return null;
   }
+
+  public remove() {
+    EntityManager.removeEntity(this);
+    this.storeManager.removeState();
+  }
 }

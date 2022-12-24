@@ -1,7 +1,16 @@
-import { EGameEntityTypes, GameEntity, IEntityAddsState } from '../../base/GameEntity/GameEntity';
+import {
+  EGameEntityTypes,
+  GameEntity,
+  IEntityAddsState,
+  IEntityState,
+} from '../../base/GameEntity/GameEntity';
 
-export interface IPotGroundState extends IEntityAddsState {
+export interface IPotGroundAddState extends IEntityAddsState {
   wet: number;
+}
+
+export interface IPotGroundState extends IEntityState {
+  adds: IPotGroundAddState;
 }
 
 export class PotGround extends GameEntity {
@@ -10,7 +19,7 @@ export class PotGround extends GameEntity {
     title: 'Pot Ground',
   };
 
-  state: IPotGroundState = {
+  state: IPotGroundAddState = {
     wet: 0,
   };
 

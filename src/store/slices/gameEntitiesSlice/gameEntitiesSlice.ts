@@ -5,7 +5,7 @@ import {
   EntityState,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { IEntityState } from '../../../game/entities/base/GameEntity/GameEntity';
+import { EGameEntityTypes, IEntityState } from '../../../game/entities/base/GameEntity/GameEntity';
 import { RootState } from '../../store';
 
 const gameEntitiesAdapter = createEntityAdapter<IEntityState>({
@@ -30,6 +30,10 @@ const gameEntitiesSlice = createSlice({
   reducers: {
     addGameEntity: (state, action: PayloadAction<IEntityState>) => {
       gameEntitiesAdapter.addOne(state.entities, action.payload);
+    },
+
+    removeGameEntity: (state, action: PayloadAction<EntityId>) => {
+      gameEntitiesAdapter.removeOne(state.entities, action.payload);
     },
 
     updateEntity: (state, action: PayloadAction<IEntityState>) => {
@@ -89,14 +93,21 @@ export const {
   closeEntityCard,
   setEntityOnMove,
   deleteEntityOnMove,
+  removeGameEntity,
 } = gameEntitiesSlice.actions;
 const entityAdapterSelectors = gameEntitiesAdapter.getSelectors(
   (state: RootState) => state.gameEntities.entities
 );
 export const selectEntitiesIds = entityAdapterSelectors.selectIds;
-export const selectEntityById = (id: EntityId) => (state: RootState) =>
-  entityAdapterSelectors.selectById(state, id);
+export const selectEntityById = (id: EntityId | null) => (state: RootState) =>
+  id ? entityAdapterSelectors.selectById(state, id) : undefined;
 
 export const selectOpenedCardsIds = (state: RootState) => state.gameEntities.cardOpened;
 
 export const selectEntityOnMove = (state: RootState) => state.gameEntities.onMove;
+
+export const selectEntitiesIdsByType = (type: EGameEntityTypes) => (state: RootState) =>
+  entityAdapterSelectors
+    .selectAll(state)
+    .filter((entity) => entity.type === type)
+    .map((entity) => entity.id);

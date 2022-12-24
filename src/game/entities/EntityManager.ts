@@ -19,6 +19,20 @@ export class EntityManager {
     }
   }
 
+  public static removeEntity(entity: GameEntity) {
+    const index = this.entities.indexOf(entity);
+    if (index === -1) {
+      return;
+    }
+    this.entities.splice(index, 1);
+  }
+  public static removeEntityById(id: EntityId) {
+    const entity = this.getEntityById(id);
+    if (entity) {
+      this.removeEntity(entity);
+    }
+  }
+
   public static getEntities() {
     return this.entities;
   }

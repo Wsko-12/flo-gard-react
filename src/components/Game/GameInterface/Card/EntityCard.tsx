@@ -1,47 +1,29 @@
 import { EntityId } from '@reduxjs/toolkit';
-import React, { memo } from 'react';
-import {
-  IIndependentEntityState,
-  IndependentGameEntity,
-} from '../../../../game/entities/base/IndependentGameEntity/IndependentGameEntity';
+import { memo, NamedExoticComponent } from 'react';
+import { EGameEntityTypes } from '../../../../game/entities/base/GameEntity/GameEntity';
+import { IndependentGameEntity } from '../../../../game/entities/base/IndependentGameEntity/IndependentGameEntity';
 import { EntityManager } from '../../../../game/entities/EntityManager';
-import {
-  selectEntityById,
-  selectEntityOnMove,
-} from '../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
-import { useAppSelector } from '../../../../store/store';
-import DraggableCard from './DraggableCard/DraggableCard';
-import EntityMoveBar from './EntityMoveBar/EntityMoveBar';
+import PotCard from './PotCard/PotCard';
 
-interface IEntityCardProps {
+export interface IEntityCardProps {
   id: EntityId;
 }
 
-const EntityCard = memo<IEntityCardProps>(({ id }) => {
-  const entityState = useAppSelector(selectEntityById(id)) as IIndependentEntityState;
-  const entityInstance = EntityManager.getEntityById(id);
-  const onMove = useAppSelector(selectEntityOnMove);
+const CardsByEntityType: Partial<Record<EGameEntityTypes, NamedExoticComponent<IEntityCardProps>>> =
+  {
+    [EGameEntityTypes.pot]: PotCard,
+  };
 
-  if (!entityState || !entityInstance || !(entityInstance instanceof IndependentGameEntity)) {
+const EntityCard = memo<IEntityCardProps>(({ id }) => {
+  const entityInstance = EntityManager.getEntityById(id);
+
+  if (!entityInstance || !(entityInstance instanceof IndependentGameEntity)) {
     return null;
   }
 
-  const entityOnMove = onMove === id;
-
-  return (
-    <>
-      <DraggableCard closeCb={() => entityInstance.closeCard()} visible={!entityOnMove}>
-        <p>{entityState.id}</p>
-        <button onClick={() => entityInstance.placeInInventory()}>
-          <span className="material-symbols-outlined">inventory_2</span>
-        </button>
-        <button onClick={() => entityInstance.setIsOnMove(true)}>
-          <span className="material-symbols-outlined">open_with</span>
-        </button>
-      </DraggableCard>
-      {entityOnMove && <EntityMoveBar id={id} />}
-    </>
-  );
+  const type = entityInstance.type;
+  const Card = CardsByEntityType[type];
+  return <>{Card ? <Card id={id} /> : null}</>;
 });
 
 export default EntityCard;

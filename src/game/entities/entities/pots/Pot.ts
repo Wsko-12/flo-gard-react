@@ -1,11 +1,17 @@
 import { EntityId } from '@reduxjs/toolkit';
 import { Group, Mesh } from 'three';
 import { EGameEntityTypes, IEntityAddsState } from '../../base/GameEntity/GameEntity';
-import { IndependentGameEntity } from '../../base/IndependentGameEntity/IndependentGameEntity';
+import {
+  IIndependentEntityState,
+  IndependentGameEntity,
+} from '../../base/IndependentGameEntity/IndependentGameEntity';
 import { PotGround } from './PotGround';
 
 export interface IPotAddsState extends IEntityAddsState {
   groundId: EntityId | null;
+}
+export interface IPotState extends IIndependentEntityState {
+  adds: IPotAddsState;
 }
 
 export abstract class Pot extends IndependentGameEntity {

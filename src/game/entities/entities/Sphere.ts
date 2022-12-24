@@ -1,9 +1,10 @@
 import { Mesh, MeshBasicMaterial, SphereGeometry } from 'three';
-import { IEntityInventoryData } from '../base/GameEntity/GameEntity';
+import { EGameEntityTypes, IEntityInventoryData } from '../base/GameEntity/GameEntity';
 import { CircleCollider } from '../base/IndependentGameEntity/Collider/CircleCollider/CircleCollider';
 import { IndependentGameEntity } from '../base/IndependentGameEntity/IndependentGameEntity';
 
 export class Sphere extends IndependentGameEntity {
+  type = EGameEntityTypes.test;
   inventoryData: IEntityInventoryData = {
     title: 'Sphere',
   };

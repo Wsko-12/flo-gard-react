@@ -20,7 +20,9 @@ const InventoryItem = memo<IInventoryItemProps>(({ id }) => {
   return (
     <div>
       <p>{data.title}</p>
-      <button onClick={() => entityInstance.placeInWorld()}>Place</button>
+      {entityState.isIndependent && (
+        <button onClick={() => entityInstance.placeInWorld()}>Place</button>
+      )}
     </div>
   );
 });

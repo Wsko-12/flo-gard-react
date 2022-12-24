@@ -8,16 +8,30 @@ export interface IEntityInventoryData {
   title: string;
 }
 
+export interface IEntityAddsState {
+  title?: string;
+}
+
 export interface IEntityState {
   id: EntityId;
+  type: EGameEntityTypes;
   inInventory: boolean;
   inventoryData: IEntityInventoryData;
   isIndependent: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  adds: IEntityAddsState | null;
+}
+
+export enum EGameEntityTypes {
+  test = 'TEST',
+  potGround = 'POT_GROUND',
+  pot = 'POT',
 }
 
 export abstract class GameEntity {
   public readonly id: string;
-  protected abstract mesh: Mesh | Group | null;
+  public abstract type: EGameEntityTypes;
+  protected mesh: Mesh | Group | null = null;
   public readonly isIndependent: boolean = false;
 
   public inInventory = true;
@@ -46,5 +60,9 @@ export abstract class GameEntity {
 
   public getMesh() {
     return this.mesh;
+  }
+
+  public getAddsState(): IEntityAddsState | null {
+    return null;
   }
 }

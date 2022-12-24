@@ -1,9 +1,10 @@
 import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three';
-import { IEntityInventoryData } from '../base/GameEntity/GameEntity';
+import { EGameEntityTypes, IEntityInventoryData } from '../base/GameEntity/GameEntity';
 import { QuadCollider } from '../base/IndependentGameEntity/Collider/QuadCollider/QuadCollider';
 import { IndependentGameEntity } from '../base/IndependentGameEntity/IndependentGameEntity';
 
 export class Cube extends IndependentGameEntity {
+  type = EGameEntityTypes.test;
   collider = new QuadCollider([
     [-0.5, 0.5],
     [0.5, 0.5],

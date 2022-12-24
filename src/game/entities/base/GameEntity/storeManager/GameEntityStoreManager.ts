@@ -19,12 +19,14 @@ export class GameEntityStoreManager {
   }
 
   public getState(): IEntityState {
-    const { id, inInventory, inventoryData, isIndependent } = this.entity;
+    const { id, inInventory, inventoryData, isIndependent, type } = this.entity;
     return {
       id,
+      type,
       inInventory,
       inventoryData,
       isIndependent,
+      adds: this.entity.getAddsState(),
     };
   }
 

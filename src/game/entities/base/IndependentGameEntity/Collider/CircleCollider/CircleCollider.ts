@@ -65,7 +65,7 @@ export class CircleCollider extends Collider {
     }
     const { x: pX, y: pY } = position;
     const { x, y } = Grass.getCanvasXY(pX, pY);
-    const radius = Grass.translateToCanvasPixels(this.r);
+    const radius = Grass.translateToCanvasPixels(this.r + 0.25);
     ctx.save();
     ctx.fillStyle = 'black';
     ctx.beginPath();

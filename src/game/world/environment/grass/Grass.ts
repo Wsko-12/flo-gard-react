@@ -295,6 +295,7 @@ export class Grass {
       alphaTest: 0.5,
     });
     mesh.customDepthMaterial = depthMaterial;
+    mesh.position.y = -0.025;
 
     depthMaterial.onBeforeCompile = (shader) => {
       shader.uniforms.uTime = this.uniforms.uTime;
@@ -371,7 +372,7 @@ export class Grass {
     const canvas_y = ((z + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
     const radius = (this.mover.scale.x / (GROUND_SIZE * 1.5)) * resolution;
     ctx.save();
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = '#303030';
     ctx.beginPath();
     ctx.arc(canvas_x, canvas_y, radius, 0, Math.PI * 2);
     ctx.fill();

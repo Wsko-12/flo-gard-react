@@ -1,5 +1,6 @@
 import { Scene } from 'three';
 import { Cube } from '../entities/entities/Cube';
+import { Pot } from '../entities/entities/pots/Pot';
 import { Sphere } from '../entities/entities/Sphere';
 import Day from './day/Day';
 import Environment from './environment/Environment';
@@ -14,9 +15,8 @@ export default class World {
     Environment.init();
 
     new Sphere();
-    new Sphere();
     new Cube();
-    new Cube();
+    new Pot();
   }
 
   static getScene() {

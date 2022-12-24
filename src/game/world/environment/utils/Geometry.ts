@@ -50,6 +50,22 @@ export class Point2 {
   clone() {
     return new Point2(this.x, this.y);
   }
+
+  rotate(angle: number) {
+    const sin = Math.sin(angle);
+    const cos = Math.cos(angle);
+
+    const x = this.x * cos - this.y * sin;
+    const y = this.x * sin + this.y * cos;
+
+    this.x = x;
+    this.y = y;
+  }
+
+  translate(x: number, y: number) {
+    this.x += x;
+    this.y += y;
+  }
 }
 
 export class Point3 {

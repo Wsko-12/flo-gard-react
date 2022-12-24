@@ -7,8 +7,8 @@ export class Cube extends IndependentGameEntity {
   collider = new QuadCollider([
     [-0.5, 0.5],
     [0.5, 0.5],
-    [-0.5, -0.5],
     [0.5, -0.5],
+    [-0.5, -0.5],
   ]);
   inventoryData: IEntityInventoryData = {
     title: 'Cube',

@@ -8,8 +8,11 @@ import { Collider } from '../Collider';
 
 export class QuadCollider extends Collider {
   protected mesh: Mesh;
+  private corners: Point2[];
   constructor(corners: [number, number][]) {
     super();
+    this.corners = corners.map(([x, y]) => new Point2(x, y));
+
     const points: Vector3[] = [];
     corners.forEach(([x, z]) => points.push(new Vector3(x, 0, z)));
     const plane = new PlaneGeometry(2, 2);
@@ -26,26 +29,20 @@ export class QuadCollider extends Collider {
   }
 
   getPoints(position?: Point2 | null, rotation?: number): [Point2, Point2, Point2, Point2] {
-    const geometry = this.mesh.geometry.clone();
+    const points = this.corners.map((point) => point.clone());
+
     if (position && rotation !== undefined) {
       // its only for grass paint
-      const scale = 1.25;
-      geometry.scale(scale, scale, scale);
-      geometry.rotateY(rotation);
-      geometry.translate(position.x, 0, position.y);
+      points.forEach((point) => point.rotate(-rotation));
+      const { x, y } = position;
+      points.forEach((point) => point.translate(x, y));
     } else {
-      geometry.rotateY(this.rotation);
-      geometry.translate(this.position.x, 0, this.position.y);
+      points.forEach((point) => point.rotate(-this.rotation));
+      const { x, y } = this.position;
+      points.forEach((point) => point.translate(x, y));
     }
-    const array = Array.from(geometry.getAttribute('position').array);
-    const A = array.splice(0, 3);
-    const B = array.splice(0, 3);
-    // here D must be first;
-    const D = array.splice(0, 3);
-    const C = array.splice(0, 3);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return [A, B, C, D].map(([x, _, y]) => new Point2(x, y)) as [Point2, Point2, Point2, Point2];
+    return points as [Point2, Point2, Point2, Point2];
   }
 
   isCollision() {

@@ -1,6 +1,15 @@
 import { Circle, Line, Point2, Quad, Triangle } from './Geometry';
 
 describe('Geometry', () => {
+  describe('Point', () => {
+    test('rotate', () => {
+      const point = new Point2(-2, 2);
+      point.rotate(0.785398163);
+      expect(point.x).toBeCloseTo(-2.83);
+      expect(point.y).toBeCloseTo(0);
+    });
+  });
+
   describe('Triangle', () => {
     test('getHalfPerimeter', () => {
       const A = new Point2(0, 0);

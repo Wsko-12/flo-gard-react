@@ -165,7 +165,7 @@ export abstract class IndependentGameEntity extends GameEntity {
     return this.collider;
   }
 
-  public pressGrass(ctx: CanvasRenderingContext2D, resolution: number) {
-    this.collider.pressGrass(ctx, resolution, this.placed.position, this.placed.angle);
+  public pressGrass(ctx: CanvasRenderingContext2D) {
+    this.collider.pressGrass(ctx, this.placed.position, this.placed.angle);
   }
 }

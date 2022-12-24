@@ -29,6 +29,9 @@ import { GROUND_SIZE } from '../ground/Ground';
 import { Point2 } from '../utils/Geometry';
 import Weed from './weed/Weed';
 
+const GRASS_HEIGHT_CANVAS_RESOLUTION = 64;
+const SHOW_GRASS_HEIGHT_TEXTURE = false;
+
 export const UNIFORM_WIND_STRENGTH = {
   value: 0.5,
 };
@@ -38,6 +41,20 @@ export const UNIFORM_WIND_DIRECTION = {
 };
 
 export class Grass {
+  static getCanvasXY(x: number, y: number) {
+    const canvasX =
+      ((x + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (GRASS_HEIGHT_CANVAS_RESOLUTION / 2);
+    const canvasY =
+      ((y + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (GRASS_HEIGHT_CANVAS_RESOLUTION / 2);
+    return {
+      x: canvasX,
+      y: canvasY,
+    };
+  }
+
+  static translateToCanvasPixels(value: number) {
+    return (value / GROUND_SIZE) * GRASS_HEIGHT_CANVAS_RESOLUTION;
+  }
   private group: Group;
   private mover: Mesh;
   private moverEnabled = false;
@@ -79,7 +96,11 @@ export class Grass {
 
     const canvasPlane = new Mesh(
       new PlaneGeometry(GROUND_SIZE, GROUND_SIZE),
-      new MeshBasicMaterial({ map: this.grassHeightTexture, side: BackSide, visible: false })
+      new MeshBasicMaterial({
+        map: this.grassHeightTexture,
+        side: BackSide,
+        visible: SHOW_GRASS_HEIGHT_TEXTURE,
+      })
     );
     canvasPlane.rotateX(Math.PI / 2);
     canvasPlane.position.y = 0.1;
@@ -104,7 +125,7 @@ export class Grass {
   };
 
   private createСanvas() {
-    const resolution = 64;
+    const resolution = GRASS_HEIGHT_CANVAS_RESOLUTION;
     const canvas = document.createElement('canvas');
     canvas.width = canvas.height = resolution;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -373,7 +394,7 @@ export class Grass {
 
   pressGrassByEntities() {
     const entities = EntityManager.getEntities();
-    const { ctx, resolution } = this.grassHeightCanvas;
+    const { ctx } = this.grassHeightCanvas;
     for (let i = 0; i < entities.length; i++) {
       const entity = entities[i];
       if (entity.inInventory) {
@@ -383,7 +404,7 @@ export class Grass {
         continue;
       }
 
-      entity.pressGrass(ctx, resolution);
+      entity.pressGrass(ctx);
     }
     this.grassHeightTexture.needsUpdate = true;
   }

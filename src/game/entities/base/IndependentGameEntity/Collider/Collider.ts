@@ -22,7 +22,6 @@ export abstract class Collider {
   abstract isCollision(): GameEntity | null;
   abstract pressGrass(
     ctx: CanvasRenderingContext2D,
-    resolution: number,
     position: Point2 | null,
     rotation: number
   ): void;

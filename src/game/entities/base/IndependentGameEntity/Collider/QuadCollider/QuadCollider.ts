@@ -1,5 +1,5 @@
 import { Mesh, PlaneGeometry, Vector3 } from 'three';
-import { GROUND_SIZE } from '../../../../../world/environment/ground/Ground';
+import { Grass } from '../../../../../world/environment/grass/Grass';
 import { Circle, Point2, Quad } from '../../../../../world/environment/utils/Geometry';
 import { EntityManager } from '../../../../EntityManager';
 import { IndependentGameEntity } from '../../IndependentGameEntity';
@@ -94,12 +94,7 @@ export class QuadCollider extends Collider {
     }
     return false;
   }
-  pressGrass(
-    ctx: CanvasRenderingContext2D,
-    resolution: number,
-    position: Point2 | null,
-    rotation: number
-  ) {
+  pressGrass(ctx: CanvasRenderingContext2D, position: Point2 | null, rotation: number) {
     if (!position) {
       return;
     }
@@ -111,17 +106,17 @@ export class QuadCollider extends Collider {
         return;
       }
 
-      const { x, y } = points[i];
-      const canvas_x = ((x + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
-      const canvas_y = ((y + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
+      const { x: pX, y: pY } = points[i];
+      const { x, y } = Grass.getCanvasXY(pX, pY);
+
       if (i === 0) {
         ctx.save();
         ctx.fillStyle = 'black';
         ctx.beginPath();
-        ctx.moveTo(canvas_x, canvas_y);
+        ctx.moveTo(x, y);
         continue;
       }
-      ctx.lineTo(canvas_x, canvas_y);
+      ctx.lineTo(x, y);
     }
   }
 }

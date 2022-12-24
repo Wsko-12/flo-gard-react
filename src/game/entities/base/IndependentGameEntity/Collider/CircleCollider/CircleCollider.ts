@@ -1,5 +1,5 @@
 import { CircleGeometry, Mesh } from 'three';
-import { GROUND_SIZE } from '../../../../../world/environment/ground/Ground';
+import { Grass } from '../../../../../world/environment/grass/Grass';
 import { Circle, Point2 } from '../../../../../world/environment/utils/Geometry';
 import { EntityManager } from '../../../../EntityManager';
 import { IndependentGameEntity } from '../../IndependentGameEntity';
@@ -59,23 +59,17 @@ export class CircleCollider extends Collider {
     return thisCircle.isCircleIn(colliderCircle);
   }
 
-  public pressGrass(
-    ctx: CanvasRenderingContext2D,
-    resolution: number,
-    position: Point2 | null
-  ): void {
+  public pressGrass(ctx: CanvasRenderingContext2D, position: Point2 | null): void {
     if (!position) {
       return;
     }
-    const { x, y } = position;
-    const r = this.r * 2;
-    const canvas_x = ((x + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
-    const canvas_y = ((y + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
-    const radius = (r / (GROUND_SIZE * 1.5)) * resolution;
+    const { x: pX, y: pY } = position;
+    const { x, y } = Grass.getCanvasXY(pX, pY);
+    const radius = Grass.translateToCanvasPixels(this.r);
     ctx.save();
     ctx.fillStyle = 'black';
     ctx.beginPath();
-    ctx.arc(canvas_x, canvas_y, radius, 0, Math.PI * 2);
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
   }

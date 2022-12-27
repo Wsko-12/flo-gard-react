@@ -21,6 +21,7 @@ export abstract class Collider {
   }
 
   abstract isCollision(): IndependentGameEntity[] | null;
+  abstract isColliderInside(collider: Collider): boolean;
   abstract pressGrass(
     ctx: CanvasRenderingContext2D,
     position: Point2 | null,

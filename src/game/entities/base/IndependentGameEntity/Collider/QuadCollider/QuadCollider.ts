@@ -111,7 +111,15 @@ export class QuadCollider extends Collider {
     }
     return false;
   }
-
+  isColliderInside(collider: Collider): boolean {
+    if (collider instanceof QuadCollider) {
+      return this.getQuad().isQuadInside(collider.getQuad());
+    }
+    if (collider instanceof CircleCollider) {
+      return this.getQuad().isCircleInside(collider.getCircle());
+    }
+    return false;
+  }
   public pressGrass(ctx: CanvasRenderingContext2D, position: Point2 | null, rotation: number) {
     if (!position) {
       return;

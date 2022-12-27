@@ -92,6 +92,7 @@ export abstract class IndependentGameEntity extends GameEntity {
   }
 
   public placeInInventory() {
+    this.changeInGroupEntity(null);
     this.closeCard(false);
     World.getScene().remove(this.mesh);
     this.collider.remove();
@@ -136,8 +137,9 @@ export abstract class IndependentGameEntity extends GameEntity {
   // can't create this method static in GroupEntity
   // because of cycle imports
   private selectGroupEntity(groupEntities: GroupEntity[]) {
-    if (groupEntities.length === 1 && groupEntities[0].canAcceptEntity(this)) {
-      this.changeInGroupEntity(groupEntities[0]);
+    if (groupEntities.length === 1) {
+      const group = groupEntities[0];
+      this.changeInGroupEntity(group);
     }
   }
 
@@ -165,6 +167,7 @@ export abstract class IndependentGameEntity extends GameEntity {
     const groupEntities = entities as GroupEntity[];
 
     if (!groupEntities.every((entity) => entity.canAcceptEntity(this))) {
+      this.changeInGroupEntity(null);
       return true;
     }
 

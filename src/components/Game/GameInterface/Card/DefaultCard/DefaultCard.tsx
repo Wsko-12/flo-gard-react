@@ -16,7 +16,7 @@ const DefaultCard = memo<IEntityCardProps>(({ id }) => {
   const entityState = useAppSelector(selectEntityById(id)) as IEntityState;
   const entityInstance = EntityManager.getEntityById(id);
   const onMove = useAppSelector(selectEntityOnMove);
-  const menuBind = useEntityCardMenu(entityInstance);
+  const menuBind = useEntityCardMenu(id);
 
   if (!entityState || !entityInstance || !(entityInstance instanceof IndependentGameEntity)) {
     return null;

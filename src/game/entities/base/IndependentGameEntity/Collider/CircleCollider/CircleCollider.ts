@@ -44,6 +44,16 @@ export class CircleCollider extends Collider {
     return intersections.length ? intersections : null;
   }
 
+  isColliderInside(collider: Collider): boolean {
+    if (collider instanceof QuadCollider) {
+      return this.getCircle().isQuadInside(collider.getQuad());
+    }
+    if (collider instanceof CircleCollider) {
+      return this.getCircle().isCircleInside(collider.getCircle());
+    }
+    return false;
+  }
+
   private checkCollision(collider: Collider) {
     if (collider instanceof CircleCollider) {
       return this.getCircle().isCollideCircle(collider.getCircle());

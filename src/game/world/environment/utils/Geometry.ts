@@ -218,7 +218,7 @@ export class Line {
     return Math.sqrt(x ** 2 + y ** 2);
   }
 
-  isIntersectLine(line: Line) {
+  isCollideLine(line: Line) {
     const x1 = this.start.x;
     const y1 = this.start.y;
 
@@ -246,8 +246,8 @@ export class Line {
     return 0 < t && t < 1 && 0 < u && u < 1;
   }
 
-  isIntersectsCircle(circle: Circle) {
-    if (circle.isPointIn(this.start) || circle.isPointIn(this.end)) {
+  isCollideCircle(circle: Circle) {
+    if (circle.isCollidePoint(this.start) || circle.isCollidePoint(this.end)) {
       return true;
     }
 
@@ -313,7 +313,7 @@ export class Triangle {
     return 0.5 * a * h;
   }
 
-  isPointIn(point: Point2) {
+  isCollidePoint(point: Point2) {
     const origSquare = this.getSquare();
 
     const triangle_1 = new Triangle([point, this.A, this.B]);
@@ -360,11 +360,11 @@ export class Quad {
     return square_1 + square_2;
   }
 
-  isPointIn(point: Point2) {
-    return this.triangle_1.isPointIn(point) || this.triangle_2.isPointIn(point);
+  isCollidePoint(point: Point2) {
+    return this.triangle_1.isCollidePoint(point) || this.triangle_2.isCollidePoint(point);
   }
 
-  isQuadIn(quad: Quad) {
+  isCollideQuad(quad: Quad) {
     // first check intersection lines;
     const thisLines = [this.a, this.b, this.c, this.d];
     const quadLines = [quad.a, quad.b, quad.c, quad.d];
@@ -373,7 +373,7 @@ export class Quad {
       const line = thisLines[i];
       for (let j = 0; j < quadLines.length; j++) {
         const quadLine = quadLines[j];
-        if (line.isIntersectLine(quadLine)) {
+        if (line.isCollideLine(quadLine)) {
           return true;
         }
       }
@@ -381,22 +381,22 @@ export class Quad {
 
     // if lines didn't intersect check one point
     // situation when one quad fully inside secondQuad;
-    if (this.isPointIn(quad.A)) {
+    if (this.isCollidePoint(quad.A)) {
       return true;
     }
-    if (quad.isPointIn(this.A)) {
+    if (quad.isCollidePoint(this.A)) {
       return true;
     }
 
     return false;
   }
 
-  isCircleIn(circle: Circle) {
+  isCollideCircle(circle: Circle) {
     // first check quad corners inside circle
     const thisPoints = [this.A, this.B, this.C, this.D];
     for (let i = 0; i < thisPoints.length; i++) {
       const point = thisPoints[i];
-      if (circle.isPointIn(point)) {
+      if (circle.isCollidePoint(point)) {
         return true;
       }
     }
@@ -405,13 +405,13 @@ export class Quad {
     const thisLines = [this.a, this.b, this.c, this.d];
     for (let i = 0; i < thisPoints.length; i++) {
       const line = thisLines[i];
-      if (line.isIntersectsCircle(circle)) {
+      if (line.isCollideCircle(circle)) {
         return true;
       }
     }
 
     // then check center circle inside Quad;
-    if (this.isPointIn(circle.center)) {
+    if (this.isCollidePoint(circle.center)) {
       return true;
     }
 
@@ -427,12 +427,12 @@ export class Circle {
     this.radius = radius;
   }
 
-  isPointIn(point: Point2) {
+  isCollidePoint(point: Point2) {
     const distance = this.center.getDistanceTo(point);
     return distance < this.radius;
   }
 
-  isCircleIn(circle: Circle) {
+  isCollideCircle(circle: Circle) {
     const distance = this.center.getDistanceTo(circle.center);
     const radSum = this.radius + circle.radius;
     return distance < radSum;

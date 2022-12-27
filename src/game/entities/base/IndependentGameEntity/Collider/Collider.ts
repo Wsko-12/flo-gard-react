@@ -1,7 +1,7 @@
 import { Mesh, MeshBasicMaterial } from 'three';
 import { Point2 } from '../../../../world/environment/utils/Geometry';
 import World from '../../../../world/World';
-import { GameEntity } from '../../GameEntity/GameEntity';
+import { IndependentGameEntity } from '../IndependentGameEntity';
 
 export abstract class Collider {
   protected abstract mesh: Mesh;
@@ -20,7 +20,7 @@ export abstract class Collider {
     this.rotation = angle;
   }
 
-  abstract isCollision(): GameEntity | null;
+  abstract isCollision(): IndependentGameEntity[] | null;
   abstract pressGrass(
     ctx: CanvasRenderingContext2D,
     position: Point2 | null,

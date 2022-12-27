@@ -72,6 +72,7 @@ export class QuadCollider extends Collider {
   }
 
   isCollision() {
+    const intersections: IndependentGameEntity[] = [];
     const entities = EntityManager.getEntities();
     for (let i = 0; i < entities.length; i++) {
       const entity = entities[i];
@@ -90,10 +91,10 @@ export class QuadCollider extends Collider {
 
       const isCollide = this.checkCollision(collider);
       if (isCollide) {
-        return entity;
+        intersections.push(entity);
       }
     }
-    return null;
+    return intersections.length ? intersections : null;
   }
   private checkCircleCollider(collider: CircleCollider) {
     const points = this.getPoints();

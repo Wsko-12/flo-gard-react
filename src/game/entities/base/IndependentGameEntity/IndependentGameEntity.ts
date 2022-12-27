@@ -124,8 +124,14 @@ export abstract class IndependentGameEntity extends GameEntity {
     this.clickBox?.setPosition(x, y, angle);
     this.collider.setPosition(x, y, angle);
 
-    const isCollision = !!this.collider.isCollision();
+    const isCollision = this.checkCollision();
     IndependentGameEntity.setMeshTransparent(this.mesh, isCollision);
+  }
+
+  private checkCollision() {
+    const entities = this.collider.isCollision();
+    // console.log(entities);
+    return !!entities;
   }
 
   public setIsOnMove(flag: boolean, callPlaceInInventory = true) {
@@ -151,7 +157,7 @@ export abstract class IndependentGameEntity extends GameEntity {
   }
 
   public applyPosition() {
-    if (this.collider.isCollision()) {
+    if (this.checkCollision()) {
       return;
     }
     const { x, y } = this.meshPosition;

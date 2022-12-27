@@ -46,18 +46,12 @@ export class CircleCollider extends Collider {
 
   private checkCollision(collider: Collider) {
     if (collider instanceof CircleCollider) {
-      return this.checkCircleCollider(collider);
+      return this.getCircle().isCollideCircle(collider.getCircle());
     }
     if (collider instanceof QuadCollider) {
-      return collider.checkCollision(this);
+      return this.getCircle().isCollideQuad(collider.getQuad());
     }
     return false;
-  }
-
-  private checkCircleCollider(collider: CircleCollider) {
-    const thisCircle = new Circle(this.position, this.r);
-    const colliderCircle = new Circle(collider.position, collider.r);
-    return thisCircle.isCollideCircle(colliderCircle);
   }
 
   public pressGrass(ctx: CanvasRenderingContext2D, position: Point2 | null): void {
@@ -73,5 +67,9 @@ export class CircleCollider extends Collider {
     ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
+  }
+
+  public getCircle() {
+    return new Circle(this.position, this.r);
   }
 }

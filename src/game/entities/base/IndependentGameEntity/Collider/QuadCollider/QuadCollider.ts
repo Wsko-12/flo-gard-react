@@ -1,6 +1,6 @@
 import { Mesh, PlaneGeometry, Vector3 } from 'three';
 import { Grass } from '../../../../../world/environment/grass/Grass';
-import { Circle, Point2, Quad } from '../../../../../world/environment/utils/Geometry';
+import { Point2, Quad } from '../../../../../world/environment/utils/Geometry';
 import { EntityManager } from '../../../../EntityManager';
 import { IndependentGameEntity } from '../../IndependentGameEntity';
 import { CircleCollider } from '../CircleCollider/CircleCollider';
@@ -52,7 +52,7 @@ export class QuadCollider extends Collider {
     this.mesh = QuadCollider.getMeshByCorners(this.corners);
   }
 
-  getPoints(position?: Point2 | null, rotation?: number): [Point2, Point2, Point2, Point2] {
+  public getPoints(position?: Point2 | null, rotation?: number): [Point2, Point2, Point2, Point2] {
     const points = this.corners.map((point) => point.clone());
 
     let { x, y } = this.position;
@@ -71,7 +71,7 @@ export class QuadCollider extends Collider {
     return points as [Point2, Point2, Point2, Point2];
   }
 
-  isCollision() {
+  public isCollision() {
     const intersections: IndependentGameEntity[] = [];
     const entities = EntityManager.getEntities();
     for (let i = 0; i < entities.length; i++) {
@@ -96,30 +96,23 @@ export class QuadCollider extends Collider {
     }
     return intersections.length ? intersections : null;
   }
-  private checkCircleCollider(collider: CircleCollider) {
+
+  public getQuad() {
     const points = this.getPoints();
-    const quad = new Quad(points);
-    const circle = new Circle(collider.position, collider.r);
-    return quad.isCollideCircle(circle);
+    return new Quad(points);
   }
 
-  private checkQuadCollider(collider: QuadCollider) {
-    const points = this.getPoints();
-    const thisQuad = new Quad(points);
-    const colliderQuad = new Quad(collider.getPoints());
-    return thisQuad.isCollideQuad(colliderQuad);
-  }
-
-  checkCollision(collider: Collider) {
+  public checkCollision(collider: Collider) {
     if (collider instanceof CircleCollider) {
-      return this.checkCircleCollider(collider);
+      return this.getQuad().isCollideCircle(collider.getCircle());
     }
     if (collider instanceof QuadCollider) {
-      return this.checkQuadCollider(collider);
+      return this.getQuad().isCollideQuad(collider.getQuad());
     }
     return false;
   }
-  pressGrass(ctx: CanvasRenderingContext2D, position: Point2 | null, rotation: number) {
+
+  public pressGrass(ctx: CanvasRenderingContext2D, position: Point2 | null, rotation: number) {
     if (!position) {
       return;
     }

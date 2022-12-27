@@ -37,7 +37,7 @@ export abstract class IndependentGameEntity extends GameEntity {
           mesh.material instanceof MeshBasicMaterial ||
           mesh.material instanceof MeshPhongMaterial
         ) {
-          mesh.material.transparent = flag;
+          mesh.material.opacity = flag ? 0.6 : 1;
         }
       } else {
         mesh.children.forEach(setTransparent);

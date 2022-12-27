@@ -26,6 +26,7 @@ export enum EGameEntityTypes {
   test = 'TEST',
   potGround = 'POT_GROUND',
   pot = 'POT',
+  stand = 'STAND',
 }
 
 export abstract class GameEntity {

@@ -72,6 +72,11 @@ const geometriesAtlas: AtlasItem[] = [
     folder: 'pots/pot_1',
     file: 'pot_1_ground.glb',
   },
+  {
+    name: 'pallet_1',
+    folder: 'stands/pallet_1',
+    file: 'pallet_1.glb',
+  },
 ];
 
 export { geometriesAtlas };

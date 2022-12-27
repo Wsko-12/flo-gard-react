@@ -354,6 +354,14 @@ export class Quad {
     this.triangle_2 = new Triangle([this.A, this.D, this.C]);
   }
 
+  getCorners(): [Point2, Point2, Point2, Point2] {
+    return [this.A, this.B, this.C, this.D];
+  }
+
+  getEdges(): [Line, Line, Line, Line] {
+    return [this.a, this.b, this.c, this.d];
+  }
+
   getSquare() {
     const square_1 = this.triangle_1.getSquare();
     const square_2 = this.triangle_2.getSquare();
@@ -364,18 +372,24 @@ export class Quad {
     return this.triangle_1.isCollidePoint(point) || this.triangle_2.isCollidePoint(point);
   }
 
+  isCollideLine(line: Line) {
+    const thisLines = [this.a, this.b, this.c, this.d];
+    for (let i = 0; i < thisLines.length; i++) {
+      const thisLine = thisLines[i];
+      if (thisLine.isCollideLine(line)) {
+        return true;
+      }
+    }
+    return false;
+  }
   isCollideQuad(quad: Quad) {
     // first check intersection lines;
-    const thisLines = [this.a, this.b, this.c, this.d];
     const quadLines = [quad.a, quad.b, quad.c, quad.d];
 
-    for (let i = 0; i < thisLines.length; i++) {
-      const line = thisLines[i];
-      for (let j = 0; j < quadLines.length; j++) {
-        const quadLine = quadLines[j];
-        if (line.isCollideLine(quadLine)) {
-          return true;
-        }
+    for (let j = 0; j < quadLines.length; j++) {
+      const quadLine = quadLines[j];
+      if (this.isCollideLine(quadLine)) {
+        return true;
       }
     }
 
@@ -417,6 +431,51 @@ export class Quad {
 
     return false;
   }
+
+  isQuadInside(quad: Quad) {
+    const corners = quad.getCorners();
+
+    for (let i = 0; i < corners.length; i++) {
+      const corner = corners[i];
+      if (!this.isCollidePoint(corner)) {
+        return false;
+      }
+    }
+
+    const edges = quad.getEdges();
+
+    for (let i = 0; i < edges.length; i++) {
+      const edge = edges[i];
+      if (this.isCollideLine(edge)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  isCircleInside(circle: Circle) {
+    if (!this.isCollidePoint(circle.center)) {
+      return false;
+    }
+
+    const lines = this.getEdges();
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      if (line.isCollideCircle(circle)) {
+        return false;
+      }
+    }
+
+    // const corners = this.getCorners();
+    // for (let i = 0; i < corners.length; i++) {
+    //   const corner = corners[i];
+    //   if (circle.isCollidePoint(corner)) {
+    //     return false;
+    //   }
+    // }
+
+    return true;
+  }
 }
 
 export class Circle {
@@ -436,5 +495,13 @@ export class Circle {
     const distance = this.center.getDistanceTo(circle.center);
     const radSum = this.radius + circle.radius;
     return distance < radSum;
+  }
+
+  isCollideQuad(quad: Quad) {
+    return quad.isCollideCircle(this);
+  }
+
+  isCollideLine(line: Line) {
+    return line.isCollideCircle(this);
   }
 }

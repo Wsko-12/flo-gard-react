@@ -291,6 +291,145 @@ describe('Geometry', () => {
         expect(quad.isCollideCircle(circle)).toBe(false);
       }
     });
+
+    test('isCollideLine', () => {
+      {
+        const A = new Point2(2, 4);
+        const B = new Point2(2, 2);
+        const C = new Point2(4, 2);
+        const D = new Point2(4, 4);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const E = new Point2(1, 3);
+        const F = new Point2(1.83, 3);
+        const line = new Line(E, F);
+        expect(quad.isCollideLine(line)).toBe(false);
+        expect(quad.isCollideLine(new Line(F, E))).toBe(false);
+      }
+      {
+        const A = new Point2(2, 4);
+        const B = new Point2(2, 2);
+        const C = new Point2(4, 2);
+        const D = new Point2(4, 4);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const E = new Point2(1, 3);
+        const F = new Point2(3, 3);
+        const line = new Line(E, F);
+        expect(quad.isCollideLine(line)).toBe(true);
+        expect(quad.isCollideLine(new Line(F, E))).toBe(true);
+      }
+    });
+
+    test('isQuadInside', () => {
+      {
+        const A = new Point2(2, 4);
+        const B = new Point2(2, 2);
+        const C = new Point2(4, 2);
+        const D = new Point2(4, 4);
+
+        const quad_1 = new Quad([A, B, C, D]);
+
+        const E = new Point2(6, 4);
+        const F = new Point2(8, 4);
+        const G = new Point2(8, 2);
+        const H = new Point2(6, 2);
+
+        const quad_2 = new Quad([E, F, G, H]);
+        expect(quad_1.isQuadInside(quad_2)).toBe(false);
+      }
+
+      {
+        const A = new Point2(2, 4);
+        const B = new Point2(2, 2);
+        const C = new Point2(4, 2);
+        const D = new Point2(4, 4);
+
+        const quad_1 = new Quad([A, B, C, D]);
+
+        const E = new Point2(3.10903, 3.22153);
+        const F = new Point2(8, 4);
+        const G = new Point2(8, 2);
+        const H = new Point2(6, 2);
+
+        const quad_2 = new Quad([E, F, G, H]);
+        expect(quad_1.isQuadInside(quad_2)).toBe(false);
+      }
+      {
+        const A = new Point2(2, 4);
+        const B = new Point2(2, 2);
+        const C = new Point2(4, 2);
+        const D = new Point2(4, 4);
+
+        const quad_1 = new Quad([A, B, C, D]);
+
+        const E = new Point2(3.10903, 3.22153);
+        const F = new Point2(3.53976, 3.52558);
+        const G = new Point2(3.59044, 2.66411);
+        const H = new Point2(2.88099, 2.51208);
+
+        const quad_2 = new Quad([E, F, G, H]);
+        expect(quad_1.isQuadInside(quad_2)).toBe(true);
+      }
+    });
+
+    test('isCircleInside', () => {
+      {
+        const A = new Point2(2, 4);
+        const B = new Point2(2, 2);
+        const C = new Point2(4, 2);
+        const D = new Point2(4, 4);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const E = new Point2(3, 6);
+        const r = 1;
+        const circle = new Circle(E, r);
+        expect(quad.isCircleInside(circle)).toBe(false);
+      }
+
+      {
+        const A = new Point2(2, 4);
+        const B = new Point2(2, 2);
+        const C = new Point2(4, 2);
+        const D = new Point2(4, 4);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const E = new Point2(3, 3);
+        const r = 0.5;
+        const circle = new Circle(E, r);
+        expect(quad.isCircleInside(circle)).toBe(true);
+      }
+      {
+        const A = new Point2(2, 4);
+        const B = new Point2(2, 2);
+        const C = new Point2(4, 2);
+        const D = new Point2(4, 4);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const E = new Point2(3.5, 3);
+        const r = 0.75;
+        const circle = new Circle(E, r);
+        expect(quad.isCircleInside(circle)).toBe(false);
+      }
+      {
+        const A = new Point2(2, 4);
+        const B = new Point2(2, 2);
+        const C = new Point2(4, 2);
+        const D = new Point2(4, 4);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const E = new Point2(3, 3);
+        const r = 2;
+        const circle = new Circle(E, r);
+        expect(quad.isCircleInside(circle)).toBe(false);
+      }
+    });
   });
 
   describe('Line', () => {

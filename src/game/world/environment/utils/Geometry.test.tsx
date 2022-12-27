@@ -429,6 +429,32 @@ describe('Geometry', () => {
         const circle = new Circle(E, r);
         expect(quad.isCircleInside(circle)).toBe(false);
       }
+      {
+        const A = new Point2(0.5, 2);
+        const B = new Point2(1.5, 2);
+        const C = new Point2(1.5, 1);
+        const D = new Point2(0.5, 1);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const E = new Point2(0, 0);
+        const r = 1;
+        const circle = new Circle(E, r);
+        expect(quad.isCircleInside(circle)).toBe(false);
+      }
+      {
+        const A = new Point2(0.5, 2);
+        const B = new Point2(1.5, 2);
+        const C = new Point2(1.5, 1);
+        const D = new Point2(0.5, 1);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const E = new Point2(1, 1.5);
+        const r = 1;
+        const circle = new Circle(E, r);
+        expect(quad.isCircleInside(circle)).toBe(false);
+      }
     });
   });
 

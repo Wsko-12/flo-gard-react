@@ -462,13 +462,13 @@ export class Quad {
       }
     }
 
-    // const corners = this.getCorners();
-    // for (let i = 0; i < corners.length; i++) {
-    //   const corner = corners[i];
-    //   if (circle.isCollidePoint(corner)) {
-    //     return false;
-    //   }
-    // }
+    const corners = this.getCorners();
+    for (let i = 0; i < corners.length; i++) {
+      const corner = corners[i];
+      if (circle.isCollidePoint(corner)) {
+        return false;
+      }
+    }
 
     return true;
   }

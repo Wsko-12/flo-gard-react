@@ -1,5 +1,5 @@
 import { EntityId } from '@reduxjs/toolkit';
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useCallback } from 'react';
 import { IEntityState } from '../../../../../game/entities/base/GameEntity/GameEntity';
 import {
   GroupEntity,
@@ -24,6 +24,7 @@ export const useEntityCardMenu = (id: EntityId) => {
     }
   }, [entityInstance]);
 
+  // didn't useState because of infinity rerenders
   let disableMove = false;
   if (entityInstance instanceof GroupEntity) {
     const haveEntity = !!(entityState.adds as IGroupEntityAddsState).entities.length;

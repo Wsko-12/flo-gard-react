@@ -14,6 +14,7 @@ import Environment from '../../../world/environment/Environment';
 import { Point2 } from '../../../world/environment/utils/Geometry';
 import World from '../../../world/World';
 import { GameEntity, IEntityState } from '../GameEntity/GameEntity';
+import { GroupEntity } from '../GroupEntity/GroupEntity';
 import { ClickBox } from './ClickBox/ClickBox';
 import { Collider } from './Collider/Collider';
 import { IndependentGameEntityStoreManager } from './storeManager/GameEntityStoreManager';
@@ -62,6 +63,9 @@ export abstract class IndependentGameEntity extends GameEntity {
   public abstract isRotate: boolean;
 
   protected clickBox: ClickBox | null = null;
+
+  protected inGroupEntity: GroupEntity | null = null;
+  public isGroupEntity = false;
 
   constructor() {
     super();
@@ -116,22 +120,57 @@ export abstract class IndependentGameEntity extends GameEntity {
   };
 
   private setMeshPosition(x: number, y: number, angle: number) {
+    const z = this.inGroupEntity?.getYShift() || 0;
     this.meshPosition.set(x, y);
     this.meshRotation = angle;
 
-    this.mesh.position.set(x, 0, y);
+    this.mesh.position.set(x, z, y);
     this.mesh.rotation.set(0, angle, 0);
-    this.clickBox?.setPosition(x, y, angle);
+    this.clickBox?.setPosition(x, y, z, angle);
     this.collider.setPosition(x, y, angle);
 
     const isCollision = this.checkCollision();
     IndependentGameEntity.setMeshTransparent(this.mesh, isCollision);
   }
 
+  // can't create this method static in GroupEntity
+  // because of cycle imports
+  private selectGroupEntity(groupEntities: GroupEntity[]) {
+    if (groupEntities.length === 1 && groupEntities[0].canAcceptEntity(this)) {
+      this.changeInGroupEntity(groupEntities[0]);
+    }
+  }
+
+  private changeInGroupEntity(groupEntity: GroupEntity | null) {
+    if (this.inGroupEntity) {
+      if (this.inGroupEntity !== groupEntity) {
+        this.inGroupEntity.removeEntity(this);
+      }
+    }
+
+    this.inGroupEntity = groupEntity;
+    groupEntity?.addEntity(this);
+  }
   private checkCollision() {
     const entities = this.collider.isCollision();
-    // console.log(entities);
-    return !!entities;
+    if (!entities) {
+      this.changeInGroupEntity(null);
+      return false;
+    }
+
+    if (!entities.every((entity) => entity.isGroupEntity)) {
+      return true;
+    }
+
+    const groupEntities = entities as GroupEntity[];
+
+    if (!groupEntities.every((entity) => entity.canAcceptEntity(this))) {
+      return true;
+    }
+
+    this.selectGroupEntity(groupEntities);
+
+    return false;
   }
 
   public setIsOnMove(flag: boolean, callPlaceInInventory = true) {

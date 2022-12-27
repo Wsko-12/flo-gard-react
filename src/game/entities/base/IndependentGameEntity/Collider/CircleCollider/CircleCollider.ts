@@ -57,7 +57,7 @@ export class CircleCollider extends Collider {
   private checkCircleCollider(collider: CircleCollider) {
     const thisCircle = new Circle(this.position, this.r);
     const colliderCircle = new Circle(collider.position, collider.r);
-    return thisCircle.isCircleIn(colliderCircle);
+    return thisCircle.isCollideCircle(colliderCircle);
   }
 
   public pressGrass(ctx: CanvasRenderingContext2D, position: Point2 | null): void {

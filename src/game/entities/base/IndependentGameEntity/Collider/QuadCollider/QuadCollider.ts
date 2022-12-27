@@ -100,14 +100,14 @@ export class QuadCollider extends Collider {
     const points = this.getPoints();
     const quad = new Quad(points);
     const circle = new Circle(collider.position, collider.r);
-    return quad.isCircleIn(circle);
+    return quad.isCollideCircle(circle);
   }
 
   private checkQuadCollider(collider: QuadCollider) {
     const points = this.getPoints();
     const thisQuad = new Quad(points);
     const colliderQuad = new Quad(collider.getPoints());
-    return thisQuad.isQuadIn(colliderQuad);
+    return thisQuad.isCollideQuad(colliderQuad);
   }
 
   checkCollision(collider: Collider) {

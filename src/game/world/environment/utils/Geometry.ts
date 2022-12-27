@@ -500,4 +500,26 @@ export class Circle {
   isCollideLine(line: Line) {
     return line.isCollideCircle(this);
   }
+
+  isQuadInside(quad: Quad) {
+    const corners = quad.getCorners();
+    for (let i = 0; i < corners.length; i++) {
+      const corner = corners[i];
+      if (!this.isCollidePoint(corner)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  isCircleInside(circle: Circle) {
+    const distance = this.center.getDistanceTo(circle.center);
+    if (distance > this.radius) {
+      return false;
+    }
+    if (distance + circle.radius >= this.radius) {
+      return false;
+    }
+    return true;
+  }
 }

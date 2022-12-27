@@ -651,5 +651,78 @@ describe('Geometry', () => {
         expect(circle_2.isCollideCircle(circle_1)).toBe(true);
       }
     });
+
+    test('isQuadInside', () => {
+      {
+        const A = new Point2(0.5, 2);
+        const B = new Point2(1.5, 2);
+        const C = new Point2(1.5, 1);
+        const D = new Point2(0.5, 1);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const E = new Point2(-1, 1.5);
+        const r = 1;
+        const circle = new Circle(E, r);
+        expect(circle.isQuadInside(quad)).toBe(false);
+      }
+
+      {
+        const A = new Point2(0.5, 2);
+        const B = new Point2(1.5, 2);
+        const C = new Point2(1.5, 1);
+        const D = new Point2(0.5, 1);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const E = new Point2(1, 1.5);
+        const r = 1;
+        const circle = new Circle(E, r);
+        expect(circle.isQuadInside(quad)).toBe(true);
+      }
+      {
+        const A = new Point2(0.5, 2);
+        const B = new Point2(1.5, 2);
+        const C = new Point2(1.5, 1);
+        const D = new Point2(1.9, 0.67);
+
+        const quad = new Quad([A, B, C, D]);
+
+        const E = new Point2(1, 1.5);
+        const r = 1;
+        const circle = new Circle(E, r);
+        expect(circle.isQuadInside(quad)).toBe(false);
+      }
+    });
+
+    test('isCircleInside', () => {
+      {
+        const A = new Point2(1, 1);
+        const rA = 1;
+        const B = new Point2(3, 3);
+        const rB = 1;
+        const circle_a = new Circle(A, rA);
+        const circle_b = new Circle(B, rB);
+        expect(circle_a.isCircleInside(circle_b)).toBe(false);
+      }
+      {
+        const A = new Point2(1, 1);
+        const rA = 1;
+        const B = new Point2(1.5, 1.5);
+        const rB = 0.1;
+        const circle_a = new Circle(A, rA);
+        const circle_b = new Circle(B, rB);
+        expect(circle_a.isCircleInside(circle_b)).toBe(true);
+      }
+      {
+        const A = new Point2(1, 1);
+        const rA = 1;
+        const B = new Point2(1, 1);
+        const rB = 1;
+        const circle_a = new Circle(A, rA);
+        const circle_b = new Circle(B, rB);
+        expect(circle_a.isCircleInside(circle_b)).toBe(false);
+      }
+    });
   });
 });

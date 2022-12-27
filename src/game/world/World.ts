@@ -1,4 +1,5 @@
 import { Scene } from 'three';
+import { Cube } from '../entities/entities/Cube';
 import { PotGround } from '../entities/entities/pots/PotGround';
 import { Pot_1 } from '../entities/entities/pots/types/Pot_1';
 import Day from './day/Day';
@@ -15,6 +16,7 @@ export default class World {
     new Pot_1();
     new Pot_1();
     new PotGround();
+    new Cube();
   }
 
   static getScene() {

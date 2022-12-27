@@ -252,20 +252,16 @@ export class Line {
     }
 
     const lineVector = new Vector2(this.end.x - this.start.x, this.end.y - this.start.y);
-    const far =
-      this.start.getDistanceTo(circle.center) < this.end.getDistanceTo(circle.center)
-        ? this.end
-        : this.start;
 
-    const O = far;
+    const O = this.start;
     const C = circle.center;
     const OC = new Vector2(C.x - O.x, C.y - O.y);
 
     const OT_length = lineVector.normalize().dot(OC);
-
-    if (Math.abs(OT_length) > this.getLength()) {
+    if (OT_length <= 0 || OT_length > this.getLength()) {
       return false;
     }
+
     const CT_length = Math.sqrt(OC.getLength() ** 2 - OT_length ** 2);
     return CT_length <= circle.radius;
   }

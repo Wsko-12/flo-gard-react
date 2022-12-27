@@ -477,6 +477,9 @@ describe('Geometry', () => {
         const center = new Point2(0, 0);
         const circle = new Circle(center, 1);
         expect(line.isCollideCircle(circle)).toBe(true);
+
+        const line_2 = new Line(B, A);
+        expect(line_2.isCollideCircle(circle)).toBe(true);
       }
       {
         const A = new Point2(-2, 0);
@@ -485,6 +488,9 @@ describe('Geometry', () => {
         const center = new Point2(0, 0);
         const circle = new Circle(center, 1);
         expect(line.isCollideCircle(circle)).toBe(true);
+
+        const line_2 = new Line(B, A);
+        expect(line_2.isCollideCircle(circle)).toBe(true);
       }
       {
         const A = new Point2(-3.14, 2);
@@ -493,6 +499,9 @@ describe('Geometry', () => {
         const center = new Point2(1.18, 1.68);
         const circle = new Circle(center, 2);
         expect(line.isCollideCircle(circle)).toBe(true);
+
+        const line_2 = new Line(B, A);
+        expect(line_2.isCollideCircle(circle)).toBe(true);
       }
       {
         const A = new Point2(-3.14, 2);
@@ -501,6 +510,9 @@ describe('Geometry', () => {
         const center = new Point2(1.18, 1.68);
         const circle = new Circle(center, 2);
         expect(line.isCollideCircle(circle)).toBe(false);
+
+        const line_2 = new Line(B, A);
+        expect(line_2.isCollideCircle(circle)).toBe(false);
       }
       {
         const A = new Point2(0, 4);
@@ -510,6 +522,9 @@ describe('Geometry', () => {
         const center = new Point2(0, 0);
         const circle = new Circle(center, 1);
         expect(line.isCollideCircle(circle)).toBe(false);
+
+        const line_2 = new Line(B, A);
+        expect(line_2.isCollideCircle(circle)).toBe(false);
       }
       {
         const C = new Point2(0.9155105948448181, -0.2202567458152771);
@@ -519,6 +534,44 @@ describe('Geometry', () => {
         const center = new Point2(0, 0);
         const circle = new Circle(center, 0.5);
         expect(line.isCollideCircle(circle)).toBe(false);
+
+        const line_2 = new Line(D, C);
+        expect(line_2.isCollideCircle(circle)).toBe(false);
+      }
+      {
+        const A = new Point2(1.11321, 0.21805);
+        const B = new Point2(0.62388, 0.04263);
+
+        const line = new Line(A, B);
+        const center = new Point2(0, 0);
+        const circle = new Circle(center, 0.5);
+        expect(line.isCollideCircle(circle)).toBe(false);
+        const line_2 = new Line(B, A);
+        expect(line_2.isCollideCircle(circle)).toBe(false);
+      }
+      {
+        const A = new Point2(1.11321, 0.21805);
+        const B = new Point2(0.3469, -0.08662);
+
+        const line = new Line(A, B);
+        const center = new Point2(0, 0);
+        const circle = new Circle(center, 0.5);
+        expect(line.isCollideCircle(circle)).toBe(true);
+
+        const line_2 = new Line(B, A);
+        expect(line_2.isCollideCircle(circle)).toBe(true);
+      }
+      {
+        const A = new Point2(0.7993, 0.21805);
+        const B = new Point2(-0.5856, -0.43747);
+
+        const line = new Line(A, B);
+        const center = new Point2(0, 0);
+        const circle = new Circle(center, 0.5);
+        expect(line.isCollideCircle(circle)).toBe(true);
+
+        const line_2 = new Line(B, A);
+        expect(line_2.isCollideCircle(circle)).toBe(true);
       }
     });
   });

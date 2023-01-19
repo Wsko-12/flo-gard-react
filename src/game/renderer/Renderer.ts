@@ -31,7 +31,6 @@ export default class Renderer {
     LoopsManager.subscribe('render', this.render);
 
     this.postprocessorManager = new PostprocessorManager(renderer);
-    this.setDevFunctions();
   }
 
   private static setSize = () => {
@@ -77,24 +76,4 @@ export default class Renderer {
       this.renderer?.render(World.getScene(), GameCamera.getCamera());
     }
   };
-
-  private static setDevFunctions() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (!(globalThis as any).devMode) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (!(globalThis as any).$dev) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (globalThis as any).$dev = {};
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (globalThis as any).$dev.renderer = {
-      showStats: (value: boolean) => {
-        if (value) {
-          document.getElementById('app')?.appendChild(this.stats.dom);
-        } else {
-          this.stats.dom.remove();
-        }
-      },
-    };
-  }
 }

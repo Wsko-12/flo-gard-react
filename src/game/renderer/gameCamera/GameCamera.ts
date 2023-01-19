@@ -53,4 +53,10 @@ export default class GameCamera {
 
     this.controller.update(time);
   };
+
+  static setTargetPosition(x: number, y: number, z: number) {
+    if (this.controller instanceof CameraOrbitController) {
+      this.controller.setTargetPosition(x, y, z);
+    }
+  }
 }

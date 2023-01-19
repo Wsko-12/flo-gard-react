@@ -15,7 +15,6 @@ export default class LoopsManager {
       tick: new Loop(50),
       userActions: new Loop(5),
     };
-    this.setDevFunctions();
   }
 
   static start() {
@@ -58,39 +57,4 @@ export default class LoopsManager {
       requestAnimationFrame(this.play);
     }
   };
-
-  private static setDevFunctions() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (!(globalThis as any).devMode) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (!(globalThis as any).$dev) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (globalThis as any).$dev = {};
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (globalThis as any).$dev.loops = {
-      pauseAllLoops: (value: boolean) => {
-        this.paused = value;
-        if (!value) this.play();
-      },
-      pauseRender: (value: boolean) => {
-        this.loops?.render.pause(value);
-      },
-      pauseUpdate: (value: boolean) => {
-        this.loops?.update.pause(value);
-      },
-      pauseTick: (value: boolean) => {
-        this.loops?.tick.pause(value);
-      },
-      setRenderFPS: (fps: number) => {
-        this.loops?.render.setFps(fps);
-      },
-      setUpdateFPS: (fps: number) => {
-        this.loops?.update.setFps(fps);
-      },
-      setTickFPS: (fps: number) => {
-        this.loops?.tick.setFps(fps);
-      },
-    };
-  }
 }

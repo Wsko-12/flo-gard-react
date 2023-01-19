@@ -1,5 +1,6 @@
 import { BoxGeometry, Mesh, MeshPhongMaterial } from 'three';
 import Assets from '../../../../../assets/Assets';
+import { EColorsPallet } from '../../../../world/environment/utils/utils';
 import { QuadCollider } from '../../../base/IndependentGameEntity/Collider/QuadCollider/QuadCollider';
 import { Stand } from '../Stand';
 const assetName = 'pallet_1';
@@ -17,15 +18,14 @@ export class Pallet_1 extends Stand {
   isRotate = true;
 
   clickGeometry = new BoxGeometry(1.25, 0.25, 1.5);
+  selectedColor = EColorsPallet.wood;
   mesh = new Mesh(
     Assets.getGeometry(assetName),
     new MeshPhongMaterial({
-      transparent: true,
-      opacity: 1,
       map: Assets.getTexture(assetName),
       alphaTest: 0.5,
       shininess: 0,
-      color: 0xb0a57a,
+      color: EColorsPallet.wood,
     })
   );
   constructor() {

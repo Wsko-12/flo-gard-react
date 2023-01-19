@@ -16,19 +16,18 @@ export class Pot_1 extends Pot {
   mesh = new Group();
   potMesh = new Mesh(
     Assets.getGeometry(assetName),
-    new MeshPhongMaterial({ transparent: true, opacity: 0.1, map: Assets.getTexture('testUv') })
+    new MeshPhongMaterial({ map: Assets.getTexture('testUv') })
   );
   groundMesh = new Mesh(
     Assets.getGeometry(`${assetName}_ground`),
     new MeshPhongMaterial({
-      transparent: true,
-      opacity: 0.1,
       map: Assets.getTexture('pots_ground'),
       shininess: 0,
     })
   );
   constructor() {
     super();
+    this.groundMesh.userData.staticColor = true;
     this.init();
   }
 }

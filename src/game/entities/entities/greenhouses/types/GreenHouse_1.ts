@@ -28,7 +28,6 @@ export class GreenHouse_1 extends GreenHouse {
   );
   constructor() {
     super();
-    this.mesh.userData.isTransparent = true;
     this.init();
   }
 }

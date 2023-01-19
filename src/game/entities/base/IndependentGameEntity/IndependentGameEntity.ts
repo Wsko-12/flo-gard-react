@@ -12,6 +12,7 @@ import { GameStore } from '../../../gameStore/GameStore';
 import LoopsManager from '../../../loopsManager/LoopsManager';
 import Environment from '../../../world/environment/Environment';
 import { Point2 } from '../../../world/environment/utils/Geometry';
+import { EColorsPallet } from '../../../world/environment/utils/utils';
 import World from '../../../world/World';
 import { GameEntity, IEntityState } from '../GameEntity/GameEntity';
 import { GroupEntity } from '../GroupEntity/GroupEntity';
@@ -26,8 +27,11 @@ export interface IIndependentEntityState extends IEntityState {
 }
 
 export abstract class IndependentGameEntity extends GameEntity {
-  static setMeshTransparent(mesh: Object3D, flag: boolean) {
-    const set = function setTransparent(mesh: Object3D) {
+  static setMeshBlockColor(entity: IndependentGameEntity, flag: boolean) {
+    const set = function setTransparent(mesh: Object3D | Mesh | Group | null) {
+      if (!mesh) {
+        return;
+      }
       if (!(mesh instanceof Mesh || mesh instanceof Group)) {
         return;
       }
@@ -37,12 +41,16 @@ export abstract class IndependentGameEntity extends GameEntity {
           mesh.material instanceof MeshBasicMaterial ||
           mesh.material instanceof MeshPhongMaterial
         ) {
-          mesh.material.opacity = flag ? 0.6 : 1;
+          if (mesh.userData.staticColor) {
+            return;
+          }
+          mesh.material.color.set(flag ? 0xff0000 : entity.selectedColor);
         }
       } else {
         mesh.children.forEach(setTransparent);
       }
     };
+    const mesh = entity.getMesh();
     set(mesh);
   }
   abstract mesh: Mesh | Group;
@@ -67,6 +75,7 @@ export abstract class IndependentGameEntity extends GameEntity {
   protected inGroupEntity: GroupEntity | null = null;
   public isGroupEntity = false;
 
+  selectedColor = EColorsPallet.white;
   constructor() {
     super();
     this.storeManager.unsubscribe();
@@ -131,7 +140,7 @@ export abstract class IndependentGameEntity extends GameEntity {
     this.collider.setPosition(x, y, angle);
 
     const isCollision = this.checkCollision();
-    IndependentGameEntity.setMeshTransparent(this.mesh, isCollision);
+    IndependentGameEntity.setMeshBlockColor(this, isCollision);
   }
 
   // can't create this method static in GroupEntity

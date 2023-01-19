@@ -1,4 +1,9 @@
 export type RGBArr = [number, number, number];
+export enum EColorsPallet {
+  red = 0xff0000,
+  white = 0xfffffff,
+  wood = 0xb0a57a,
+}
 
 export const memoize = <I, R>(fn: (input: I) => R) => {
   const memoMap = new Map<I, R>();

@@ -3,7 +3,7 @@ import { QuadCollider } from '../../../base/IndependentGameEntity/Collider/QuadC
 import { GreenHouse } from '../GreenHouse';
 
 export class GreenHouse_1 extends GreenHouse {
-  protected yShift = 0.125;
+  protected yShift = 0.5;
   collider = new QuadCollider([
     [-1, 1],
     [1, 1],

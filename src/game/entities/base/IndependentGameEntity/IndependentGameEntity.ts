@@ -149,6 +149,25 @@ export abstract class IndependentGameEntity extends GameEntity {
     if (groupEntities.length === 1) {
       const group = groupEntities[0];
       this.changeInGroupEntity(group);
+      return;
+    }
+    // when this object stand on another object
+    // for example stand inside greenHouse
+    // we have to find latest groupEntity in this chain
+    const parents: GroupEntity[] = [];
+    groupEntities.forEach((group) => {
+      const parent = group.inGroupEntity;
+      if (parent) {
+        parents.push(parent);
+      }
+    });
+
+    for (let i = 0; i < groupEntities.length; i++) {
+      const entity = groupEntities[i];
+      if (!parents.includes(entity)) {
+        this.changeInGroupEntity(entity);
+        return;
+      }
     }
   }
 

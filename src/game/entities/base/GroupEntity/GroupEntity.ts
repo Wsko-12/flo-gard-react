@@ -37,10 +37,11 @@ export abstract class GroupEntity extends IndependentGameEntity {
   }
 
   public getYShift() {
-    if (!this.inGroupEntity) {
-      return this.yShift;
+    let shift = this.yShift;
+    if (this.inGroupEntity) {
+      shift += this.inGroupEntity.getYShift();
     }
-    return 0;
+    return shift;
   }
   public getAddsState(): IGroupEntityAddsState | null {
     return {

@@ -5,7 +5,7 @@ export class ClickBox {
   protected static material = new MeshBasicMaterial({
     wireframe: true,
     color: 0xff0000,
-    visible: false,
+    // visible: false,
   });
   private mesh: Mesh;
   public onClick: () => void;

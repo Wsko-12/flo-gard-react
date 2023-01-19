@@ -182,6 +182,10 @@ export abstract class IndependentGameEntity extends GameEntity {
     groupEntity?.addEntity(this);
   }
   private checkCollision() {
+    if (!World.collider.isColliderInside(this.collider)) {
+      return true;
+    }
+
     const entities = this.collider.isCollision();
     if (!entities) {
       this.changeInGroupEntity(null);

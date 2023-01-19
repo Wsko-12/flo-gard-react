@@ -25,32 +25,32 @@ export const useEntityCardMenu = (id: EntityId) => {
   }, [entityInstance]);
 
   // didn't useState because of infinity rerenders
-  let disableMove = false;
+  let disableMoveAndHide = false;
   if (entityInstance instanceof GroupEntity) {
     const haveEntity = !!(entityState.adds as IGroupEntityAddsState).entities.length;
-    disableMove = haveEntity;
+    disableMoveAndHide = haveEntity;
   }
 
   return {
     toInventory,
     toMove,
-    disableMove,
+    disableMoveAndHide,
   };
 };
 
 interface IEntityCardMenuProps {
   toInventory: () => void;
   toMove: () => void;
-  disableMove: boolean;
+  disableMoveAndHide: boolean;
 }
 
-const EntityCardMenu = memo<IEntityCardMenuProps>(({ toInventory, toMove, disableMove }) => {
+const EntityCardMenu = memo<IEntityCardMenuProps>(({ toInventory, toMove, disableMoveAndHide }) => {
   return (
     <div>
-      <button onClick={toInventory}>
+      <button onClick={toInventory} disabled={disableMoveAndHide}>
         <span className="material-symbols-outlined">inventory_2</span>
       </button>
-      <button onClick={toMove} disabled={disableMove}>
+      <button onClick={toMove} disabled={disableMoveAndHide}>
         <span className="material-symbols-outlined">open_with</span>
       </button>
     </div>

@@ -1,5 +1,6 @@
 import { BufferGeometry, Mesh, MeshBasicMaterial } from 'three';
 import { ClickBoxScene } from '../../../../world/ClickBoxScene/ClickBoxScene';
+import { IndependentGameEntity } from '../IndependentGameEntity';
 
 export class ClickBox {
   protected static material = new MeshBasicMaterial({
@@ -8,11 +9,15 @@ export class ClickBox {
     // visible: false,
   });
   private mesh: Mesh;
-  public onClick: () => void;
-  constructor(geometry: BufferGeometry, onClick: () => void) {
+  public entity: IndependentGameEntity;
+  constructor(geometry: BufferGeometry, entity: IndependentGameEntity) {
     this.mesh = new Mesh(geometry, ClickBox.material);
-    this.onClick = onClick;
+    this.entity = entity;
   }
+
+  public onClick = () => {
+    this.entity.onClick();
+  };
 
   add() {
     ClickBoxScene.addClickBox(this);

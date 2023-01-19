@@ -1,4 +1,5 @@
-import { Mesh, Raycaster, Vector2 } from 'three';
+import { Intersection, Mesh, Object3D, Raycaster, Vector2 } from 'three';
+import { EGameEntityTypes } from '../../entities/base/GameEntity/GameEntity';
 import { ClickBox } from '../../entities/base/IndependentGameEntity/ClickBox/ClickBox';
 import GameCamera from '../../renderer/gameCamera/GameCamera';
 import World from '../World';
@@ -7,6 +8,13 @@ export class ClickBoxScene {
   private static clickBoxes: ClickBox[] = [];
   private static meshes: Mesh[] = [];
   private static raycaster = new Raycaster();
+
+  private static getClickBoxFromIntersection = (object: Intersection<Object3D>) => {
+    const mesh = object.object as Mesh;
+    const index = ClickBoxScene.meshes.indexOf(mesh);
+    const clickBox = ClickBoxScene.clickBoxes[index];
+    return clickBox;
+  };
 
   public static addClickBox(clickBox: ClickBox) {
     const isAdded = this.clickBoxes.includes(clickBox);
@@ -37,14 +45,20 @@ export class ClickBoxScene {
     this.raycaster.setFromCamera(new Vector2(x, y), GameCamera.getCamera());
 
     const intersects = this.raycaster.intersectObjects(this.meshes);
-    const object = intersects[1] || intersects[0];
-    if (object) {
-      const mesh = object.object as Mesh;
-      const index = this.meshes.indexOf(mesh);
-      const clickBox = this.clickBoxes[index];
-      if (clickBox) {
-        clickBox.onClick();
-      }
+
+    const firstClickBox = this.getClickBoxFromIntersection(intersects[0]);
+    if (!firstClickBox) {
+      return;
+    }
+    const firstEntity = firstClickBox.entity;
+    if (firstEntity.type != EGameEntityTypes.greenHouse || !intersects[1]) {
+      firstClickBox.onClick();
+      return;
+    }
+
+    const secondClickBox = this.getClickBoxFromIntersection(intersects[1]);
+    if (secondClickBox) {
+      secondClickBox.onClick();
     }
   }
 }

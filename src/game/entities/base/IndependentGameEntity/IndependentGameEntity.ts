@@ -84,7 +84,7 @@ export abstract class IndependentGameEntity extends GameEntity {
 
   public init() {
     super.init();
-    this.clickBox = new ClickBox(this.clickGeometry, this.onClick);
+    this.clickBox = new ClickBox(this.clickGeometry, this);
   }
 
   public placeInWorld() {
@@ -122,7 +122,7 @@ export abstract class IndependentGameEntity extends GameEntity {
     store.dispatch(closeEntityCard(this.id));
   }
 
-  private onClick = () => {
+  public onClick = () => {
     if (this.isOnMove) {
       return;
     }

@@ -91,13 +91,13 @@ export abstract class IndependentGameEntity extends GameEntity {
     this.placed.position = null;
     this.placed.angle = 0;
     this.meshRotation = 0;
-    this.openCard();
     this.collider.add();
     World.getScene().add(this.mesh);
     this.clickBox?.add();
     LoopsManager.subscribe('update', this.moveCb);
     this.setIsOnMove(true);
     super.placeInWorld();
+    this.openCard();
   }
 
   public placeInInventory() {

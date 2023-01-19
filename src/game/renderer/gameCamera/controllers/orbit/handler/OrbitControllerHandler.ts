@@ -165,8 +165,7 @@ export default class OrbitControllerHandler {
       e.preventDefault();
       if (e.button === 0) {
         if (e.timeStamp - this.mouse.clicked.timestamp < 150 && !this.mouse.clicked.moved) {
-          GameStore.lastClick.x = e.clientX;
-          GameStore.lastClick.y = e.clientY;
+          GameStore.lastClick.set(e.clientX, e.clientY);
           ClickBoxScene.click(e.clientX, e.clientY);
         }
         this.mouse.clicked.flag = false;

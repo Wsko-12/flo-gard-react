@@ -45,6 +45,9 @@ export class ClickBoxScene {
     this.raycaster.setFromCamera(new Vector2(x, y), GameCamera.getCamera());
 
     const intersects = this.raycaster.intersectObjects(this.meshes);
+    if (!intersects[0]) {
+      return;
+    }
 
     const firstClickBox = this.getClickBoxFromIntersection(intersects[0]);
     if (!firstClickBox) {

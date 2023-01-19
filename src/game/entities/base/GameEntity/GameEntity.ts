@@ -1,6 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 import { Group, Mesh } from 'three';
 import { generateEntityId } from '../../../../utils/utils';
+import { GameStore } from '../../../gameStore/GameStore';
 import { EntityManager } from '../../EntityManager';
 import { GameEntityStoreManager } from './storeManager/GameEntityStoreManager';
 
@@ -53,6 +54,7 @@ export abstract class GameEntity {
   public placeInWorld() {
     this.inInventory = false;
     this.storeManager.updateState();
+    GameStore.lastClick.centralize();
   }
 
   public placeInInventory() {

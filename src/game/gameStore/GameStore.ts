@@ -6,5 +6,13 @@ export const GameStore = {
   lastClick: {
     x: 100,
     y: 100,
+    set(x: number, y: number) {
+      this.x = x;
+      this.y = y;
+    },
+    centralize() {
+      this.x = window.innerWidth / 2;
+      this.y = window.innerHeight / 2;
+    },
   },
 };

@@ -1,3 +1,4 @@
+import { GameStore } from '../../../../../gameStore/GameStore';
 import { ClickBoxScene } from '../../../../../world/ClickBoxScene/ClickBoxScene';
 import { Point2, Vector2 } from '../../../../../world/environment/utils/Geometry';
 import CameraOrbitController from '../CameraOrbitController';
@@ -164,6 +165,8 @@ export default class OrbitControllerHandler {
       e.preventDefault();
       if (e.button === 0) {
         if (e.timeStamp - this.mouse.clicked.timestamp < 150 && !this.mouse.clicked.moved) {
+          GameStore.lastClick.x = e.clientX;
+          GameStore.lastClick.y = e.clientY;
           ClickBoxScene.click(e.clientX, e.clientY);
         }
         this.mouse.clicked.flag = false;
@@ -171,7 +174,7 @@ export default class OrbitControllerHandler {
       }
       if (e.button === 2) {
         if (e.timeStamp - this.mouse.context.timestamp < 150 && !this.mouse.context.moved) {
-          console.log('context click');
+          // console.log('context click');
         }
         this.mouse.context.flag = false;
         this.mouse.context.moved = false;
@@ -283,7 +286,7 @@ export default class OrbitControllerHandler {
           }
           if (this.touch.double) {
             //don't use it better
-            console.log('context click');
+            // console.log('context click');
           }
         }
 

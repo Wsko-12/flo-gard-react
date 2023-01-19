@@ -8,6 +8,7 @@ import React, {
   useCallback,
   useEffect,
 } from 'react';
+import { GameStore } from '../../../../../game/gameStore/GameStore';
 import styles from './draggable-card.module.scss';
 
 interface IDraggableCardProps {
@@ -15,6 +16,21 @@ interface IDraggableCardProps {
   closeCb: () => void;
   visible?: boolean;
 }
+
+const normalizePosition = (
+  element: HTMLElement,
+  setterX: React.Dispatch<React.SetStateAction<number>>,
+  setterY: React.Dispatch<React.SetStateAction<number>>
+) => {
+  const rect = element.getBoundingClientRect();
+  if (rect.x + rect.width > window.innerWidth) {
+    setterX(window.innerWidth - rect.width);
+  }
+
+  if (rect.y + rect.height > window.innerHeight) {
+    setterY(window.innerHeight - rect.height);
+  }
+};
 
 export const useDraggable = (
   ref: RefObject<HTMLElement>,
@@ -25,20 +41,19 @@ export const useDraggable = (
 
   const [shiftX, setShiftX] = useState(0);
   const [shiftY, setShiftY] = useState(0);
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+    normalizePosition(ref.current, setX, setY);
+  }, [ref]);
 
   useEffect(() => {
     const resizeHandler = () => {
       if (!ref.current) {
         return;
       }
-      const rect = ref.current.getBoundingClientRect();
-      if (rect.x + rect.width > window.innerWidth) {
-        setX(window.innerWidth - rect.width);
-      }
-
-      if (rect.y + rect.height > window.innerHeight) {
-        setY(window.innerHeight - rect.height);
-      }
+      normalizePosition(ref.current, setX, setY);
     };
 
     window.addEventListener('resize', resizeHandler);
@@ -98,7 +113,8 @@ export const useDraggable = (
 
 const DraggableCard = memo<IDraggableCardProps>(({ children, closeCb, visible = true }) => {
   const headerRef = useRef<HTMLElement>(null);
-  const { x, y, bind: bindDrag } = useDraggable(headerRef);
+  const lastClick: [number, number] = [GameStore.lastClick.x, GameStore.lastClick.y];
+  const { x, y, bind: bindDrag } = useDraggable(headerRef, lastClick);
 
   return (
     <div

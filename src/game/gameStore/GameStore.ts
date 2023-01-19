@@ -3,4 +3,8 @@ export const GameStore = {
     x: 0,
     z: 0,
   },
+  lastClick: {
+    x: 100,
+    y: 100,
+  },
 };

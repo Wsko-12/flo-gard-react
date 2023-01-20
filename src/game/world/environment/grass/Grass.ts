@@ -113,9 +113,9 @@ export class Grass {
     document.addEventListener('keydown', this.keyDownListener);
     document.addEventListener('keyup', this.keyDownListener);
 
-    for (let i = 0; i < 15; i++) {
-      this.generateWeed();
-    }
+    // for (let i = 0; i < 15; i++) {
+    //   this.generateWeed();
+    // }
   }
 
   private keyDownListener = (e: KeyboardEvent) => {
@@ -138,9 +138,9 @@ export class Grass {
 
   private dayUpdate = (time: number) => {
     this.grow(time);
-    if (time === FULL_DAY_TIME - 1) {
-      this.generateWeed();
-    }
+    // if (time === FULL_DAY_TIME - 1) {
+    //   this.generateWeed();
+    // }
   };
 
   private grow = (time: number) => {

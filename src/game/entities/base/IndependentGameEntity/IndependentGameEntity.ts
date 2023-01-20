@@ -41,10 +41,8 @@ export abstract class IndependentGameEntity extends GameEntity {
           mesh.material instanceof MeshBasicMaterial ||
           mesh.material instanceof MeshPhongMaterial
         ) {
-          if (mesh.userData.staticColor) {
-            return;
-          }
-          mesh.material.color.set(flag ? 0xff0000 : entity.selectedColor);
+          const color = mesh.userData.staticColor || entity.selectedColor;
+          mesh.material.color.set(flag ? 0xff0000 : color);
         }
       } else {
         mesh.children.forEach(setTransparent);

@@ -27,6 +27,7 @@ export default class World {
     new PotGround();
     new Pallet_1();
     new GreenHouse_1();
+    new GreenHouse_1();
   }
 
   static getScene() {

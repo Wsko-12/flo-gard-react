@@ -3,6 +3,7 @@ export enum EColorsPallet {
   red = 0xff0000,
   white = 0xfffffff,
   wood = 0xb0a57a,
+  glass = 0xd7faf9,
 }
 
 export const memoize = <I, R>(fn: (input: I) => R) => {

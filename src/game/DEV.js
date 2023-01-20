@@ -86,4 +86,7 @@ const devFunctions = {
 if (DEV) {
   console.log('%c DEV FUNCTIONS SETTED', 'background: #ff0000; color: white');
   globalThis.$DEV = devFunctions;
+  // setTimeout(() => {
+  //   devFunctions.objects.showColliders(true);
+  // }, 1000);
 }

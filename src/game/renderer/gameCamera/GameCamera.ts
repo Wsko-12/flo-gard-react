@@ -12,7 +12,7 @@ export default class GameCamera {
   private static target: Point3 | null = null;
   private static controller: CameraController;
   static init(mouseEventsHandler: HTMLElement) {
-    const camera = new PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 50);
+    const camera = new PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.01, 50);
     this.camera = camera;
 
     this.position = new Point3(0, 0, 0);
@@ -46,7 +46,6 @@ export default class GameCamera {
     {
       const { x, y, z } = position;
       camera.position.set(x, y, z);
-      GameStore.cameraPosition.value.set(x, y, z);
     }
     {
       const { x, y, z } = target;

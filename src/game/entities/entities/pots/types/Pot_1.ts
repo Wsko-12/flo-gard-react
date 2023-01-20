@@ -1,5 +1,6 @@
 import { CylinderGeometry, Group, Mesh, MeshPhongMaterial } from 'three';
 import Assets from '../../../../../assets/Assets';
+import { EColorsPallet } from '../../../../world/environment/utils/utils';
 import { IEntityInventoryData } from '../../../base/GameEntity/GameEntity';
 import { CircleCollider } from '../../../base/IndependentGameEntity/Collider/CircleCollider/CircleCollider';
 import { Pot } from '../Pot';
@@ -29,7 +30,7 @@ export class Pot_1 extends Pot {
   );
   constructor() {
     super();
-    this.groundMesh.userData.staticColor = true;
+    this.groundMesh.userData.staticColor = EColorsPallet.white;
     this.init();
   }
 }

@@ -1,5 +1,6 @@
-import { CylinderGeometry, Group, Mesh, MeshPhongMaterial } from 'three';
+import { CylinderGeometry, Group, Mesh } from 'three';
 import Assets from '../../../../../assets/Assets';
+import { PhongMaterialWithCloseCameraShader } from '../../../../Materials/PhongWithCloseCamera';
 import { EColorsPallet } from '../../../../world/environment/utils/utils';
 import { IEntityInventoryData } from '../../../base/GameEntity/GameEntity';
 import { CircleCollider } from '../../../base/IndependentGameEntity/Collider/CircleCollider/CircleCollider';
@@ -19,11 +20,11 @@ export class Pot_1 extends Pot {
   mesh = new Group();
   potMesh = new Mesh(
     Assets.getGeometry(assetName),
-    new MeshPhongMaterial({ map: Assets.getTexture('testUv') })
+    PhongMaterialWithCloseCameraShader({ map: Assets.getTexture('testUv') })
   );
   groundMesh = new Mesh(
     Assets.getGeometry(`${assetName}_ground`),
-    new MeshPhongMaterial({
+    PhongMaterialWithCloseCameraShader({
       map: Assets.getTexture('pots_ground'),
       shininess: 0,
     })

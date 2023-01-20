@@ -1,6 +1,6 @@
-import { BoxGeometry, Mesh, MeshPhongMaterial } from 'three';
+import { BoxGeometry, Mesh } from 'three';
 import Assets from '../../../../../assets/Assets';
-import { GameStore } from '../../../../gameStore/GameStore';
+import { PhongMaterialWithCloseCameraShader } from '../../../../Materials/PhongWithCloseCamera';
 import { EColorsPallet } from '../../../../world/environment/utils/utils';
 import { QuadCollider } from '../../../base/IndependentGameEntity/Collider/QuadCollider/QuadCollider';
 import { Stand } from '../Stand';
@@ -28,40 +28,12 @@ export class Pallet_1 extends Stand {
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = true;
 
-    const material = new MeshPhongMaterial({
+    const material = PhongMaterialWithCloseCameraShader({
       map: Assets.getTexture(assetName),
       alphaTest: 0.01,
       shininess: 0,
       color: EColorsPallet.wood,
     });
-
-    material.onBeforeCompile = (shader) => {
-      let fragment = shader.fragmentShader;
-
-      fragment = fragment.replace(
-        '#include <alphatest_fragment>',
-        `
-          float fDist = 1.0;
-          float depth = gl_FragCoord.z / gl_FragCoord.w;
-          if(depth < fDist){
-            // closest to screen = 1.0;
-            float far = 1.0 - depth / fDist;
-
-            float x = (sin(gl_FragCoord.x) + 1.0) / 2.0;
-            float xVal = step(far * 2.5, x);
-
-            float y = (sin(gl_FragCoord.y) + 1.0) / 2.0;
-            float yVal = step(far * 2.5, y);
-
-            diffuseColor.a *= (xVal + yVal) / 2.0;
-          }
-    
-          #include <alphatest_fragment>
-        `
-      );
-
-      shader.fragmentShader = fragment;
-    };
 
     this.mesh.material = material;
     this.init();

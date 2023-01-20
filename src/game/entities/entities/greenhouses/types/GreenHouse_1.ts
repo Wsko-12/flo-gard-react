@@ -1,5 +1,6 @@
-import { DoubleSide, Group, Mesh, MeshPhongMaterial } from 'three';
+import { DoubleSide, Group, Mesh } from 'three';
 import Assets from '../../../../../assets/Assets';
+import { PhongMaterialWithCloseCameraShader } from '../../../../Materials/PhongWithCloseCamera';
 import { EColorsPallet } from '../../../../world/environment/utils/utils';
 import { QuadCollider } from '../../../base/IndependentGameEntity/Collider/QuadCollider/QuadCollider';
 import { GreenHouse } from '../GreenHouse';
@@ -25,7 +26,7 @@ export class GreenHouse_1 extends GreenHouse {
     super();
     const floorMesh = new Mesh(
       Assets.getGeometry(`${assetName}_floor`),
-      new MeshPhongMaterial({
+      PhongMaterialWithCloseCameraShader({
         map: Assets.getTexture(assetName),
         alphaTest: 0.5,
         shininess: 0,
@@ -33,24 +34,30 @@ export class GreenHouse_1 extends GreenHouse {
     );
     const glassMesh = new Mesh(
       Assets.getGeometry(assetName),
-      new MeshPhongMaterial({
-        opacity: 0.25,
-        transparent: true,
-        shininess: 100,
-        side: DoubleSide,
-      })
+      PhongMaterialWithCloseCameraShader(
+        {
+          opacity: 0.25,
+          transparent: true,
+          shininess: 100,
+          side: DoubleSide,
+        },
+        3
+      )
     );
     glassMesh.userData.staticColor = EColorsPallet.glass;
     floorMesh.userData.staticColor = EColorsPallet.white;
     const mesh = new Mesh(
       Assets.getGeometry(assetName),
-      new MeshPhongMaterial({
-        map: Assets.getTexture(assetName),
-        alphaTest: 0.5,
-        shininess: 0,
-        color: 0xff00ff,
-        side: DoubleSide,
-      })
+      PhongMaterialWithCloseCameraShader(
+        {
+          map: Assets.getTexture(assetName),
+          alphaTest: 0.5,
+          shininess: 0,
+          color: 0xff00ff,
+          side: DoubleSide,
+        },
+        3
+      )
     );
 
     floorMesh.receiveShadow = true;

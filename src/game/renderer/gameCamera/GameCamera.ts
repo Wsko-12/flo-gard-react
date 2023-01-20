@@ -40,11 +40,13 @@ export default class GameCamera {
     if (!camera || !position || !target) {
       throw new Error('[GameCamera update] first init GameCamera ');
     }
+
     GameStore.cameraTarget.x = target.x;
     GameStore.cameraTarget.z = target.z;
     {
       const { x, y, z } = position;
       camera.position.set(x, y, z);
+      GameStore.cameraPosition.value.set(x, y, z);
     }
     {
       const { x, y, z } = target;

@@ -1,7 +1,12 @@
+import { Vector3 } from 'three';
+
 export const GameStore = {
   cameraTarget: {
     x: 0,
     z: 0,
+  },
+  cameraPosition: {
+    value: new Vector3(0, 0, 0),
   },
   lastClick: {
     x: 100,

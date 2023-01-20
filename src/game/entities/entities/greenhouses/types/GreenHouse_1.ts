@@ -37,6 +37,7 @@ export class GreenHouse_1 extends GreenHouse {
         opacity: 0.25,
         transparent: true,
         shininess: 100,
+        side: DoubleSide,
       })
     );
     glassMesh.userData.staticColor = EColorsPallet.glass;

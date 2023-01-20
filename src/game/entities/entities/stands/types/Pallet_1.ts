@@ -53,7 +53,7 @@ export class Pallet_1 extends Stand {
             float y = (sin(gl_FragCoord.y) + 1.0) / 2.0;
             float yVal = step(far * 2.5, y);
 
-            diffuseColor.a = (xVal + yVal) / 2.0;
+            diffuseColor.a *= (xVal + yVal) / 2.0;
           }
     
           #include <alphatest_fragment>

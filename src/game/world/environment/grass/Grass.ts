@@ -58,6 +58,7 @@ export class Grass {
   private group: Group;
   private mover: Mesh;
   private moverEnabled = false;
+  private growImmediately = true;
   private uniforms = {
     uTime: {
       value: 0,
@@ -144,7 +145,7 @@ export class Grass {
   };
 
   private grow = (time: number) => {
-    if (time % 180 === 0) {
+    if (this.growImmediately || time % 180 === 0) {
       const { ctx, resolution } = this.grassHeightCanvas;
       ctx.fillStyle = 'rgba(255,255,255,0.05)';
       ctx.fillRect(0, 0, resolution, resolution);

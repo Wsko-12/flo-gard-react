@@ -6,13 +6,13 @@ export default class LoopsManager {
   private static loops: Record<TGameLoopName, Loop> | null = null;
 
   private static timestamp = 0;
-  private static paused = true;
+  private static paused = false;
 
   static init() {
     this.loops = {
       render: new Loop(60),
       update: new Loop(45),
-      tick: new Loop(50),
+      tick: new Loop(10),
       userActions: new Loop(5),
     };
   }

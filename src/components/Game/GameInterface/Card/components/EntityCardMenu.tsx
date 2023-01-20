@@ -7,6 +7,7 @@ import {
 } from '../../../../../game/entities/base/GroupEntity/GroupEntity';
 import { IndependentGameEntity } from '../../../../../game/entities/base/IndependentGameEntity/IndependentGameEntity';
 import { EntityManager } from '../../../../../game/entities/EntityManager';
+import GameCamera from '../../../../../game/renderer/gameCamera/GameCamera';
 import { selectEntityById } from '../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
 import { useAppSelector } from '../../../../../store/store';
 
@@ -20,6 +21,10 @@ export const useEntityCardMenu = (id: EntityId) => {
 
   const toMove = useCallback(() => {
     if (entityInstance instanceof IndependentGameEntity) {
+      if (entityInstance.placed.position) {
+        const { x, y } = entityInstance.placed.position;
+        GameCamera.setTargetPosition(x, 0, y);
+      }
       entityInstance.setIsOnMove(true);
     }
   }, [entityInstance]);

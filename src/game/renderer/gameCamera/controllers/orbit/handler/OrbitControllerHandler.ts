@@ -1,3 +1,5 @@
+import { closeAllEntityCards } from '../../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
+import { store } from '../../../../../../store/store';
 import { GameStore } from '../../../../../gameStore/GameStore';
 import { ClickBoxScene } from '../../../../../world/ClickBoxScene/ClickBoxScene';
 import { Point2, Vector2 } from '../../../../../world/environment/utils/Geometry';
@@ -173,7 +175,7 @@ export default class OrbitControllerHandler {
       }
       if (e.button === 2) {
         if (e.timeStamp - this.mouse.context.timestamp < 150 && !this.mouse.context.moved) {
-          // console.log('context click');
+          store.dispatch(closeAllEntityCards());
         }
         this.mouse.context.flag = false;
         this.mouse.context.moved = false;

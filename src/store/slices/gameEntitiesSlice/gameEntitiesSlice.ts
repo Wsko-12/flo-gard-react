@@ -56,6 +56,10 @@ const gameEntitiesSlice = createSlice({
       }
     },
 
+    closeAllEntityCards: (state) => {
+      state.cardOpened.length = 0;
+    },
+
     openEntityCard: (state, action: PayloadAction<EntityId>) => {
       const id = action.payload;
       if (!state.cardOpened.includes(id)) {
@@ -94,6 +98,7 @@ export const {
   setEntityOnMove,
   deleteEntityOnMove,
   removeGameEntity,
+  closeAllEntityCards,
 } = gameEntitiesSlice.actions;
 const entityAdapterSelectors = gameEntitiesAdapter.getSelectors(
   (state: RootState) => state.gameEntities.entities

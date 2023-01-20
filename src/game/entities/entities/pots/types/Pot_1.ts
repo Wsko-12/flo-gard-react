@@ -5,6 +5,8 @@ import { CircleCollider } from '../../../base/IndependentGameEntity/Collider/Cir
 import { Pot } from '../Pot';
 
 const assetName = 'pot_1';
+const clickGeometry = new CylinderGeometry(0.2, 0.15, 0.25, 6);
+clickGeometry.translate(0, 0.125, 0);
 export class Pot_1 extends Pot {
   collider = new CircleCollider(0.2);
   inventoryData: IEntityInventoryData = {
@@ -12,7 +14,7 @@ export class Pot_1 extends Pot {
   };
   isRotate = false;
 
-  clickGeometry = new CylinderGeometry(0.2, 0.12, 0.5, 6);
+  clickGeometry = clickGeometry;
   mesh = new Group();
   potMesh = new Mesh(
     Assets.getGeometry(assetName),

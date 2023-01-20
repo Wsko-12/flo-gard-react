@@ -5,10 +5,10 @@ export type TDayCallback = (gameTime: number) => void;
 export const FULL_DAY_TIME = 1440;
 // TODO: add dev functions with freeze and setTime;
 export default class Day {
-  static time = 0;
+  static time = FULL_DAY_TIME / 2;
   static fullDay = FULL_DAY_TIME;
   static subscribers: TDayCallback[] = [];
-  private static freezed = false;
+  private static freezed = true;
   static init() {
     LoopsManager.subscribe('tick', this.update);
   }

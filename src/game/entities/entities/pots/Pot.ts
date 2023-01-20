@@ -42,7 +42,7 @@ export abstract class Pot extends IndependentGameEntity {
     groundMesh.castShadow = true;
     groundMesh.receiveShadow = true;
     potMesh.castShadow = true;
-    potMesh.castShadow = true;
+    potMesh.receiveShadow = true;
 
     this.mesh.add(groundMesh, potMesh);
     super.init();

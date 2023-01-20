@@ -52,6 +52,10 @@ export class GreenHouse_1 extends GreenHouse {
       })
     );
 
+    floorMesh.receiveShadow = true;
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+
     this.mesh.add(mesh, floorMesh, glassMesh);
     this.init();
   }

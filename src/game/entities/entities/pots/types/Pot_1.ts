@@ -1,5 +1,6 @@
 import { CylinderGeometry, Group, Mesh } from 'three';
 import Assets from '../../../../../assets/Assets';
+import { getGroundMaterial } from '../../../../Materials/GroundMaterial';
 import { PhongMaterialWithCloseCameraShader } from '../../../../Materials/PhongWithCloseCamera';
 import { EColorsPallet } from '../../../../world/environment/utils/utils';
 import { IEntityInventoryData } from '../../../base/GameEntity/GameEntity';
@@ -22,13 +23,7 @@ export class Pot_1 extends Pot {
     Assets.getGeometry(assetName),
     PhongMaterialWithCloseCameraShader({ map: Assets.getTexture('testUv') })
   );
-  groundMesh = new Mesh(
-    Assets.getGeometry(`${assetName}_ground`),
-    PhongMaterialWithCloseCameraShader({
-      map: Assets.getTexture('pots_ground'),
-      shininess: 0,
-    })
-  );
+  groundMesh = new Mesh(Assets.getGeometry(`${assetName}_ground`), getGroundMaterial());
   constructor() {
     super();
     this.groundMesh.userData.staticColor = EColorsPallet.white;

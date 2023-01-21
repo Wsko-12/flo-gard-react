@@ -97,6 +97,11 @@ const geometriesAtlas: AtlasItem[] = [
     folder: 'greenhouses/greenhouse_1',
     file: 'greenhouse_1_floor.glb',
   },
+  {
+    name: 'lupin',
+    folder: 'plants/lupin',
+    file: 'lupin.glb',
+  },
 ];
 
 export { geometriesAtlas };

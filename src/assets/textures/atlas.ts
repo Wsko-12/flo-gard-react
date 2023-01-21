@@ -67,6 +67,31 @@ const textureAtlas: AtlasItem[] = [
     folder: 'greenhouses/greenhouse_1/',
     file: 'greenhouse_1.png',
   },
+  {
+    name: 'lupin_blue',
+    folder: 'plants/lupin/',
+    file: 'lupin_blue.png',
+  },
+  {
+    name: 'lupin_red',
+    folder: 'plants/lupin/',
+    file: 'lupin_red.png',
+  },
+  {
+    name: 'lupin_pink',
+    folder: 'plants/lupin/',
+    file: 'lupin_pink.png',
+  },
+  {
+    name: 'lupin_yellow',
+    folder: 'plants/lupin/',
+    file: 'lupin_yellow.png',
+  },
+  {
+    name: 'lupin_white',
+    folder: 'plants/lupin/',
+    file: 'lupin_white.png',
+  },
 ];
 
 export { textureAtlas };

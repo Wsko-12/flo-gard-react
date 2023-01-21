@@ -17,8 +17,7 @@ export interface IPotState extends IIndependentEntityState {
 
 export abstract class Pot extends IndependentGameEntity {
   type = EGameEntityTypes.pot;
-  abstract mesh: Group;
-  abstract potMesh: Mesh;
+  public mesh = new Group();
   abstract groundMesh: Mesh<BufferGeometry, MeshPhongMaterial>;
   ground: PotGround | null = null;
   constructor() {
@@ -38,13 +37,12 @@ export abstract class Pot extends IndependentGameEntity {
   }
 
   public init(): void {
-    const { groundMesh, potMesh } = this;
+    const { groundMesh } = this;
     groundMesh.castShadow = true;
     groundMesh.receiveShadow = true;
-    potMesh.castShadow = true;
-    potMesh.castShadow = true;
+    groundMesh.userData.type = 'Ground';
 
-    this.mesh.add(groundMesh, potMesh);
+    this.mesh.add(groundMesh);
     super.init();
   }
 

@@ -51,7 +51,10 @@ export abstract class IndependentGameEntity extends GameEntity {
     const mesh = entity.getMesh();
     set(mesh);
   }
-  abstract mesh: Mesh | Group;
+  public mesh = new Group();
+  abstract baseMesh: Mesh<BufferGeometry, MeshPhongMaterial>;
+  abstract shadowMesh: Mesh<BufferGeometry, MeshBasicMaterial>;
+
   abstract collider: Collider;
   abstract clickGeometry: BufferGeometry;
   public readonly isIndependent = true;
@@ -82,6 +85,13 @@ export abstract class IndependentGameEntity extends GameEntity {
 
   public init() {
     super.init();
+    const { baseMesh, shadowMesh } = this;
+    baseMesh.castShadow = true;
+    baseMesh.receiveShadow = true;
+    baseMesh.userData.type = 'Base';
+    shadowMesh.userData.type = 'Shadow';
+
+    this.mesh.add(baseMesh, shadowMesh);
     this.clickBox = new ClickBox(this.clickGeometry, this);
   }
 

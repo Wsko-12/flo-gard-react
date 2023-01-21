@@ -1,4 +1,4 @@
-import { BoxGeometry, Group, Mesh } from 'three';
+import { BoxGeometry, Mesh } from 'three';
 import Assets from '../../../../../assets/Assets';
 import { PhongMaterialWithCloseCameraShader } from '../../../../Materials/PhongWithCloseCamera';
 import { getShadowMaterial } from '../../../../Materials/ShadowMaterial';
@@ -23,25 +23,20 @@ export class Pallet_1 extends Stand {
 
   clickGeometry = clickGeometry;
   selectedColor = EColorsPallet.wood;
-  mesh = new Group();
-  constructor() {
-    super();
-    const mesh = new Mesh(Assets.getGeometry(assetName));
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
 
-    const material = PhongMaterialWithCloseCameraShader({
+  baseMesh = new Mesh(
+    Assets.getGeometry(assetName),
+    PhongMaterialWithCloseCameraShader({
       map: Assets.getTexture(assetName),
       alphaTest: 0.01,
       shininess: 0,
       color: EColorsPallet.wood,
-    });
+    })
+  );
 
-    mesh.material = material;
-
-    const shadow = new Mesh(Assets.getGeometry(`${assetName}_shadow`), getShadowMaterial());
-
-    this.mesh.add(mesh, shadow);
+  shadowMesh = new Mesh(Assets.getGeometry(`${assetName}_shadow`), getShadowMaterial());
+  constructor() {
+    super();
     this.init();
   }
 }

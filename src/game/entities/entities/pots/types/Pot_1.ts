@@ -1,9 +1,8 @@
-import { CylinderGeometry, Group, Mesh } from 'three';
+import { CylinderGeometry, Mesh } from 'three';
 import Assets from '../../../../../assets/Assets';
 import { getGroundMaterial } from '../../../../Materials/GroundMaterial';
 import { PhongMaterialWithCloseCameraShader } from '../../../../Materials/PhongWithCloseCamera';
 import { getShadowMaterial } from '../../../../Materials/ShadowMaterial';
-import { EColorsPallet } from '../../../../world/environment/utils/utils';
 import { IEntityInventoryData } from '../../../base/GameEntity/GameEntity';
 import { CircleCollider } from '../../../base/IndependentGameEntity/Collider/CircleCollider/CircleCollider';
 import { Pot } from '../Pot';
@@ -19,17 +18,16 @@ export class Pot_1 extends Pot {
   isRotate = false;
 
   clickGeometry = clickGeometry;
-  mesh = new Group();
-  potMesh = new Mesh(
+
+  baseMesh = new Mesh(
     Assets.getGeometry(assetName),
     PhongMaterialWithCloseCameraShader({ map: Assets.getTexture('testUv') })
   );
   groundMesh = new Mesh(Assets.getGeometry(`${assetName}_ground`), getGroundMaterial());
+  shadowMesh = new Mesh(Assets.getGeometry(`${assetName}_shadow`), getShadowMaterial());
+
   constructor() {
     super();
-    const shadow = new Mesh(Assets.getGeometry(`${assetName}_shadow`), getShadowMaterial());
-    console.log(shadow);
-    this.mesh.add(shadow);
     this.init();
   }
 }

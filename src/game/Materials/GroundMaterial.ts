@@ -14,7 +14,7 @@ export const getGroundMaterial = (closeCameraDistance: number | undefined = unde
       },
       closeCameraDistance
     );
-    saved.userData.staticColor = EColorsPallet.glass;
+    saved.userData.staticColor = EColorsPallet.white;
     saved.depthWrite = false;
   }
 

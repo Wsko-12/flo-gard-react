@@ -2,6 +2,7 @@ import { CylinderGeometry, Group, Mesh } from 'three';
 import Assets from '../../../../../assets/Assets';
 import { getGroundMaterial } from '../../../../Materials/GroundMaterial';
 import { PhongMaterialWithCloseCameraShader } from '../../../../Materials/PhongWithCloseCamera';
+import { getShadowMaterial } from '../../../../Materials/ShadowMaterial';
 import { EColorsPallet } from '../../../../world/environment/utils/utils';
 import { IEntityInventoryData } from '../../../base/GameEntity/GameEntity';
 import { CircleCollider } from '../../../base/IndependentGameEntity/Collider/CircleCollider/CircleCollider';
@@ -26,7 +27,9 @@ export class Pot_1 extends Pot {
   groundMesh = new Mesh(Assets.getGeometry(`${assetName}_ground`), getGroundMaterial());
   constructor() {
     super();
-    this.groundMesh.userData.staticColor = EColorsPallet.white;
+    const shadow = new Mesh(Assets.getGeometry(`${assetName}_shadow`), getShadowMaterial());
+    console.log(shadow);
+    this.mesh.add(shadow);
     this.init();
   }
 }

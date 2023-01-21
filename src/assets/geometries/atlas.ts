@@ -68,6 +68,11 @@ const geometriesAtlas: AtlasItem[] = [
     file: 'pot_1.glb',
   },
   {
+    name: 'pot_1_shadow',
+    folder: 'pots/pot_1',
+    file: 'pot_1_shadow.glb',
+  },
+  {
     name: 'pot_1_ground',
     folder: 'pots/pot_1',
     file: 'pot_1_ground.glb',

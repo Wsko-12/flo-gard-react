@@ -7,6 +7,11 @@ const textureAtlas: AtlasItem[] = [
     file: 'sceneEnvMap.png',
   },
   {
+    name: 'shadows',
+    folder: '',
+    file: 'shadows.png',
+  },
+  {
     name: 'ground',
     folder: '',
     file: 'ground.png',

@@ -16,7 +16,7 @@ class Environment {
     this.ground = new Ground();
     this.grass = new Grass();
     this.sun = new Sun();
-    scene.add(this.sky.getMesh(), this.ground.getMesh(), this.grass.getMesh(), this.sun.getMesh());
+    scene.add(this.sky.getMesh(), this.sun.getMesh(), this.ground.getMesh(), this.grass.getMesh());
   }
 
   public static pressGrassByEntities() {

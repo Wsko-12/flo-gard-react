@@ -4,31 +4,34 @@ import {
   IEntityAddsState,
   IEntityState,
 } from "../../base/GameEntity/GameEntity";
+import { TFiveRange } from "../../../../ts/interfaces";
 
-type IPotGroundWetState = 0 | 1 | 2 | 3 | 4 | 5;
-
-export interface IPotGroundAddState extends IEntityAddsState {
-  wet: IPotGroundWetState;
+interface IPotGroundAddState extends IEntityAddsState {
+  water: TFiveRange;
+  light: TFiveRange;
+  temperature: TFiveRange;
 }
 
-export interface IPotGroundState extends IEntityState {
+interface IPotGroundState extends IEntityState {
   adds: IPotGroundAddState;
 }
 
-export const getPotGroundColorByWet = (wet: IPotGroundWetState) => {
-  const color = Math.floor(255 * ((8 - wet) / 8)).toString(16);
+export const getPotGroundColorByWet = (waterPoints: TFiveRange) => {
+  const color = Math.floor(255 * ((8 - waterPoints) / 8)).toString(16);
 
   return `#${color.repeat(3)}`;
 };
 
-export class PotGround extends GameEntity {
+class PotGround extends GameEntity {
   type = EGameEntityTypes.potGround;
   inventoryData = {
     title: "Pot Ground",
   };
 
-  state: IPotGroundAddState = {
-    wet: 0,
+  public state: IPotGroundAddState = {
+    water: 0,
+    light: 0,
+    temperature: 0,
   };
 
   constructor() {
@@ -37,11 +40,11 @@ export class PotGround extends GameEntity {
   }
 
   public pour() {
-    this.state.wet += this.state.wet < 5 ? 1 : 0;
+    this.state.water += this.state.water < 5 ? 1 : 0;
     this.storeManager.updateState();
   }
-
-  public getAddsState() {
-    return { ...this.state };
-  }
 }
+
+export type { IPotGroundState, IPotGroundAddState };
+
+export { PotGround };

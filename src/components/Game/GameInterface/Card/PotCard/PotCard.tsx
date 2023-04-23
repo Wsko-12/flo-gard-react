@@ -11,6 +11,7 @@ import { DraggableCard } from "../DraggableCard/DraggableCard";
 import { IEntityCardProps } from "../EntityCard";
 import { EntityMoveBar } from "../EntityMoveBar/EntityMoveBar";
 import { GroundPartCard } from "./GroundPartCard/GroundPartCard";
+import { PlantPartCard } from "./PlantPartCard/PlantPartCard";
 
 const PotCard = memo<IEntityCardProps>(({ id }) => {
   const entityState = useAppSelector(selectEntityById(id)) as IPotState;
@@ -27,6 +28,11 @@ const PotCard = memo<IEntityCardProps>(({ id }) => {
   return (
     <>
       <DraggableCard closeCb={() => entityInstance.closeCard()} visible={!entityOnMove}>
+        <PlantPartCard
+          groundId={entityState.adds.groundId}
+          potId={id}
+          plantId={entityState.adds.plantId}
+        />
         <GroundPartCard groundId={entityState.adds.groundId} potId={id} />
         <EntityCardMenu {...menuBind} />
       </DraggableCard>

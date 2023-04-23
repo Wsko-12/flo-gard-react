@@ -5,7 +5,8 @@ import { PhongMaterialWithCloseCameraShader } from "../../../../Materials/PhongW
 import { getShadowMaterial } from "../../../../Materials/ShadowMaterial";
 import { IEntityInventoryData } from "../../../base/GameEntity/GameEntity";
 import { CircleCollider } from "../../../base/IndependentGameEntity/Collider/CircleCollider/CircleCollider";
-import { Pot } from "../Pot";
+import { EPotSizes, Pot } from "../Pot";
+import { IPosition3 } from "../../../../../ts/interfaces";
 
 const assetName = "pot_1";
 const clickGeometry = new CylinderGeometry(0.2, 0.15, 0.25, 6);
@@ -16,9 +17,16 @@ export class Pot_1 extends Pot {
   inventoryData: IEntityInventoryData = {
     title: "Pot_1",
   };
-  isRotate = false;
-
+  isRotate = true;
+  size = EPotSizes.M;
   clickGeometry = clickGeometry;
+
+  //point where plant pivot;
+  plantPoint: IPosition3 = {
+    x: 0,
+    y: 0.19,
+    z: 0,
+  };
 
   baseMesh = new Mesh(
     Assets.getGeometry(assetName),

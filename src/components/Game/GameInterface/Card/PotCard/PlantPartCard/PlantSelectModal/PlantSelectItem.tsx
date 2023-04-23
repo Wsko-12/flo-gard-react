@@ -1,16 +1,16 @@
 import { EntityId } from "@reduxjs/toolkit";
 import { memo } from "react";
-import { IPotGroundState } from "../../../../../../../game/entities/entities/pots/PotGround";
 import { selectEntityById } from "../../../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice";
 import { useAppSelector } from "../../../../../../../store/store";
 
-interface IGroundSelectItemProps {
+interface IPlantSelectItemProps {
   id: EntityId;
   select: (id: EntityId) => void;
 }
 
-const GroundSelectItem = memo<IGroundSelectItemProps>(({ id, select }) => {
-  const entityState = useAppSelector(selectEntityById(id)) as IPotGroundState;
+const PlantSelectItem = memo<IPlantSelectItemProps>(({ id, select }) => {
+  const entityState = useAppSelector(selectEntityById(id));
+
   if (!entityState || !entityState.inInventory) {
     return null;
   }
@@ -22,6 +22,6 @@ const GroundSelectItem = memo<IGroundSelectItemProps>(({ id, select }) => {
     </div>
   );
 });
-GroundSelectItem.displayName = "GroundSelectItem";
+PlantSelectItem.displayName = "PlantSelectItem";
 
-export { GroundSelectItem };
+export { PlantSelectItem };

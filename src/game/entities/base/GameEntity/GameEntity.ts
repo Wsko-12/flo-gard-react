@@ -29,6 +29,7 @@ export enum EGameEntityTypes {
   pot = "POT",
   stand = "STAND",
   greenHouse = "GREEN_HOUSE",
+  plant = "PLANT",
 }
 
 export abstract class GameEntity {
@@ -41,6 +42,8 @@ export abstract class GameEntity {
   abstract readonly inventoryData: IEntityInventoryData;
 
   public storeManager: GameEntityStoreManager;
+
+  public state: IEntityAddsState | null = null;
 
   constructor() {
     this.id = generateEntityId();
@@ -67,7 +70,7 @@ export abstract class GameEntity {
   }
 
   public getAddsState(): IEntityAddsState | null {
-    return null;
+    return this.state ? { ...this.state } : null;
   }
 
   public remove() {

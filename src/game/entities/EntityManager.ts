@@ -27,6 +27,7 @@ export class EntityManager {
     }
     this.entities.splice(index, 1);
   }
+
   public static removeEntityById(id: EntityId) {
     const entity = this.getEntityById(id);
     if (entity) {

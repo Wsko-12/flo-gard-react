@@ -85,7 +85,7 @@ class Grass {
     LoopsManager.subscribe("userActions", this.mowGrass);
     Day.subscribe(this.dayUpdate);
 
-    this.grassHeightCanvas = this.createСanvas();
+    this.grassHeightCanvas = this.createCanvas();
     this.grassHeightTexture = new CanvasTexture(this.grassHeightCanvas.canvas);
     this.grassHeightTexture.flipY = false;
     this.grassHeightTexture.magFilter = LinearFilter;
@@ -127,7 +127,7 @@ class Grass {
     }
   };
 
-  private createСanvas() {
+  private createCanvas() {
     const resolution = GRASS_HEIGHT_CANVAS_RESOLUTION;
     const canvas = document.createElement("canvas");
     canvas.width = canvas.height = resolution;
@@ -194,7 +194,8 @@ class Grass {
     const { x, z } = GameStore.cameraTarget;
     this.mover.position.set(x, 0.01, z);
 
-    const strength = Math.abs(Math.sin(time * 0.1));
+    // const strength = Math.abs(Math.sin(time * 0.1));\
+    const strength = 0.25;
     UNIFORM_WIND_STRENGTH.value = strength;
   };
 

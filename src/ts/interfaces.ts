@@ -9,4 +9,10 @@ interface IPosition2 {
   y: number;
 }
 
-export type { IPosition2, AtlasItem };
+interface IPosition3 extends IPosition2 {
+  z: number;
+}
+
+type TFiveRange = 0 | 1 | 2 | 3 | 4 | 5;
+
+export type { IPosition2, AtlasItem, TFiveRange, IPosition3 };

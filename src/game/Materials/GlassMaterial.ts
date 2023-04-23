@@ -1,6 +1,6 @@
-import { DoubleSide } from 'three';
-import { EColorsPallet } from '../world/environment/utils/utils';
-import { PhongMaterialWithCloseCameraShader } from './PhongWithCloseCamera';
+import { DoubleSide } from "three";
+import { EColorsPallet } from "../world/environment/utils/utils";
+import { PhongMaterialWithCloseCameraShader } from "./PhongWithCloseCamera";
 
 export const getGlassMaterial = (closeCameraDistance: number | undefined = undefined) => {
   const material = PhongMaterialWithCloseCameraShader(

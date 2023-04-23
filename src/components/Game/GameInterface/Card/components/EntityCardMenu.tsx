@@ -1,17 +1,17 @@
-import { EntityId } from '@reduxjs/toolkit';
-import React, { memo, useCallback } from 'react';
-import { IEntityState } from '../../../../../game/entities/base/GameEntity/GameEntity';
+import { EntityId } from "@reduxjs/toolkit";
+import { memo, useCallback } from "react";
+import { IEntityState } from "../../../../../game/entities/base/GameEntity/GameEntity";
 import {
   GroupEntity,
   IGroupEntityAddsState,
-} from '../../../../../game/entities/base/GroupEntity/GroupEntity';
-import { IndependentGameEntity } from '../../../../../game/entities/base/IndependentGameEntity/IndependentGameEntity';
-import { EntityManager } from '../../../../../game/entities/EntityManager';
-import GameCamera from '../../../../../game/renderer/gameCamera/GameCamera';
-import { selectEntityById } from '../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
-import { useAppSelector } from '../../../../../store/store';
+} from "../../../../../game/entities/base/GroupEntity/GroupEntity";
+import { IndependentGameEntity } from "../../../../../game/entities/base/IndependentGameEntity/IndependentGameEntity";
+import { EntityManager } from "../../../../../game/entities/EntityManager";
+import { GameCamera } from "../../../../../game/renderer/gameCamera/GameCamera";
+import { selectEntityById } from "../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice";
+import { useAppSelector } from "../../../../../store/store";
 
-export const useEntityCardMenu = (id: EntityId) => {
+const useEntityCardMenu = (id: EntityId) => {
   const entityState = useAppSelector(selectEntityById(id)) as IEntityState;
   const entityInstance = EntityManager.getEntityById(id);
 
@@ -61,5 +61,6 @@ const EntityCardMenu = memo<IEntityCardMenuProps>(({ toInventory, toMove, disabl
     </div>
   );
 });
+EntityCardMenu.displayName = "EntityCardMenu";
 
-export default EntityCardMenu;
+export { EntityCardMenu, useEntityCardMenu };

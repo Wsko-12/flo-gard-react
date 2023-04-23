@@ -1,7 +1,7 @@
 export enum EWeeds {
-  dandelion = 'dandelion',
-  urtica = 'urtica',
-  arctium = 'arctium',
+  dandelion = "dandelion",
+  urtica = "urtica",
+  arctium = "arctium",
 }
 
 export const WEED_CONFIG: Record<EWeeds, number> = {

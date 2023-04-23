@@ -4,19 +4,19 @@ import {
   EntityId,
   EntityState,
   PayloadAction,
-} from '@reduxjs/toolkit';
-import { EGameEntityTypes, IEntityState } from '../../../game/entities/base/GameEntity/GameEntity';
-import { RootState } from '../../store';
-
-const gameEntitiesAdapter = createEntityAdapter<IEntityState>({
-  selectId: (entity) => entity.id,
-});
+} from "@reduxjs/toolkit";
+import { EGameEntityTypes, IEntityState } from "../../../game/entities/base/GameEntity/GameEntity";
+import { RootState } from "../../store";
 
 interface IGameEntitiesState {
   entities: EntityState<IEntityState>;
   cardOpened: EntityId[];
   onMove: EntityId | null;
 }
+
+const gameEntitiesAdapter = createEntityAdapter<IEntityState>({
+  selectId: (entity) => entity.id,
+});
 
 const initialState: IGameEntitiesState = {
   entities: gameEntitiesAdapter.getInitialState(),
@@ -25,7 +25,7 @@ const initialState: IGameEntitiesState = {
 };
 
 const gameEntitiesSlice = createSlice({
-  name: 'gameEntities',
+  name: "gameEntities",
   initialState,
   reducers: {
     addGameEntity: (state, action: PayloadAction<IEntityState>) => {
@@ -87,7 +87,26 @@ const gameEntitiesSlice = createSlice({
   },
 });
 
-export default gameEntitiesSlice.reducer;
+const gameEntitiesSliceReducer = gameEntitiesSlice.reducer;
+
+const entityAdapterSelectors = gameEntitiesAdapter.getSelectors(
+  (state: RootState) => state.gameEntities.entities
+);
+
+const selectEntitiesIds = entityAdapterSelectors.selectIds;
+
+const selectEntityById = (id: EntityId | null) => (state: RootState) =>
+  id ? entityAdapterSelectors.selectById(state, id) : undefined;
+
+const selectOpenedCardsIds = (state: RootState) => state.gameEntities.cardOpened;
+
+const selectEntityOnMove = (state: RootState) => state.gameEntities.onMove;
+
+const selectEntitiesIdsByType = (type: EGameEntityTypes) => (state: RootState) =>
+  entityAdapterSelectors
+    .selectAll(state)
+    .filter((entity) => entity.type === type)
+    .map((entity) => entity.id);
 
 export const {
   addGameEntity,
@@ -100,19 +119,12 @@ export const {
   removeGameEntity,
   closeAllEntityCards,
 } = gameEntitiesSlice.actions;
-const entityAdapterSelectors = gameEntitiesAdapter.getSelectors(
-  (state: RootState) => state.gameEntities.entities
-);
-export const selectEntitiesIds = entityAdapterSelectors.selectIds;
-export const selectEntityById = (id: EntityId | null) => (state: RootState) =>
-  id ? entityAdapterSelectors.selectById(state, id) : undefined;
 
-export const selectOpenedCardsIds = (state: RootState) => state.gameEntities.cardOpened;
-
-export const selectEntityOnMove = (state: RootState) => state.gameEntities.onMove;
-
-export const selectEntitiesIdsByType = (type: EGameEntityTypes) => (state: RootState) =>
-  entityAdapterSelectors
-    .selectAll(state)
-    .filter((entity) => entity.type === type)
-    .map((entity) => entity.id);
+export {
+  gameEntitiesSliceReducer,
+  selectEntitiesIds,
+  selectEntityById,
+  selectOpenedCardsIds,
+  selectEntityOnMove,
+  selectEntitiesIdsByType,
+};

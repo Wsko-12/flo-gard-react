@@ -1,3 +1,5 @@
-import { RootState } from '../../store';
+import { RootState } from "../../store";
 
-export const selectClocksInterfaceType = (state: RootState) => state.gameInterfaceSetting.clocks;
+const selectClocksInterfaceType = (state: RootState) => state.gameInterfaceSetting.clocks;
+
+export { selectClocksInterfaceType };

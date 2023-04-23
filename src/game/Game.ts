@@ -1,8 +1,8 @@
-import LoopsManager from './loopsManager/LoopsManager';
-import Renderer from './renderer/Renderer';
-import World from './world/World';
+import { LoopsManager } from "./loopsManager/LoopsManager";
+import { Renderer } from "./renderer/Renderer";
+import { World } from "./world/World";
 
-export default class Game {
+class Game {
   static init = async (canvas: HTMLCanvasElement) => {
     LoopsManager.init();
     World.init();
@@ -10,3 +10,5 @@ export default class Game {
     LoopsManager.start();
   };
 }
+
+export { Game };

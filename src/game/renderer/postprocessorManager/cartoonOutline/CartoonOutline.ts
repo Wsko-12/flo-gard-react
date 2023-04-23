@@ -5,10 +5,10 @@ import {
   ShaderMaterial,
   WebGLRenderer,
   WebGLRenderTarget,
-} from 'three';
-import { FullScreenQuad, Pass } from 'three/examples/jsm/postprocessing/Pass';
+} from "three";
+import { FullScreenQuad, Pass } from "three/examples/jsm/postprocessing/Pass";
 
-export default class CartoonOutline extends Pass {
+class CartoonOutline extends Pass {
   private scene: Scene | null = null;
   private camera: PerspectiveCamera | null = null;
 
@@ -110,6 +110,7 @@ export default class CartoonOutline extends Pass {
   public setScene(scene: Scene) {
     this.scene = scene;
   }
+
   public setCamera(camera: PerspectiveCamera) {
     this.camera = camera;
     this.material.uniforms.cameraNear.value = camera.near;
@@ -158,3 +159,5 @@ export default class CartoonOutline extends Pass {
     }
   }
 }
+
+export { CartoonOutline };

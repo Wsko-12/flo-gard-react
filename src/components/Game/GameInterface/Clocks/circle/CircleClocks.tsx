@@ -1,7 +1,7 @@
-import React, { memo } from 'react';
-import { FULL_DAY_TIME } from '../../../../../game/world/day/Day';
+import { memo } from "react";
+import { FULL_DAY_TIME } from "../../../../../game/world/day/Day";
 
-import styles from './circle-clocks.module.scss';
+import styles from "./circle-clocks.module.scss";
 
 const getSunAngle = (time: number) => {
   return `rotate(${(time / FULL_DAY_TIME) * 0.5 * 360}deg)`;
@@ -26,5 +26,6 @@ const CircleClocks = memo<ICircleClocksProps>(({ dayTime }) => {
     </div>
   );
 });
+CircleClocks.displayName = "CircleClocks";
 
-export default CircleClocks;
+export { CircleClocks };

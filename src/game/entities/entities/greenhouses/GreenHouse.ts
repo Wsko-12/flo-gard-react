@@ -1,6 +1,6 @@
-import { EGameEntityTypes } from '../../base/GameEntity/GameEntity';
-import { GroupEntity } from '../../base/GroupEntity/GroupEntity';
-import { IndependentGameEntity } from '../../base/IndependentGameEntity/IndependentGameEntity';
+import { EGameEntityTypes } from "../../base/GameEntity/GameEntity";
+import { GroupEntity } from "../../base/GroupEntity/GroupEntity";
+import { IndependentGameEntity } from "../../base/IndependentGameEntity/IndependentGameEntity";
 
 export abstract class GreenHouse extends GroupEntity {
   type = EGameEntityTypes.greenHouse;

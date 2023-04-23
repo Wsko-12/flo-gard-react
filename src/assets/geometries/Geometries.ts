@@ -1,7 +1,7 @@
-import { geometriesAtlas } from './atlas';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { BufferGeometry } from 'three';
-import { EAssetType, TAssetsLoadingStatus } from '../Assets';
+import { geometriesAtlas } from "./atlas";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { BufferGeometry } from "three";
+import { EAssetType, TAssetsLoadingStatus } from "../Assets";
 
 class Geometries {
   static loaded: Record<string, BufferGeometry> = {};
@@ -14,10 +14,11 @@ class Geometries {
         loadingCb(EAssetType.geometry, index / geometriesAtlas.length);
         if (!geometriesAtlas[index]) {
           res(true);
+
           return;
         }
         const data = geometriesAtlas[index];
-        const path = process.env.PUBLIC_URL + '/assets/geometries/' + data.folder + '/' + data.file;
+        const path = process.env.PUBLIC_URL + "/assets/geometries/" + data.folder + "/" + data.file;
         loader.load(path, (model) => {
           const mesh = model.scene.children[0] as THREE.Mesh;
           this.loaded[data.name] = mesh.geometry;
@@ -32,7 +33,9 @@ class Geometries {
     if (!this.loaded[name]) {
       throw new Error(`[Assets geometry get] Geometry ${name} undefined`);
     }
+
     return this.loaded[name];
   }
 }
-export default Geometries;
+
+export { Geometries };

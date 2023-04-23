@@ -1,7 +1,7 @@
-import React, { memo, useEffect, useRef } from 'react';
-import Game from '../../../game/Game';
+import { memo, useEffect, useRef } from "react";
+import { Game } from "../../../game/Game";
 
-export const GameCanvas = memo(() => {
+const GameCanvas = memo(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -10,5 +10,8 @@ export const GameCanvas = memo(() => {
     }
   }, []);
 
-  return <canvas ref={canvasRef} style={{ width: '100vw', height: '100vh' }}></canvas>;
+  return <canvas ref={canvasRef} style={{ width: "100vw", height: "100vh" }}></canvas>;
 });
+GameCanvas.displayName = "GameCanvas";
+
+export { GameCanvas };

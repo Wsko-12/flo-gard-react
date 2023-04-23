@@ -1,10 +1,10 @@
 import {
   selectEntityById,
   selectEntityOnMove,
-} from '../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
-import { store } from '../../../../../store/store';
-import { GameEntityStoreManager } from '../../GameEntity/storeManager/GameEntityStoreManager';
-import { IIndependentEntityState, IndependentGameEntity } from '../IndependentGameEntity';
+} from "../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice";
+import { store } from "../../../../../store/store";
+import { GameEntityStoreManager } from "../../GameEntity/storeManager/GameEntityStoreManager";
+import { IIndependentEntityState, IndependentGameEntity } from "../IndependentGameEntity";
 
 export class IndependentGameEntityStoreManager extends GameEntityStoreManager {
   entity: IndependentGameEntity;
@@ -18,6 +18,7 @@ export class IndependentGameEntityStoreManager extends GameEntityStoreManager {
   public getState(): IIndependentEntityState {
     const base = super.getState();
     const { position, angle } = this.entity.placed;
+
     return {
       ...base,
       position: position ? position.getPositionObject() : null,

@@ -1,6 +1,6 @@
-import { BufferGeometry, Mesh, MeshBasicMaterial } from 'three';
-import { ClickBoxScene } from '../../../../world/ClickBoxScene/ClickBoxScene';
-import { IndependentGameEntity } from '../IndependentGameEntity';
+import { BufferGeometry, Mesh, MeshBasicMaterial } from "three";
+import { ClickBoxScene } from "../../../../world/ClickBoxScene/ClickBoxScene";
+import { IndependentGameEntity } from "../IndependentGameEntity";
 
 export class ClickBox {
   protected static material = new MeshBasicMaterial({

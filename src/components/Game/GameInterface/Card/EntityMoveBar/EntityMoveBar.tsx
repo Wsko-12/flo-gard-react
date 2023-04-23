@@ -1,12 +1,13 @@
-import { EntityId } from '@reduxjs/toolkit';
-import { memo } from 'react';
-import { IndependentGameEntity } from '../../../../../game/entities/base/IndependentGameEntity/IndependentGameEntity';
-import { EntityManager } from '../../../../../game/entities/EntityManager';
-import styles from './entity-move-bar.module.scss';
+import { EntityId } from "@reduxjs/toolkit";
+import { memo } from "react";
+import { IndependentGameEntity } from "../../../../../game/entities/base/IndependentGameEntity/IndependentGameEntity";
+import { EntityManager } from "../../../../../game/entities/EntityManager";
+import styles from "./entity-move-bar.module.scss";
 
 interface IEntityMoveBarProps {
   id: EntityId;
 }
+
 const EntityMoveBar = memo<IEntityMoveBarProps>(({ id }) => {
   const entityInstance = EntityManager.getEntityById(id);
 
@@ -15,6 +16,7 @@ const EntityMoveBar = memo<IEntityMoveBarProps>(({ id }) => {
   }
 
   const isRotate = entityInstance.isRotate;
+
   return (
     <div className={styles.container}>
       {isRotate && (
@@ -38,5 +40,6 @@ const EntityMoveBar = memo<IEntityMoveBarProps>(({ id }) => {
     </div>
   );
 });
+EntityMoveBar.displayName = "EntityMoveBar";
 
-export default EntityMoveBar;
+export { EntityMoveBar };

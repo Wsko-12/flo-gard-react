@@ -1,10 +1,11 @@
-import React, { memo } from 'react';
-import { selectEntitiesIds } from '../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
-import { useAppSelector } from '../../../../store/store';
-import styles from './inventory.module.scss';
-import InventoryItem from './InventoryItem/InventoryItem';
+import { memo } from "react";
+import { selectEntitiesIds } from "../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice";
+import { useAppSelector } from "../../../../store/store";
+import { InventoryItem } from "./InventoryItem/InventoryItem";
+
 const Inventory = memo(() => {
   const ids = useAppSelector(selectEntitiesIds);
+
   return (
     <div>
       {ids.map((id) => (
@@ -13,5 +14,6 @@ const Inventory = memo(() => {
     </div>
   );
 });
+Inventory.displayName = "Inventory";
 
-export default Inventory;
+export { Inventory };

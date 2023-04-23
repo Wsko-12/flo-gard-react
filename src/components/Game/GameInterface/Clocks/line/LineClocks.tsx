@@ -1,12 +1,13 @@
-import React, { memo } from 'react';
-import { FULL_DAY_TIME } from '../../../../../game/world/day/Day';
+import { memo } from "react";
+import { FULL_DAY_TIME } from "../../../../../game/world/day/Day";
 
-import styles from './line-clocks.module.scss';
+import styles from "./line-clocks.module.scss";
 
 const getSunPosition = (time: number) => {
   return `translateX(${(time / FULL_DAY_TIME) * 100 * 10}%)`;
   // return `translateX(0%)`;
 };
+
 interface ILineClocksProps {
   dayTime: number;
 }
@@ -29,5 +30,6 @@ const LineClocks = memo<ILineClocksProps>(({ dayTime }) => {
     </div>
   );
 });
+LineClocks.displayName = "LineClocks";
 
-export default LineClocks;
+export { LineClocks };

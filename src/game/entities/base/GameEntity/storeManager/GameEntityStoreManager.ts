@@ -2,9 +2,9 @@ import {
   removeGameEntity,
   selectEntityById,
   updateEntity,
-} from '../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
-import { store } from '../../../../../store/store';
-import { GameEntity, IEntityState } from '../GameEntity';
+} from "../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice";
+import { store } from "../../../../../store/store";
+import { GameEntity, IEntityState } from "../GameEntity";
 
 export class GameEntityStoreManager {
   entity: GameEntity;
@@ -21,6 +21,7 @@ export class GameEntityStoreManager {
 
   public getState(): IEntityState {
     const { id, inInventory, inventoryData, isIndependent, type } = this.entity;
+
     return {
       id,
       type,

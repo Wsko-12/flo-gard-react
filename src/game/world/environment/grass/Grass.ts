@@ -14,20 +14,20 @@ import {
   RGBADepthPacking,
   Uniform,
   Vector2,
-} from 'three';
-import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import Assets from '../../../../assets/Assets';
-import { selectGrassMoverEnabled } from '../../../../store/slices/gameSlice/gameSelectors';
-import { setGrassMoverEnabled } from '../../../../store/slices/gameSlice/gameSlice';
-import { store } from '../../../../store/store';
-import { IndependentGameEntity } from '../../../entities/base/IndependentGameEntity/IndependentGameEntity';
-import { EntityManager } from '../../../entities/EntityManager';
-import { GameStore } from '../../../gameStore/GameStore';
-import LoopsManager from '../../../loopsManager/LoopsManager';
-import Day, { FULL_DAY_TIME } from '../../day/Day';
-import { GROUND_SIZE } from '../ground/Ground';
-import { Point2 } from '../utils/Geometry';
-import Weed from './weed/Weed';
+} from "three";
+import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import { Assets } from "../../../../assets/Assets";
+import { selectGrassMoverEnabled } from "../../../../store/slices/gameSlice/gameSelectors";
+import { setGrassMoverEnabled } from "../../../../store/slices/gameSlice/gameSlice";
+import { store } from "../../../../store/store";
+import { IndependentGameEntity } from "../../../entities/base/IndependentGameEntity/IndependentGameEntity";
+import { EntityManager } from "../../../entities/EntityManager";
+import { GameStore } from "../../../gameStore/GameStore";
+import { LoopsManager } from "../../../loopsManager/LoopsManager";
+import { Day } from "../../day/Day";
+import { GROUND_SIZE } from "../ground/Ground";
+import { Point2 } from "../utils/Geometry";
+import { Weed } from "./weed/Weed";
 
 const GRASS_HEIGHT_CANVAS_RESOLUTION = 64;
 const SHOW_GRASS_HEIGHT_TEXTURE = false;
@@ -40,12 +40,13 @@ export const UNIFORM_WIND_DIRECTION = {
   value: new Vector2(1, 0),
 };
 
-export class Grass {
+class Grass {
   static getCanvasXY(x: number, y: number) {
     const canvasX =
       ((x + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (GRASS_HEIGHT_CANVAS_RESOLUTION / 2);
     const canvasY =
       ((y + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (GRASS_HEIGHT_CANVAS_RESOLUTION / 2);
+
     return {
       x: canvasX,
       y: canvasY,
@@ -55,6 +56,7 @@ export class Grass {
   static translateToCanvasPixels(value: number) {
     return (value / GROUND_SIZE) * GRASS_HEIGHT_CANVAS_RESOLUTION;
   }
+
   private group: Group;
   private mover: Mesh;
   private moverEnabled = false;
@@ -79,8 +81,8 @@ export class Grass {
   private weedsMeshesGroup = new Group();
 
   constructor() {
-    LoopsManager.subscribe('update', this.update);
-    LoopsManager.subscribe('userActions', this.mowGrass);
+    LoopsManager.subscribe("update", this.update);
+    LoopsManager.subscribe("userActions", this.mowGrass);
     Day.subscribe(this.dayUpdate);
 
     this.grassHeightCanvas = this.createСanvas();
@@ -111,8 +113,8 @@ export class Grass {
       this.moverEnabled = selectGrassMoverEnabled(store.getState());
     });
 
-    document.addEventListener('keydown', this.keyDownListener);
-    document.addEventListener('keyup', this.keyDownListener);
+    document.addEventListener("keydown", this.keyDownListener);
+    document.addEventListener("keyup", this.keyDownListener);
 
     // for (let i = 0; i < 15; i++) {
     //   this.generateWeed();
@@ -120,18 +122,18 @@ export class Grass {
   }
 
   private keyDownListener = (e: KeyboardEvent) => {
-    if (e.code === 'KeyM' && e.type === 'keydown' && !e.repeat) {
+    if (e.code === "KeyM" && e.type === "keydown" && !e.repeat) {
       store.dispatch(setGrassMoverEnabled(!this.moverEnabled));
     }
   };
 
   private createСanvas() {
     const resolution = GRASS_HEIGHT_CANVAS_RESOLUTION;
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     canvas.width = canvas.height = resolution;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const ctx = canvas.getContext('2d')!;
-    ctx.fillStyle = 'white';
+    const ctx = canvas.getContext("2d")!;
+    ctx.fillStyle = "white";
     ctx.fillRect(0, 0, resolution, resolution);
 
     return { canvas, ctx, resolution };
@@ -147,7 +149,7 @@ export class Grass {
   private grow = (time: number) => {
     if (this.growImmediately || time % 180 === 0) {
       const { ctx, resolution } = this.grassHeightCanvas;
-      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      ctx.fillStyle = "rgba(255,255,255,0.05)";
       ctx.fillRect(0, 0, resolution, resolution);
       this.grassHeightTexture.needsUpdate = true;
       this.pressGrassByEntities();
@@ -158,12 +160,13 @@ export class Grass {
     const mover = new Mesh(
       new PlaneGeometry(),
       new MeshBasicMaterial({
-        map: Assets.getTexture('grassMover'),
+        map: Assets.getTexture("grassMover"),
         alphaTest: 0.5,
       })
     );
     mover.rotateX(-Math.PI / 2);
     mover.position.y = 0.01;
+
     return mover;
   }
 
@@ -180,6 +183,7 @@ export class Grass {
       if (isRemove) {
         this.weedsMeshesGroup.remove(weed.getMesh());
       }
+
       return !isRemove;
     });
   }
@@ -195,8 +199,8 @@ export class Grass {
   };
 
   private createMesh() {
-    const grassGeometry = Assets.getGeometry('grass');
-    const texture = Assets.getTexture('grass');
+    const grassGeometry = Assets.getGeometry("grass");
+    const texture = Assets.getTexture("grass");
     texture.minFilter = NearestFilter;
 
     const material = new MeshPhongMaterial({
@@ -216,7 +220,7 @@ export class Grass {
       shader.uniforms.uWindDirection = UNIFORM_WIND_DIRECTION;
       let vertex = shader.vertexShader;
       vertex = vertex.replace(
-        '#include <common>',
+        "#include <common>",
         `#include <common>
                  uniform float uTime;
                  uniform float uWindStrength;
@@ -226,7 +230,7 @@ export class Grass {
       );
 
       vertex = vertex.replace(
-        '#include <fog_vertex>',
+        "#include <fog_vertex>",
         `#include <fog_vertex>
 
                  vec3 vPosition = position;
@@ -307,7 +311,7 @@ export class Grass {
       let vertex = shader.vertexShader;
 
       vertex = vertex.replace(
-        '#include <common>',
+        "#include <common>",
         `#include <common>
                 uniform float uTime;
                 uniform float uWindStrength;
@@ -317,7 +321,7 @@ export class Grass {
       );
 
       vertex = vertex.replace(
-        '#include <clipping_planes_vertex>',
+        "#include <clipping_planes_vertex>",
         `#include <clipping_planes_vertex>
                 vec3 vPosition = position;
 
@@ -373,7 +377,7 @@ export class Grass {
     const canvas_y = ((z + GROUND_SIZE / 2) / (GROUND_SIZE / 2)) * (resolution / 2);
     const radius = (this.mover.scale.x / (GROUND_SIZE * 1.5)) * resolution;
     ctx.save();
-    ctx.fillStyle = '#303030';
+    ctx.fillStyle = "#303030";
     ctx.beginPath();
     ctx.arc(canvas_x, canvas_y, radius, 0, Math.PI * 2);
     ctx.fill();
@@ -415,3 +419,5 @@ export class Grass {
     return this.group;
   }
 }
+
+export { Grass };

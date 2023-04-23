@@ -1,13 +1,14 @@
-import { EntityId } from '@reduxjs/toolkit';
-import { addGameEntity } from '../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
-import { store } from '../../store/store';
-import { GameEntity } from './base/GameEntity/GameEntity';
+import { EntityId } from "@reduxjs/toolkit";
+import { addGameEntity } from "../../store/slices/gameEntitiesSlice/gameEntitiesSlice";
+import { store } from "../../store/store";
+import { GameEntity } from "./base/GameEntity/GameEntity";
 
 export class EntityManager {
   private static entities: GameEntity[] = [];
 
   public static getEntityById(id: EntityId) {
     const entity = this.entities.find((entity) => entity.id === id);
+
     return entity || null;
   }
 

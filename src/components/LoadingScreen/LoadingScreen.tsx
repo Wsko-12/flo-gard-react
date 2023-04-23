@@ -1,5 +1,6 @@
-import React, { memo } from 'react';
-import style from './loading-screen.module.css';
+import { memo } from "react";
+import style from "./loading-screen.module.css";
+
 interface ILoadingScreenProps {
   title: string;
   progress: number;
@@ -13,5 +14,6 @@ const LoadingScreen = memo<ILoadingScreenProps>(({ title, progress }) => {
     </div>
   );
 });
+LoadingScreen.displayName = "LoadingScreen";
 
-export default LoadingScreen;
+export { LoadingScreen };

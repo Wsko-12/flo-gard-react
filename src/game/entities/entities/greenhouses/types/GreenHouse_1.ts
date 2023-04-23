@@ -1,13 +1,13 @@
-import { DoubleSide, Mesh } from 'three';
-import Assets from '../../../../../assets/Assets';
-import { getGlassMaterial } from '../../../../Materials/GlassMaterial';
-import { PhongMaterialWithCloseCameraShader } from '../../../../Materials/PhongWithCloseCamera';
-import { getShadowMaterial } from '../../../../Materials/ShadowMaterial';
-import { EColorsPallet } from '../../../../world/environment/utils/utils';
-import { QuadCollider } from '../../../base/IndependentGameEntity/Collider/QuadCollider/QuadCollider';
-import { GreenHouse } from '../GreenHouse';
+import { DoubleSide, Mesh } from "three";
+import { Assets } from "../../../../../assets/Assets";
+import { getGlassMaterial } from "../../../../Materials/GlassMaterial";
+import { PhongMaterialWithCloseCameraShader } from "../../../../Materials/PhongWithCloseCamera";
+import { getShadowMaterial } from "../../../../Materials/ShadowMaterial";
+import { EColorsPallet } from "../../../../world/environment/utils/utils";
+import { QuadCollider } from "../../../base/IndependentGameEntity/Collider/QuadCollider/QuadCollider";
+import { GreenHouse } from "../GreenHouse";
 
-const assetName = 'greenhouse_1';
+const assetName = "greenhouse_1";
 
 export class GreenHouse_1 extends GreenHouse {
   protected yShift = 0.125;
@@ -18,7 +18,7 @@ export class GreenHouse_1 extends GreenHouse {
     [-1, -1.4],
   ]);
   inventoryData = {
-    title: 'GreenHouse_1',
+    title: "GreenHouse_1",
   };
   isRotate = true;
 
@@ -38,7 +38,7 @@ export class GreenHouse_1 extends GreenHouse {
     )
   );
 
-  shadowMesh = new Mesh(Assets.getGeometry(`pallet_1_shadow`), getShadowMaterial());
+  shadowMesh = new Mesh(Assets.getGeometry("pallet_1_shadow"), getShadowMaterial());
 
   constructor() {
     super();

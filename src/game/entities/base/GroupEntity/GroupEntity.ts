@@ -1,6 +1,6 @@
-import { EntityId } from '@reduxjs/toolkit';
-import { IEntityAddsState } from '../GameEntity/GameEntity';
-import { IndependentGameEntity } from '../IndependentGameEntity/IndependentGameEntity';
+import { EntityId } from "@reduxjs/toolkit";
+import { IEntityAddsState } from "../GameEntity/GameEntity";
+import { IndependentGameEntity } from "../IndependentGameEntity/IndependentGameEntity";
 
 export interface IGroupEntityAddsState extends IEntityAddsState {
   entities: EntityId[];
@@ -41,6 +41,7 @@ export abstract class GroupEntity extends IndependentGameEntity {
     if (this.inGroupEntity) {
       shift += this.inGroupEntity.getYShift();
     }
+
     return shift;
   }
   public getAddsState(): IGroupEntityAddsState | null {

@@ -1,8 +1,8 @@
-import Loop, { TLoopCallback } from './loop/Loop';
+import { Loop, TLoopCallback } from "./loop/Loop";
 
-export type TGameLoopName = 'render' | 'update' | 'tick' | 'userActions';
+export type TGameLoopName = "render" | "update" | "tick" | "userActions";
 
-export default class LoopsManager {
+class LoopsManager {
   private static loops: Record<TGameLoopName, Loop> | null = null;
 
   private static timestamp = 0;
@@ -28,21 +28,21 @@ export default class LoopsManager {
 
   static subscribe(loop: TGameLoopName, callback: TLoopCallback) {
     if (!this.loops) {
-      throw new Error('[LoopsManager] loops undefined. First init LoopsManager');
+      throw new Error("[LoopsManager] loops undefined. First init LoopsManager");
     }
     this.loops[loop].subscribe(callback);
   }
 
   static unsubscribe(loop: TGameLoopName, callback: TLoopCallback) {
     if (!this.loops) {
-      throw new Error('[LoopsManager] loops undefined. First init LoopsManager');
+      throw new Error("[LoopsManager] loops undefined. First init LoopsManager");
     }
     this.loops[loop].unsubscribe(callback);
   }
 
   private static play = () => {
     if (!this.loops) {
-      throw new Error('[LoopsManager] loops undefined. First init LoopsManager');
+      throw new Error("[LoopsManager] loops undefined. First init LoopsManager");
     }
 
     const now = Date.now();
@@ -58,3 +58,5 @@ export default class LoopsManager {
     }
   };
 }
+
+export { LoopsManager };

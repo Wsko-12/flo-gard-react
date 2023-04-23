@@ -1,9 +1,9 @@
-import { EntityId } from '@reduxjs/toolkit';
-import { Group, Mesh } from 'three';
-import { generateEntityId } from '../../../../utils/utils';
-import { GameStore } from '../../../gameStore/GameStore';
-import { EntityManager } from '../../EntityManager';
-import { GameEntityStoreManager } from './storeManager/GameEntityStoreManager';
+import { EntityId } from "@reduxjs/toolkit";
+import { Group, Mesh } from "three";
+import { generateEntityId } from "../../../../utils/utils";
+import { GameStore } from "../../../gameStore/GameStore";
+import { EntityManager } from "../../EntityManager";
+import { GameEntityStoreManager } from "./storeManager/GameEntityStoreManager";
 
 export interface IEntityInventoryData {
   title: string;
@@ -24,11 +24,11 @@ export interface IEntityState {
 }
 
 export enum EGameEntityTypes {
-  test = 'TEST',
-  potGround = 'POT_GROUND',
-  pot = 'POT',
-  stand = 'STAND',
-  greenHouse = 'GREEN_HOUSE',
+  test = "TEST",
+  potGround = "POT_GROUND",
+  pot = "POT",
+  stand = "STAND",
+  greenHouse = "GREEN_HOUSE",
 }
 
 export abstract class GameEntity {

@@ -1,8 +1,8 @@
-import { Intersection, Mesh, Object3D, Raycaster, Vector2 } from 'three';
-import { EGameEntityTypes } from '../../entities/base/GameEntity/GameEntity';
-import { ClickBox } from '../../entities/base/IndependentGameEntity/ClickBox/ClickBox';
-import GameCamera from '../../renderer/gameCamera/GameCamera';
-import World from '../World';
+import { Intersection, Mesh, Object3D, Raycaster, Vector2 } from "three";
+import { EGameEntityTypes } from "../../entities/base/GameEntity/GameEntity";
+import { ClickBox } from "../../entities/base/IndependentGameEntity/ClickBox/ClickBox";
+import { GameCamera } from "../../renderer/gameCamera/GameCamera";
+import { World } from "../World";
 
 export class ClickBoxScene {
   private static clickBoxes: ClickBox[] = [];
@@ -13,6 +13,7 @@ export class ClickBoxScene {
     const mesh = object.object as Mesh;
     const index = ClickBoxScene.meshes.indexOf(mesh);
     const clickBox = ClickBoxScene.clickBoxes[index];
+
     return clickBox;
   };
 
@@ -56,6 +57,7 @@ export class ClickBoxScene {
     const firstEntity = firstClickBox.entity;
     if (firstEntity.type != EGameEntityTypes.greenHouse || !intersects[1]) {
       firstClickBox.onClick();
+
       return;
     }
 

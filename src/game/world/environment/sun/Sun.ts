@@ -1,6 +1,6 @@
-import { DirectionalLight, Group } from 'three';
-import Day, { FULL_DAY_TIME } from '../../day/Day';
-import { getColorByDayTime, memoize, RGBArr } from '../utils/utils';
+import { DirectionalLight, Group } from "three";
+import { Day, FULL_DAY_TIME } from "../../day/Day";
+import { getColorByDayTime, memoize, RGBArr } from "../utils/utils";
 
 const HEIGHT = 5;
 
@@ -19,9 +19,10 @@ const getSunColorByTimeMemoized = memoize((time: number) => {
   return getColorByDayTime(sunColors, time, FULL_DAY_TIME);
 });
 
-export default class Sun {
+class Sun {
   private group: Group;
   private light: DirectionalLight;
+
   constructor() {
     this.group = new Group();
 
@@ -57,3 +58,5 @@ export default class Sun {
     return this.group;
   }
 }
+
+export { Sun };

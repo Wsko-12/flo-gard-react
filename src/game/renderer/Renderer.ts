@@ -1,12 +1,12 @@
-import { VSMShadowMap, WebGLRenderer } from 'three';
-import LoopsManager from '../loopsManager/LoopsManager';
+import { VSMShadowMap, WebGLRenderer } from "three";
+import { LoopsManager } from "../loopsManager/LoopsManager";
 
-import World from '../world/World';
-import GameCamera from './gameCamera/GameCamera';
-import PostprocessorManager from './postprocessorManager/PostprocessorManager';
-import Stats from 'three/examples/jsm/libs/stats.module';
+import { World } from "../world/World";
+import { GameCamera } from "./gameCamera/GameCamera";
+import { PostprocessorManager } from "./postprocessorManager/PostprocessorManager";
+import Stats from "three/examples/jsm/libs/stats.module";
 
-export default class Renderer {
+class Renderer {
   private static renderer: WebGLRenderer | null = null;
   private static postprocessorManager: PostprocessorManager | null = null;
   private static stats = Stats();
@@ -26,9 +26,9 @@ export default class Renderer {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = VSMShadowMap;
 
-    window.addEventListener('resize', this.setSize);
+    window.addEventListener("resize", this.setSize);
     this.setSize();
-    LoopsManager.subscribe('render', this.render);
+    LoopsManager.subscribe("render", this.render);
 
     this.postprocessorManager = new PostprocessorManager(renderer);
   }
@@ -41,7 +41,8 @@ export default class Renderer {
     const renderer = this.renderer;
 
     if (!renderer) {
-      console.error('[Renderer setSize] renderer undefined');
+      console.error("[Renderer setSize] renderer undefined");
+
       return;
     }
 
@@ -50,7 +51,7 @@ export default class Renderer {
 
     const { canvas } = this;
     if (!canvas) {
-      throw new Error('[Renderer setSize] canvas undefined');
+      throw new Error("[Renderer setSize] canvas undefined");
     }
 
     const camera = GameCamera.getCamera();
@@ -64,7 +65,7 @@ export default class Renderer {
   };
 
   static dispose() {
-    document.removeEventListener('resize', this.setSize);
+    document.removeEventListener("resize", this.setSize);
     this.renderer?.dispose();
   }
 
@@ -77,3 +78,5 @@ export default class Renderer {
     }
   };
 }
+
+export { Renderer };

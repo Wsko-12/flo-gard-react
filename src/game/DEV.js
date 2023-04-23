@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
-import { ClickBox } from './entities/base/IndependentGameEntity/ClickBox/ClickBox';
-import { Collider } from './entities/base/IndependentGameEntity/Collider/Collider';
-import { IndependentGameEntity } from './entities/base/IndependentGameEntity/IndependentGameEntity';
-import { EntityManager } from './entities/EntityManager';
-import LoopsManager from './loopsManager/LoopsManager';
-import GameCamera from './renderer/gameCamera/GameCamera';
-import Renderer from './renderer/Renderer';
+import { ClickBox } from "./entities/base/IndependentGameEntity/ClickBox/ClickBox";
+import { Collider } from "./entities/base/IndependentGameEntity/Collider/Collider";
+import { IndependentGameEntity } from "./entities/base/IndependentGameEntity/IndependentGameEntity";
+import { EntityManager } from "./entities/EntityManager";
+import { LoopsManager } from "./loopsManager/LoopsManager";
+import { GameCamera } from "./renderer/gameCamera/GameCamera";
+import { Renderer } from "./renderer/Renderer";
 
-export const DEV = true;
+const DEV = true;
 
 const devFunctions = {
   renderer: {
@@ -65,6 +65,7 @@ const devFunctions = {
     },
     getById(id) {
       const entity = EntityManager.getEntityById(id);
+
       return entity;
     },
     getAll() {
@@ -84,9 +85,11 @@ const devFunctions = {
 };
 
 if (DEV) {
-  console.log('%c DEV FUNCTIONS SETTED', 'background: #ff0000; color: white');
+  console.log("%c DEV FUNCTIONS SETTED", "background: #ff0000; color: white");
   globalThis.$DEV = devFunctions;
   // setTimeout(() => {
   //   devFunctions.objects.showColliders(true);
   // }, 1000);
 }
+
+export { DEV };

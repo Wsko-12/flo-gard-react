@@ -1,9 +1,9 @@
-import { PerspectiveCamera } from 'three';
-import { Point2, Vector3, Vector2, Point3 } from '../../../../world/environment/utils/Geometry';
-import CameraController from '../CameraController';
-import OrbitControllerHandler from './handler/OrbitControllerHandler';
+import { PerspectiveCamera } from "three";
+import { Point2, Point3, Vector2, Vector3 } from "../../../../world/environment/utils/Geometry";
+import { CameraController } from "../CameraController";
+import { OrbitControllerHandler } from "./handler/OrbitControllerHandler";
 
-export default class OrbitController extends CameraController {
+class CameraOrbitController extends CameraController {
   public targetDirection = {
     deltaX: 0,
     deltaY: 0,
@@ -40,6 +40,7 @@ export default class OrbitController extends CameraController {
   private smooth = 0.8;
 
   private handler = new OrbitControllerHandler(this);
+
   constructor(
     handlerElement: HTMLElement,
     positionPoint: Point3,
@@ -161,6 +162,7 @@ export default class OrbitController extends CameraController {
         value = 0;
       }
     }
+
     return value;
   }
 
@@ -214,3 +216,5 @@ export default class OrbitController extends CameraController {
     this.blockRect.height = height;
   }
 }
+
+export { CameraOrbitController };

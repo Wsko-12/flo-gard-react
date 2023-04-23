@@ -1,9 +1,10 @@
-import { NearestFilter, Texture, TextureLoader } from 'three';
-import { EAssetType, TAssetsLoadingStatus } from '../Assets';
-import { textureAtlas } from './atlas';
+import { NearestFilter, Texture, TextureLoader } from "three";
+import { EAssetType, TAssetsLoadingStatus } from "../Assets";
+import { textureAtlas } from "./atlas";
 
 class Textures {
   static loaded: Record<string, Texture> = {};
+
   static load(loadingCb: TAssetsLoadingStatus) {
     return new Promise((res) => {
       const loader = new TextureLoader();
@@ -13,11 +14,12 @@ class Textures {
         loadingCb(EAssetType.texture, index / textureAtlas.length);
         if (!textureAtlas[index]) {
           res(true);
+
           return;
         }
 
         const data = textureAtlas[index];
-        const path = process.env.PUBLIC_URL + '/assets/textures/' + data.folder + '/' + data.file;
+        const path = process.env.PUBLIC_URL + "/assets/textures/" + data.folder + "/" + data.file;
         loader.load(path, (texture) => {
           texture.flipY = false;
           texture.magFilter = NearestFilter;
@@ -33,4 +35,5 @@ class Textures {
     return this.loaded[name];
   }
 }
-export default Textures;
+
+export { Textures };

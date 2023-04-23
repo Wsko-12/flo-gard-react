@@ -1,4 +1,5 @@
 export type RGBArr = [number, number, number];
+
 export enum EColorsPallet {
   red = 0xff0000,
   white = 0xfffffff,
@@ -8,6 +9,7 @@ export enum EColorsPallet {
 
 export const memoize = <I, R>(fn: (input: I) => R) => {
   const memoMap = new Map<I, R>();
+
   return (input: I): R => {
     if (memoMap.has(input)) {
       return memoMap.get(input) as R;
@@ -15,6 +17,7 @@ export const memoize = <I, R>(fn: (input: I) => R) => {
 
     const result = fn(input);
     memoMap.set(input, result);
+
     return result;
   };
 };
@@ -30,6 +33,7 @@ export const interpolateColor = (color1: RGBArr, color2: RGBArr, value: number) 
   const r0 = Math.floor(interpolate(r1, r2, value));
   const g0 = Math.floor(interpolate(g1, g2, value));
   const b0 = Math.floor(interpolate(b1, b2, value));
+
   return [r0, g0, b0];
 };
 

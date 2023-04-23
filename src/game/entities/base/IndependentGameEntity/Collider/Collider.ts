@@ -1,7 +1,7 @@
-import { Mesh, MeshBasicMaterial } from 'three';
-import { Point2 } from '../../../../world/environment/utils/Geometry';
-import World from '../../../../world/World';
-import { IndependentGameEntity } from '../IndependentGameEntity';
+import { Mesh, MeshBasicMaterial } from "three";
+import { Point2 } from "../../../../world/environment/utils/Geometry";
+import { World } from "../../../../world/World";
+import { IndependentGameEntity } from "../IndependentGameEntity";
 
 export abstract class Collider {
   protected abstract mesh: Mesh;
@@ -21,7 +21,9 @@ export abstract class Collider {
   }
 
   abstract isCollision(): IndependentGameEntity[] | null;
+
   abstract isColliderInside(collider: Collider): boolean;
+
   abstract pressGrass(
     ctx: CanvasRenderingContext2D,
     position: Point2 | null,

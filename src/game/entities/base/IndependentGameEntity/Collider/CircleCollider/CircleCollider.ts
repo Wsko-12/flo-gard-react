@@ -1,10 +1,10 @@
-import { CircleGeometry, Mesh } from 'three';
-import { Grass } from '../../../../../world/environment/grass/Grass';
-import { Circle, Point2 } from '../../../../../world/environment/utils/Geometry';
-import { EntityManager } from '../../../../EntityManager';
-import { IndependentGameEntity } from '../../IndependentGameEntity';
-import { Collider } from '../Collider';
-import { QuadCollider } from '../QuadCollider/QuadCollider';
+import { CircleGeometry, Mesh } from "three";
+import { Grass } from "../../../../../world/environment/grass/Grass";
+import { Circle, Point2 } from "../../../../../world/environment/utils/Geometry";
+import { EntityManager } from "../../../../EntityManager";
+import { IndependentGameEntity } from "../../IndependentGameEntity";
+import { Collider } from "../Collider";
+import { QuadCollider } from "../QuadCollider/QuadCollider";
 
 export class CircleCollider extends Collider {
   public r: number;
@@ -41,6 +41,7 @@ export class CircleCollider extends Collider {
         intersections.push(entity);
       }
     }
+
     return intersections.length ? intersections : null;
   }
 
@@ -51,6 +52,7 @@ export class CircleCollider extends Collider {
     if (collider instanceof CircleCollider) {
       return this.getCircle().isCircleInside(collider.getCircle());
     }
+
     return false;
   }
 
@@ -61,6 +63,7 @@ export class CircleCollider extends Collider {
     if (collider instanceof QuadCollider) {
       return this.getCircle().isCollideQuad(collider.getQuad());
     }
+
     return false;
   }
 
@@ -72,7 +75,7 @@ export class CircleCollider extends Collider {
     const { x, y } = Grass.getCanvasXY(pX, pY);
     const radius = Grass.translateToCanvasPixels(this.r + 0.25);
     ctx.save();
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = "black";
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();

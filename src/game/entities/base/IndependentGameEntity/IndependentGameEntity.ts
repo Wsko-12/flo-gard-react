@@ -1,24 +1,24 @@
-import { BufferGeometry, Group, Mesh, MeshBasicMaterial, MeshPhongMaterial, Object3D } from 'three';
+import { BufferGeometry, Group, Mesh, MeshBasicMaterial, MeshPhongMaterial, Object3D } from "three";
 import {
   closeEntityCard,
   deleteEntityOnMove,
   openEntityCard,
   setEntityOnMove,
   toggleEntityCardOpened,
-} from '../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
-import { store } from '../../../../store/store';
-import { IPosition2 } from '../../../../ts/interfaces';
-import { GameStore } from '../../../gameStore/GameStore';
-import LoopsManager from '../../../loopsManager/LoopsManager';
-import Environment from '../../../world/environment/Environment';
-import { Point2 } from '../../../world/environment/utils/Geometry';
-import { EColorsPallet } from '../../../world/environment/utils/utils';
-import World from '../../../world/World';
-import { GameEntity, IEntityState } from '../GameEntity/GameEntity';
-import { GroupEntity } from '../GroupEntity/GroupEntity';
-import { ClickBox } from './ClickBox/ClickBox';
-import { Collider } from './Collider/Collider';
-import { IndependentGameEntityStoreManager } from './storeManager/GameEntityStoreManager';
+} from "../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice";
+import { store } from "../../../../store/store";
+import { IPosition2 } from "../../../../ts/interfaces";
+import { GameStore } from "../../../gameStore/GameStore";
+import { LoopsManager } from "../../../loopsManager/LoopsManager";
+import { Environment } from "../../../world/environment/Environment";
+import { Point2 } from "../../../world/environment/utils/Geometry";
+import { EColorsPallet } from "../../../world/environment/utils/utils";
+import { World } from "../../../world/World";
+import { GameEntity, IEntityState } from "../GameEntity/GameEntity";
+import { GroupEntity } from "../GroupEntity/GroupEntity";
+import { ClickBox } from "./ClickBox/ClickBox";
+import { Collider } from "./Collider/Collider";
+import { IndependentGameEntityStoreManager } from "./storeManager/GameEntityStoreManager";
 
 export interface IIndependentEntityState extends IEntityState {
   position: IPosition2 | null;
@@ -51,6 +51,7 @@ export abstract class IndependentGameEntity extends GameEntity {
     const mesh = entity.getMesh();
     set(mesh);
   }
+
   public mesh = new Group();
   abstract baseMesh: Mesh<BufferGeometry, MeshPhongMaterial>;
   abstract shadowMesh: Mesh<BufferGeometry, MeshBasicMaterial>;
@@ -77,6 +78,7 @@ export abstract class IndependentGameEntity extends GameEntity {
   public isGroupEntity = false;
 
   selectedColor = EColorsPallet.white;
+
   constructor() {
     super();
     this.storeManager.unsubscribe();
@@ -88,8 +90,8 @@ export abstract class IndependentGameEntity extends GameEntity {
     const { baseMesh, shadowMesh } = this;
     baseMesh.castShadow = true;
     baseMesh.receiveShadow = true;
-    baseMesh.userData.type = 'Base';
-    shadowMesh.userData.type = 'Shadow';
+    baseMesh.userData.type = "Base";
+    shadowMesh.userData.type = "Shadow";
 
     this.mesh.add(baseMesh, shadowMesh);
     this.clickBox = new ClickBox(this.clickGeometry, this);
@@ -102,7 +104,7 @@ export abstract class IndependentGameEntity extends GameEntity {
     this.collider.add();
     World.getScene().add(this.mesh);
     this.clickBox?.add();
-    LoopsManager.subscribe('update', this.moveCb);
+    LoopsManager.subscribe("update", this.moveCb);
     this.setIsOnMove(true);
     super.placeInWorld();
     this.openCard();
@@ -114,7 +116,7 @@ export abstract class IndependentGameEntity extends GameEntity {
     World.getScene().remove(this.mesh);
     this.collider.remove();
     this.clickBox?.remove();
-    LoopsManager.unsubscribe('update', this.moveCb);
+    LoopsManager.unsubscribe("update", this.moveCb);
     this.setIsOnMove(false, false);
     super.placeInInventory();
   }
@@ -157,6 +159,7 @@ export abstract class IndependentGameEntity extends GameEntity {
     if (groupEntities.length === 1) {
       const group = groupEntities[0];
       this.changeInGroupEntity(group);
+
       return;
     }
     // when this object stand on another object
@@ -174,6 +177,7 @@ export abstract class IndependentGameEntity extends GameEntity {
       const entity = groupEntities[i];
       if (!parents.includes(entity)) {
         this.changeInGroupEntity(entity);
+
         return;
       }
     }
@@ -189,6 +193,7 @@ export abstract class IndependentGameEntity extends GameEntity {
     this.inGroupEntity = groupEntity;
     groupEntity?.addEntity(this);
   }
+
   private checkCollision() {
     if (!World.collider.isColliderInside(this.collider)) {
       return true;
@@ -197,6 +202,7 @@ export abstract class IndependentGameEntity extends GameEntity {
     const entities = this.collider.isCollision();
     if (!entities) {
       this.changeInGroupEntity(null);
+
       return false;
     }
 
@@ -208,6 +214,7 @@ export abstract class IndependentGameEntity extends GameEntity {
 
     if (!groupEntities.every((entity) => entity.canAcceptEntity(this))) {
       this.changeInGroupEntity(null);
+
       return true;
     }
 
@@ -221,6 +228,7 @@ export abstract class IndependentGameEntity extends GameEntity {
       this.isOnMove = flag;
       if (!flag && this.placed.position === null && callPlaceInInventory) {
         this.placeInInventory();
+
         return;
       }
 

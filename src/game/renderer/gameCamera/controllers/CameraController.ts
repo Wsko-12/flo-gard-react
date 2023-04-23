@@ -1,6 +1,6 @@
-import { Point3 } from '../../../world/environment/utils/Geometry';
+import { Point3 } from "../../../world/environment/utils/Geometry";
 
-export default abstract class CameraController {
+abstract class CameraController {
   protected position: Point3;
   protected target: Point3;
 
@@ -10,6 +10,10 @@ export default abstract class CameraController {
   }
 
   public abstract update(time: number): void;
+
   public abstract setEventHandler(element: HTMLElement): void;
+
   public abstract detachEventHandler(): void;
 }
+
+export { CameraController };

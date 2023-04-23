@@ -1,16 +1,16 @@
-import { Shader, Uniform } from 'three';
+import { Shader, Uniform } from "three";
 
 export const applyCloseCameraShader = (shader: Shader, distance = 1.5) => {
   shader.uniforms.uDist = new Uniform(distance);
   let fragment = shader.fragmentShader;
   fragment = fragment.replace(
-    'void main() {',
+    "void main() {",
     `
 uniform float uDist;
 void main() {`
   );
   fragment = fragment.replace(
-    '#include <alphatest_fragment>',
+    "#include <alphatest_fragment>",
     `
         float depth = gl_FragCoord.z / gl_FragCoord.w;
         if(depth < uDist){

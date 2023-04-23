@@ -1,8 +1,8 @@
-import { Circle, Line, Point2, Quad, Triangle } from './Geometry';
+import { Circle, Line, Point2, Quad, Triangle } from "./Geometry";
 
-describe('Geometry', () => {
-  describe('Point', () => {
-    test('rotate', () => {
+describe("Geometry", () => {
+  describe("Point", () => {
+    test("rotate", () => {
       const point = new Point2(-2, 2);
       point.rotate(0.785398163);
       expect(point.x).toBeCloseTo(-2.83);
@@ -10,8 +10,8 @@ describe('Geometry', () => {
     });
   });
 
-  describe('Triangle', () => {
-    test('getHalfPerimeter', () => {
+  describe("Triangle", () => {
+    test("getHalfPerimeter", () => {
       const A = new Point2(0, 0);
       const B = new Point2(5, 4);
       const C = new Point2(7, 2);
@@ -20,7 +20,7 @@ describe('Geometry', () => {
       expect(half).toBeCloseTo(8.255831);
     });
 
-    test('getSquare', () => {
+    test("getSquare", () => {
       {
         const A = new Point2(0, 0);
         const B = new Point2(5, 4);
@@ -49,7 +49,7 @@ describe('Geometry', () => {
       }
     });
 
-    test('isCollidePoint', () => {
+    test("isCollidePoint", () => {
       {
         const A = new Point2(-4.98, 5.62);
         const B = new Point2(-4.6, -1.24);
@@ -90,8 +90,8 @@ describe('Geometry', () => {
     });
   });
 
-  describe('Quad', () => {
-    test('getSquare', () => {
+  describe("Quad", () => {
+    test("getSquare", () => {
       {
         const A = new Point2(-4.14, 3.36);
         const B = new Point2(1.3, 4.78);
@@ -118,7 +118,7 @@ describe('Geometry', () => {
       }
     });
 
-    test('isCollidePoint', () => {
+    test("isCollidePoint", () => {
       {
         const A = new Point2(-5, 5);
         const B = new Point2(-4, 5);
@@ -167,7 +167,7 @@ describe('Geometry', () => {
       }
     });
 
-    test('isCollideQuad', () => {
+    test("isCollideQuad", () => {
       {
         const A = new Point2(-6.84, 6.1);
         const B = new Point2(-7.16, 2.82);
@@ -217,7 +217,7 @@ describe('Geometry', () => {
       }
     });
 
-    test('isCollideCircle', () => {
+    test("isCollideCircle", () => {
       {
         const A = new Point2(1, 4);
         const B = new Point2(1, 2);
@@ -292,7 +292,7 @@ describe('Geometry', () => {
       }
     });
 
-    test('isCollideLine', () => {
+    test("isCollideLine", () => {
       {
         const A = new Point2(2, 4);
         const B = new Point2(2, 2);
@@ -323,7 +323,7 @@ describe('Geometry', () => {
       }
     });
 
-    test('isQuadInside', () => {
+    test("isQuadInside", () => {
       {
         const A = new Point2(2, 4);
         const B = new Point2(2, 2);
@@ -375,7 +375,7 @@ describe('Geometry', () => {
       }
     });
 
-    test('isCircleInside', () => {
+    test("isCircleInside", () => {
       {
         const A = new Point2(2, 4);
         const B = new Point2(2, 2);
@@ -458,8 +458,8 @@ describe('Geometry', () => {
     });
   });
 
-  describe('Line', () => {
-    test('isCollideLine', () => {
+  describe("Line", () => {
+    test("isCollideLine", () => {
       {
         const A = new Point2(-4.2, 2.82);
         const B = new Point2(-1, 6);
@@ -495,7 +495,7 @@ describe('Geometry', () => {
       }
     });
 
-    test('isCollideCircle', () => {
+    test("isCollideCircle", () => {
       {
         const A = new Point2(0, 0);
         const B = new Point2(1, 1);
@@ -602,8 +602,8 @@ describe('Geometry', () => {
     });
   });
 
-  describe('Circle', () => {
-    test('isCollidePoint', () => {
+  describe("Circle", () => {
+    test("isCollidePoint", () => {
       {
         const center = new Point2(0, 0);
         const circle = new Circle(center, 2);
@@ -619,7 +619,7 @@ describe('Geometry', () => {
       }
     });
 
-    test('isCollideCircle', () => {
+    test("isCollideCircle", () => {
       {
         const center_1 = new Point2(0, 0);
         const circle_1 = new Circle(center_1, 1);
@@ -652,7 +652,7 @@ describe('Geometry', () => {
       }
     });
 
-    test('isQuadInside', () => {
+    test("isQuadInside", () => {
       {
         const A = new Point2(0.5, 2);
         const B = new Point2(1.5, 2);
@@ -695,7 +695,7 @@ describe('Geometry', () => {
       }
     });
 
-    test('isCircleInside', () => {
+    test("isCircleInside", () => {
       {
         const A = new Point2(1, 1);
         const rA = 1;

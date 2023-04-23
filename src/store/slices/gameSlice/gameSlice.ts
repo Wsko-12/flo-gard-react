@@ -1,11 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { EAssetType } from '../../../assets/Assets';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { EAssetType } from "../../../assets/Assets";
 
 export enum EGameStatuses {
-  started = 'started',
-  loading = 'loading',
-  assetsLoading = 'assetsLoading',
-  lobby = 'lobby',
+  started = "started",
+  loading = "loading",
+  assetsLoading = "assetsLoading",
+  lobby = "lobby",
 }
 
 interface IGameState {
@@ -36,14 +36,14 @@ const initialState: IGameState = {
 };
 
 const gameSlice = createSlice({
-  name: 'game',
+  name: "game",
   initialState,
   reducers: {
     setGameStatus: (state, action: PayloadAction<EGameStatuses>) => {
       state.process = action.payload;
     },
 
-    setAssetsLoadingStatus: (state, action: PayloadAction<IGameState['assetsLoadingStatus']>) => {
+    setAssetsLoadingStatus: (state, action: PayloadAction<IGameState["assetsLoadingStatus"]>) => {
       state.assetsLoadingStatus = action.payload;
     },
 
@@ -53,6 +53,8 @@ const gameSlice = createSlice({
   },
 });
 
-export default gameSlice.reducer;
+const gameSliceReducer = gameSlice.reducer;
+
+export { gameSliceReducer };
 
 export const { setGameStatus, setAssetsLoadingStatus, setGrassMoverEnabled } = gameSlice.actions;

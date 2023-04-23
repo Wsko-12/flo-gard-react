@@ -1,9 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export enum EClocksInterfaceType {
-  line = 'line',
-  circle = 'circle',
+enum EClocksInterfaceType {
+  line = "line",
+  circle = "circle",
 }
+
 interface IGameInterfaceState {
   clocks: EClocksInterfaceType;
 }
@@ -13,7 +14,7 @@ const initialState: IGameInterfaceState = {
 };
 
 const gameInterfaceSettingsSlice = createSlice({
-  name: 'gameInterfaceSetting',
+  name: "gameInterfaceSetting",
   initialState,
   reducers: {
     setInterfaceClocksType: (state, action: PayloadAction<EClocksInterfaceType>) => {
@@ -22,6 +23,10 @@ const gameInterfaceSettingsSlice = createSlice({
   },
 });
 
-export default gameInterfaceSettingsSlice.reducer;
+const gameInterfaceSettingsSliceReducer = gameInterfaceSettingsSlice.reducer;
+
+export { gameInterfaceSettingsSliceReducer };
+
+export { EClocksInterfaceType };
 
 export const { setInterfaceClocksType } = gameInterfaceSettingsSlice.actions;

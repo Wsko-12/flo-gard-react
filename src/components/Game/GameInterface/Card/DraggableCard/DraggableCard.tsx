@@ -1,15 +1,15 @@
-import React, {
+import {
+  DragEvent,
   memo,
   ReactNode,
   RefObject,
-  useState,
-  DragEvent,
-  useRef,
   useCallback,
   useEffect,
-} from 'react';
-import { GameStore } from '../../../../../game/gameStore/GameStore';
-import styles from './draggable-card.module.scss';
+  useRef,
+  useState,
+} from "react";
+import { GameStore } from "../../../../../game/gameStore/GameStore";
+import styles from "./draggable-card.module.scss";
 
 interface IDraggableCardProps {
   children: ReactNode;
@@ -56,9 +56,10 @@ export const useDraggable = (
       normalizePosition(ref.current, setX, setY);
     };
 
-    window.addEventListener('resize', resizeHandler);
+    window.addEventListener("resize", resizeHandler);
+
     return () => {
-      window.removeEventListener('resize', resizeHandler);
+      window.removeEventListener("resize", resizeHandler);
     };
   }, [ref]);
 
@@ -119,11 +120,11 @@ const DraggableCard = memo<IDraggableCardProps>(({ children, closeCb, visible = 
   return (
     <div
       className={styles.card}
-      style={{ transform: `translate(${x}px, ${y}px)`, display: visible ? 'block' : 'none' }}
+      style={{ transform: `translate(${x}px, ${y}px)`, display: visible ? "block" : "none" }}
     >
       <header ref={headerRef} {...bindDrag}>
         <div className={styles.drag}>
-          <span className={`material-symbols-outlined`}>drag_indicator</span>
+          <span className={"material-symbols-outlined"}>drag_indicator</span>
         </div>
         <button onClick={closeCb} className={styles.close}>
           <span className="material-symbols-outlined">close</span>
@@ -133,5 +134,6 @@ const DraggableCard = memo<IDraggableCardProps>(({ children, closeCb, visible = 
     </div>
   );
 });
+DraggableCard.displayName = "DraggableCard";
 
-export default DraggableCard;
+export { DraggableCard };

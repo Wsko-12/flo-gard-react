@@ -1,10 +1,10 @@
-import { Mesh, PlaneGeometry, Vector3 } from 'three';
-import { Grass } from '../../../../../world/environment/grass/Grass';
-import { Point2, Quad } from '../../../../../world/environment/utils/Geometry';
-import { EntityManager } from '../../../../EntityManager';
-import { IndependentGameEntity } from '../../IndependentGameEntity';
-import { CircleCollider } from '../CircleCollider/CircleCollider';
-import { Collider } from '../Collider';
+import { Mesh, PlaneGeometry, Vector3 } from "three";
+import { Grass } from "../../../../../world/environment/grass/Grass";
+import { Point2, Quad } from "../../../../../world/environment/utils/Geometry";
+import { EntityManager } from "../../../../EntityManager";
+import { IndependentGameEntity } from "../../IndependentGameEntity";
+import { CircleCollider } from "../CircleCollider/CircleCollider";
+import { Collider } from "../Collider";
 
 export class QuadCollider extends Collider {
   static getMeshByCorners(corners: Point2[]) {
@@ -12,7 +12,7 @@ export class QuadCollider extends Collider {
     corners.forEach(({ x, y }) => points.push(new Vector3(x, 0, y)));
     const plane = new PlaneGeometry(2, 2);
     plane.rotateX(Math.PI / 2);
-    const atr = plane.getAttribute('position');
+    const atr = plane.getAttribute("position");
     const array = atr.array as number[];
     for (let i = 0; i < atr.count; i++) {
       let pI = i;
@@ -94,11 +94,13 @@ export class QuadCollider extends Collider {
         intersections.push(entity);
       }
     }
+
     return intersections.length ? intersections : null;
   }
 
   public getQuad() {
     const points = this.getPoints();
+
     return new Quad(points);
   }
 
@@ -109,6 +111,7 @@ export class QuadCollider extends Collider {
     if (collider instanceof QuadCollider) {
       return this.getQuad().isCollideQuad(collider.getQuad());
     }
+
     return false;
   }
   isColliderInside(collider: Collider): boolean {
@@ -118,6 +121,7 @@ export class QuadCollider extends Collider {
     if (collider instanceof CircleCollider) {
       return this.getQuad().isCircleInside(collider.getCircle());
     }
+
     return false;
   }
   public pressGrass(ctx: CanvasRenderingContext2D, position: Point2 | null, rotation: number) {
@@ -129,6 +133,7 @@ export class QuadCollider extends Collider {
       if (i === points.length) {
         ctx.fill();
         ctx.restore();
+
         return;
       }
 
@@ -137,7 +142,7 @@ export class QuadCollider extends Collider {
 
       if (i === 0) {
         ctx.save();
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = "black";
         ctx.beginPath();
         ctx.moveTo(x, y);
         continue;

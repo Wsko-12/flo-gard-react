@@ -1,4 +1,4 @@
-import { IPosition2 } from '../../../../ts/interfaces';
+import { IPosition2 } from "../../../../ts/interfaces";
 
 const NUM_PREC = 4;
 
@@ -21,9 +21,10 @@ export class Point2 {
     if (!x && !y) {
       return this.getDistanceTo(new Point2(0, 0));
     }
-    if (typeof x === 'number' && typeof y === 'number') {
+    if (typeof x === "number" && typeof y === "number") {
       return this.getDistanceTo(new Point2(x, y));
     }
+
     return 0;
   }
 
@@ -83,17 +84,18 @@ export class Point3 {
       return roundNum(Math.sqrt((this.x - x.x) ** 2 + (this.y - x.y) ** 2 + (this.z - x.z) ** 2));
     }
 
-    if (typeof x === 'number' && typeof y === 'number' && typeof z === 'number') {
+    if (typeof x === "number" && typeof y === "number" && typeof z === "number") {
       return this.getDistanceTo(new Point3(x, y, z));
-    } else if (typeof x === 'number' && typeof y === 'number' && !z) {
+    } else if (typeof x === "number" && typeof y === "number" && !z) {
       return this.getDistanceTo(new Point3(x, y, this.z));
-    } else if (typeof x === 'number' && !y && !z) {
+    } else if (typeof x === "number" && !y && !z) {
       return this.getDistanceTo(new Point3(x, this.y, this.z));
     } else if (x instanceof Point2) {
       return this.getDistanceTo(new Point3(x.x, x.y, this.z));
     } else if (!x && !y && !z) {
       return this.getDistanceTo(new Point3(0, 0, 0));
     }
+
     return 0;
   }
 
@@ -122,6 +124,7 @@ export class Vector2 {
     this.x /= length;
     this.y /= length;
     this.length = this.getLength();
+
     return this;
   }
 
@@ -129,12 +132,14 @@ export class Vector2 {
     this.x *= scalar;
     this.y *= scalar;
     this.length = this.getLength();
+
     return this;
   }
 
   public movePoint(point: Point2) {
     point.x += this.x;
     point.y += this.y;
+
     return point;
   }
 
@@ -145,12 +150,14 @@ export class Vector2 {
     if (this.y === 0) {
       return new Vector2(0, this.x);
     }
+
     return new Vector2(-this.y, this.x);
   }
 
   public addVector(vec: Vector2): Vector2 {
     this.x += vec.x;
     this.y += vec.y;
+
     return this;
   }
 
@@ -158,6 +165,7 @@ export class Vector2 {
     const length = this.getLength();
     const x = this.x / length;
     const y = this.y / length;
+
     return x * vec.x + y * vec.y;
   }
 }
@@ -192,6 +200,7 @@ export class Vector3 {
     this.y = roundNum(this.y / length);
     this.z = roundNum(this.z / length);
     this.length = this.getLength();
+
     return this;
   }
 
@@ -200,6 +209,7 @@ export class Vector3 {
     this.y *= scalar;
     this.z *= scalar;
     this.length = this.getLength();
+
     return this;
   }
 }
@@ -215,6 +225,7 @@ export class Line {
   getLength() {
     const x = this.start.x - this.end.x;
     const y = this.start.y - this.end.y;
+
     return Math.sqrt(x ** 2 + y ** 2);
   }
 
@@ -263,6 +274,7 @@ export class Line {
     }
 
     const CT_length = Math.sqrt(OC.getLength() ** 2 - OT_length ** 2);
+
     return CT_length <= circle.radius;
   }
 }
@@ -300,12 +312,14 @@ export class Triangle {
     const b = this.b.getLength();
     const c = this.c.getLength();
     const h = (2 * Math.sqrt(p * (p - a) * (p - b) * (p - c))) / a;
+
     return h;
   }
 
   getSquare() {
     const a = this.a.getLength();
     const h = this.getHeight();
+
     return 0.5 * a * h;
   }
 
@@ -317,6 +331,7 @@ export class Triangle {
     const triangle_3 = new Triangle([point, this.C, this.A]);
 
     const sumSquare = triangle_1.getSquare() + triangle_2.getSquare() + triangle_3.getSquare();
+
     return Math.abs(origSquare - sumSquare) < 0.00000001;
   }
 }
@@ -361,6 +376,7 @@ export class Quad {
   getSquare() {
     const square_1 = this.triangle_1.getSquare();
     const square_2 = this.triangle_2.getSquare();
+
     return square_1 + square_2;
   }
 
@@ -376,6 +392,7 @@ export class Quad {
         return true;
       }
     }
+
     return false;
   }
   isCollideQuad(quad: Quad) {
@@ -446,6 +463,7 @@ export class Quad {
         return false;
       }
     }
+
     return true;
   }
 
@@ -484,12 +502,14 @@ export class Circle {
 
   isCollidePoint(point: Point2) {
     const distance = this.center.getDistanceTo(point);
+
     return distance < this.radius;
   }
 
   isCollideCircle(circle: Circle) {
     const distance = this.center.getDistanceTo(circle.center);
     const radSum = this.radius + circle.radius;
+
     return distance < radSum;
   }
 
@@ -509,6 +529,7 @@ export class Circle {
         return false;
       }
     }
+
     return true;
   }
 
@@ -520,6 +541,7 @@ export class Circle {
     if (distance + circle.radius >= this.radius) {
       return false;
     }
+
     return true;
   }
 }

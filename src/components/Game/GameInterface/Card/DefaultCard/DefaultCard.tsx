@@ -1,16 +1,16 @@
-import React, { memo } from 'react';
-import { IEntityState } from '../../../../../game/entities/base/GameEntity/GameEntity';
-import { IndependentGameEntity } from '../../../../../game/entities/base/IndependentGameEntity/IndependentGameEntity';
-import { EntityManager } from '../../../../../game/entities/EntityManager';
+import { memo } from "react";
+import { IEntityState } from "../../../../../game/entities/base/GameEntity/GameEntity";
+import { IndependentGameEntity } from "../../../../../game/entities/base/IndependentGameEntity/IndependentGameEntity";
+import { EntityManager } from "../../../../../game/entities/EntityManager";
 import {
   selectEntityById,
   selectEntityOnMove,
-} from '../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
-import { useAppSelector } from '../../../../../store/store';
-import EntityCardMenu, { useEntityCardMenu } from '../components/EntityCardMenu';
-import DraggableCard from '../DraggableCard/DraggableCard';
-import { IEntityCardProps } from '../EntityCard';
-import EntityMoveBar from '../EntityMoveBar/EntityMoveBar';
+} from "../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice";
+import { useAppSelector } from "../../../../../store/store";
+import { EntityCardMenu, useEntityCardMenu } from "../components/EntityCardMenu";
+import { DraggableCard } from "../DraggableCard/DraggableCard";
+import { IEntityCardProps } from "../EntityCard";
+import { EntityMoveBar } from "../EntityMoveBar/EntityMoveBar";
 
 const DefaultCard = memo<IEntityCardProps>(({ id }) => {
   const entityState = useAppSelector(selectEntityById(id)) as IEntityState;
@@ -23,6 +23,7 @@ const DefaultCard = memo<IEntityCardProps>(({ id }) => {
   }
 
   const entityOnMove = onMove === id;
+
   return (
     <>
       <DraggableCard closeCb={() => entityInstance.closeCard()} visible={!entityOnMove}>
@@ -32,5 +33,6 @@ const DefaultCard = memo<IEntityCardProps>(({ id }) => {
     </>
   );
 });
+DefaultCard.displayName = "DefaultCard";
 
-export default DefaultCard;
+export { DefaultCard };

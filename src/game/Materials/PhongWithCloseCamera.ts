@@ -1,5 +1,5 @@
-import { MeshPhongMaterial, MeshPhongMaterialParameters } from 'three';
-import { applyCloseCameraShader } from './shaders/closeCamera';
+import { MeshPhongMaterial, MeshPhongMaterialParameters } from "three";
+import { applyCloseCameraShader } from "./shaders/closeCamera";
 
 export const PhongMaterialWithCloseCameraShader = (
   parameters: MeshPhongMaterialParameters,
@@ -10,5 +10,6 @@ export const PhongMaterialWithCloseCameraShader = (
   }
   const material = new MeshPhongMaterial(parameters);
   material.onBeforeCompile = (shader) => applyCloseCameraShader(shader, distance);
+
   return material;
 };

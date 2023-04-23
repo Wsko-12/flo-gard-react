@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   EClocksInterfaceType,
   setInterfaceClocksType,
-} from '../../../../store/slices/gameInterfaceSettings/gameInterfaceSettings';
-import { selectClocksInterfaceType } from '../../../../store/slices/gameInterfaceSettings/gameInterfaceSettingsSelectors';
-import { useAppDispatch, useAppSelector } from '../../../../store/store';
-import CircleClocks from './circle/CircleClocks';
-import LineClocks from './line/LineClocks';
-import styles from './clocks.module.scss';
-import Day from '../../../../game/world/day/Day';
+} from "../../../../store/slices/gameInterfaceSettings/gameInterfaceSettings";
+import { selectClocksInterfaceType } from "../../../../store/slices/gameInterfaceSettings/gameInterfaceSettingsSelectors";
+import { useAppDispatch, useAppSelector } from "../../../../store/store";
+import { CircleClocks } from "./circle/CircleClocks";
+import { LineClocks } from "./line/LineClocks";
+import styles from "./clocks.module.scss";
+import { Day } from "../../../../game/world/day/Day";
+
 const Clocks = () => {
   const type = useAppSelector(selectClocksInterfaceType);
   const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ const Clocks = () => {
 
   useEffect(() => {
     Day.subscribe(changeTimeCb);
+
     return () => Day.unsubscribe(changeTimeCb);
   }, []);
 
@@ -42,4 +44,4 @@ const Clocks = () => {
   );
 };
 
-export default Clocks;
+export { Clocks };

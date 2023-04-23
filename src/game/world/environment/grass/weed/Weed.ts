@@ -1,28 +1,30 @@
-import { DoubleSide, Mesh, MeshDepthMaterial, MeshPhongMaterial, RGBADepthPacking } from 'three';
-import Assets from '../../../../../assets/Assets';
-import LoopsManager from '../../../../loopsManager/LoopsManager';
-import { GROUND_SIZE } from '../../ground/Ground';
-import { Point2 } from '../../utils/Geometry';
-import Random from '../../utils/random';
-import { UNIFORM_WIND_DIRECTION, UNIFORM_WIND_STRENGTH } from '../Grass';
-import { EWeeds, WEED_CONFIG } from './config';
+import { DoubleSide, Mesh, MeshDepthMaterial, MeshPhongMaterial, RGBADepthPacking } from "three";
+import { Assets } from "../../../../../assets/Assets";
+import { LoopsManager } from "../../../../loopsManager/LoopsManager";
+import { GROUND_SIZE } from "../../ground/Ground";
+import { Point2 } from "../../utils/Geometry";
+import { Random } from "../../utils/random";
+import { UNIFORM_WIND_DIRECTION, UNIFORM_WIND_STRENGTH } from "../Grass";
+import { EWeeds, WEED_CONFIG } from "./config";
 
 const getWeedRandomType = (random: number) => {
   const types = Object.keys(WEED_CONFIG) as EWeeds[];
   const index = Math.floor(types.length * random);
+
   return types[index];
 };
 
 const getWeedRandomNumberByType = (random: number, type: EWeeds) => {
   const count = WEED_CONFIG[type] as number;
   const index = Math.floor(count * random) + 1;
+
   return index;
 };
 
 let WeedsMaterials: Record<string, { base: MeshPhongMaterial; depth: MeshDepthMaterial }> | null =
   null;
 
-export default class Weed {
+class Weed {
   static initMaterialsAtlas() {
     const uniforms = {
       uTime: {
@@ -30,7 +32,7 @@ export default class Weed {
       },
     };
 
-    LoopsManager.subscribe('update', (time) => {
+    LoopsManager.subscribe("update", (time) => {
       uniforms.uTime.value = time;
     });
 
@@ -51,7 +53,7 @@ export default class Weed {
 
         let vertex = shader.vertexShader;
         vertex = vertex.replace(
-          '#include <common>',
+          "#include <common>",
           `#include <common>
                      uniform float uTime;
                      uniform float uWindStrength;
@@ -59,7 +61,7 @@ export default class Weed {
                     `
         );
         vertex = vertex.replace(
-          '#include <clipping_planes_vertex>',
+          "#include <clipping_planes_vertex>",
           `#include <clipping_planes_vertex>
                      vec3 vPosition = position;
 
@@ -102,7 +104,7 @@ export default class Weed {
 
         let vertex = shader.vertexShader;
         vertex = vertex.replace(
-          '#include <common>',
+          "#include <common>",
           `#include <common>
                      uniform float uTime;
                      uniform float uWindStrength;
@@ -110,7 +112,7 @@ export default class Weed {
                     `
         );
         vertex = vertex.replace(
-          '#include <clipping_planes_vertex>',
+          "#include <clipping_planes_vertex>",
           `#include <clipping_planes_vertex>
                      vec3 vPosition = position;
 
@@ -183,3 +185,5 @@ export default class Weed {
     return this.position;
   }
 }
+
+export { Weed };

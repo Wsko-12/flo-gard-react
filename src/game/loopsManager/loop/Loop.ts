@@ -1,6 +1,6 @@
-export type TLoopCallback = (time: number) => void;
+type TLoopCallback = (time: number) => void;
 
-export default class Loop {
+class Loop {
   private fps: number;
   private oneFrameTime: number;
   private subscribers: TLoopCallback[] = [];
@@ -55,3 +55,7 @@ export default class Loop {
     });
   }
 }
+
+export type { TLoopCallback };
+
+export { Loop };

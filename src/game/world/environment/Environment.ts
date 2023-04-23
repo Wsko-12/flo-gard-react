@@ -1,10 +1,10 @@
-import World from '../World';
-import { Grass } from './grass/Grass';
-import Ground from './ground/Ground';
-import Sky from './sky/Sky';
-import Sun from './sun/Sun';
+import { World } from "../World";
+import { Grass } from "./grass/Grass";
+import { Ground } from "./ground/Ground";
+import { Sky } from "./sky/Sky";
+import { Sun } from "./sun/Sun";
 
-export default class Environment {
+class Environment {
   private static sky: Sky | null = null;
   private static ground: Ground | null = null;
   private static grass: Grass | null = null;
@@ -21,8 +21,10 @@ export default class Environment {
 
   public static pressGrassByEntities() {
     if (!this.grass) {
-      throw new Error('[Environment updateObjectsOnGrass] grass undefined');
+      throw new Error("[Environment updateObjectsOnGrass] grass undefined");
     }
     this.grass.pressGrassByEntities();
   }
 }
+
+export { Environment };

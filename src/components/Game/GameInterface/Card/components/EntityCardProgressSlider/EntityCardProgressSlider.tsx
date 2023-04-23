@@ -1,5 +1,5 @@
-import React, { memo } from 'react';
-import styles from './entity-card-progress-slider.module.scss';
+import { memo } from "react";
+import styles from "./entity-card-progress-slider.module.scss";
 
 interface IEntityCardProgressSliderProps {
   value: number;
@@ -21,5 +21,6 @@ const EntityCardProgressSlider = memo<IEntityCardProgressSliderProps>(({ value, 
     </div>
   );
 });
+EntityCardProgressSlider.displayName = "EntityCardProgressSlider";
 
-export default EntityCardProgressSlider;
+export { EntityCardProgressSlider };

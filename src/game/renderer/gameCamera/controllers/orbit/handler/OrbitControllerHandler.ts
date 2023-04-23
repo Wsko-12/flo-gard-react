@@ -1,15 +1,16 @@
-import { closeAllEntityCards } from '../../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice';
-import { store } from '../../../../../../store/store';
-import { GameStore } from '../../../../../gameStore/GameStore';
-import { ClickBoxScene } from '../../../../../world/ClickBoxScene/ClickBoxScene';
-import { Point2, Vector2 } from '../../../../../world/environment/utils/Geometry';
-import CameraOrbitController from '../CameraOrbitController';
+import { closeAllEntityCards } from "../../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice";
+import { store } from "../../../../../../store/store";
+import { GameStore } from "../../../../../gameStore/GameStore";
+import { ClickBoxScene } from "../../../../../world/ClickBoxScene/ClickBoxScene";
+import { Point2, Vector2 } from "../../../../../world/environment/utils/Geometry";
+import { CameraOrbitController } from "../CameraOrbitController";
+
 export interface ICustomMouseEvent {
   x: number;
   y: number;
 }
 
-export default class OrbitControllerHandler {
+class OrbitControllerHandler {
   static createPointerEvent(type: string, cords: [number, number]) {
     const event = new CustomEvent<ICustomMouseEvent>(type, {
       detail: {
@@ -17,6 +18,7 @@ export default class OrbitControllerHandler {
         y: -(cords[1] / window.innerHeight) * 2 + 1,
       },
     });
+
     return event;
   }
 
@@ -70,6 +72,7 @@ export default class OrbitControllerHandler {
 
     this.contextmenu = (e: MouseEvent): boolean => {
       e.preventDefault();
+
       return false;
     };
 
@@ -118,7 +121,7 @@ export default class OrbitControllerHandler {
       e.preventDefault();
       this.mouse.x = e.clientX;
       this.mouse.y = e.clientY;
-      const event = OrbitControllerHandler.createPointerEvent('ECustomEvents.mouseMove', [
+      const event = OrbitControllerHandler.createPointerEvent("ECustomEvents.mouseMove", [
         e.clientX,
         e.clientY,
       ]);
@@ -180,7 +183,7 @@ export default class OrbitControllerHandler {
         this.mouse.context.flag = false;
         this.mouse.context.moved = false;
       }
-      if (e.type === 'mouseleave') {
+      if (e.type === "mouseleave") {
         this.mouse.clicked.flag = false;
         this.mouse.context.flag = false;
       }
@@ -279,7 +282,7 @@ export default class OrbitControllerHandler {
       if (e.touches.length === 0) {
         if (e.timeStamp - this.touch.timestamp < 200 && !this.touch.moved) {
           if (this.touch.clicked) {
-            const event = OrbitControllerHandler.createPointerEvent('ECustomEvents.click', [
+            const event = OrbitControllerHandler.createPointerEvent("ECustomEvents.click", [
               this.touch.x,
               this.touch.y,
             ]);
@@ -312,32 +315,32 @@ export default class OrbitControllerHandler {
 
   attach(element: HTMLElement): void {
     this.eventHandler = element;
-    this.eventHandler.addEventListener('contextmenu', this.contextmenu);
-    this.eventHandler.addEventListener('wheel', this.wheel);
+    this.eventHandler.addEventListener("contextmenu", this.contextmenu);
+    this.eventHandler.addEventListener("wheel", this.wheel);
 
-    this.eventHandler.addEventListener('mousedown', this.mouseDown);
-    this.eventHandler.addEventListener('mousemove', this.mouseMove);
-    this.eventHandler.addEventListener('mouseup', this.mouseUp);
-    this.eventHandler.addEventListener('mouseleave', this.mouseUp);
+    this.eventHandler.addEventListener("mousedown", this.mouseDown);
+    this.eventHandler.addEventListener("mousemove", this.mouseMove);
+    this.eventHandler.addEventListener("mouseup", this.mouseUp);
+    this.eventHandler.addEventListener("mouseleave", this.mouseUp);
 
-    this.eventHandler.addEventListener('touchmove', this.touchMove);
-    this.eventHandler.addEventListener('touchstart', this.touchStart);
-    this.eventHandler.addEventListener('touchend', this.touchEnd);
+    this.eventHandler.addEventListener("touchmove", this.touchMove);
+    this.eventHandler.addEventListener("touchstart", this.touchStart);
+    this.eventHandler.addEventListener("touchend", this.touchEnd);
   }
 
   detach(): void {
     if (this.eventHandler) {
-      this.eventHandler.removeEventListener('contextmenu', this.contextmenu);
-      this.eventHandler.removeEventListener('wheel', this.wheel);
+      this.eventHandler.removeEventListener("contextmenu", this.contextmenu);
+      this.eventHandler.removeEventListener("wheel", this.wheel);
 
-      this.eventHandler.removeEventListener('mousedown', this.mouseDown);
-      this.eventHandler.removeEventListener('mousemove', this.mouseMove);
-      this.eventHandler.removeEventListener('mouseup', this.mouseUp);
-      this.eventHandler.removeEventListener('mouseleave', this.mouseUp);
+      this.eventHandler.removeEventListener("mousedown", this.mouseDown);
+      this.eventHandler.removeEventListener("mousemove", this.mouseMove);
+      this.eventHandler.removeEventListener("mouseup", this.mouseUp);
+      this.eventHandler.removeEventListener("mouseleave", this.mouseUp);
 
-      this.eventHandler.removeEventListener('touchmove', this.touchMove);
-      this.eventHandler.removeEventListener('touchstart', this.touchStart);
-      this.eventHandler.removeEventListener('touchend', this.touchEnd);
+      this.eventHandler.removeEventListener("touchmove", this.touchMove);
+      this.eventHandler.removeEventListener("touchstart", this.touchStart);
+      this.eventHandler.removeEventListener("touchend", this.touchEnd);
     }
   }
 
@@ -345,3 +348,5 @@ export default class OrbitControllerHandler {
     this.time = time;
   }
 }
+
+export { OrbitControllerHandler };

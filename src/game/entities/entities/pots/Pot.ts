@@ -1,16 +1,17 @@
-import { EntityId } from '@reduxjs/toolkit';
-import { BufferGeometry, Group, Mesh, MeshPhongMaterial } from 'three';
-import { EGameEntityTypes, IEntityAddsState } from '../../base/GameEntity/GameEntity';
+import { EntityId } from "@reduxjs/toolkit";
+import { BufferGeometry, Group, Mesh, MeshPhongMaterial } from "three";
+import { EGameEntityTypes, IEntityAddsState } from "../../base/GameEntity/GameEntity";
 import {
   IIndependentEntityState,
   IndependentGameEntity,
-} from '../../base/IndependentGameEntity/IndependentGameEntity';
-import { EntityManager } from '../../EntityManager';
-import { getPotGroundColorByWet, PotGround } from './PotGround';
+} from "../../base/IndependentGameEntity/IndependentGameEntity";
+import { EntityManager } from "../../EntityManager";
+import { getPotGroundColorByWet, PotGround } from "./PotGround";
 
 export interface IPotAddsState extends IEntityAddsState {
   groundId: EntityId | null;
 }
+
 export interface IPotState extends IIndependentEntityState {
   adds: IPotAddsState;
 }
@@ -40,7 +41,7 @@ export abstract class Pot extends IndependentGameEntity {
     const { groundMesh } = this;
     groundMesh.castShadow = true;
     groundMesh.receiveShadow = true;
-    groundMesh.userData.type = 'Ground';
+    groundMesh.userData.type = "Ground";
 
     this.mesh.add(groundMesh);
     super.init();
@@ -81,6 +82,7 @@ export abstract class Pot extends IndependentGameEntity {
 
   public getAddsState(): IPotAddsState {
     const groundId = this.ground?.id || null;
+
     return {
       groundId,
     };

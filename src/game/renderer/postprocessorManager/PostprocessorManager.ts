@@ -1,5 +1,5 @@
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import {
   Color,
   DepthTexture,
@@ -7,13 +7,13 @@ import {
   Scene,
   WebGLRenderer,
   WebGLRenderTarget,
-} from 'three';
-import { Pass } from 'three/examples/jsm/postprocessing/Pass';
-import World from '../../world/World';
-import GameCamera from '../gameCamera/GameCamera';
-import CartoonOutline from './cartoonOutline/CartoonOutline';
+} from "three";
+import { Pass } from "three/examples/jsm/postprocessing/Pass";
+import { World } from "../../world/World";
+import { GameCamera } from "../gameCamera/GameCamera";
+import { CartoonOutline } from "./cartoonOutline/CartoonOutline";
 
-export default class PostprocessorManager {
+class PostprocessorManager {
   private composer: EffectComposer;
   private camera: PerspectiveCamera | null = null;
   private scene: Scene | null = null;
@@ -80,3 +80,5 @@ export default class PostprocessorManager {
     };
   }
 }
+
+export { PostprocessorManager };

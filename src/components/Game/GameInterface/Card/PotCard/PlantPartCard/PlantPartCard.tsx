@@ -5,7 +5,7 @@ import { EntityManager } from "../../../../../../game/entities/EntityManager";
 import { PlantSelectModal } from "./PlantSelectModal/PlantSelectModal";
 import { useAppSelector } from "../../../../../../store/store";
 import { selectEntityById } from "../../../../../../store/slices/gameEntitiesSlice/gameEntitiesSlice";
-import { IPlantState } from "../../../../../../game/entities/entities/plant/Plant";
+import { IPlantState, Plant } from "../../../../../../game/entities/entities/plant/Plant";
 
 interface IGroundPartCardProps {
   potId: EntityId;
@@ -32,7 +32,13 @@ const PlantPartCard = memo<IGroundPartCardProps>(({ groundId, potId, plantId }) 
       <PlantSelectModal
         close={() => setIsPlantSelect(false)}
         select={(plantId) => {
+          const plantInstance = EntityManager.getEntityById(plantId);
+
+          if (!plantInstance || !(plantInstance instanceof Plant)) {
+            throw new Error("[PlantPartCard] plantInstance is undefined or not instance of Plant");
+          }
           potInstance.setPlant(plantId);
+          plantInstance.plant();
           setIsPlantSelect(false);
         }}
       />

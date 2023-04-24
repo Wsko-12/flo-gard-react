@@ -1,6 +1,6 @@
 import { Loop, TLoopCallback } from "./loop/Loop";
 
-export type TGameLoopName = "render" | "update" | "tick" | "userActions";
+export type TGameLoopName = "render" | "update" | "tick" | "userActions" | "plantsTick";
 
 class LoopsManager {
   private static loops: Record<TGameLoopName, Loop> | null = null;
@@ -14,6 +14,7 @@ class LoopsManager {
       update: new Loop(45),
       tick: new Loop(10),
       userActions: new Loop(5),
+      plantsTick: new Loop(1),
     };
   }
 

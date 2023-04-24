@@ -72,6 +72,11 @@ const textureAtlas: AtlasItem[] = [
     folder: "plants/cactus/",
     file: "cactus.png",
   },
+  {
+    name: "opuntia",
+    folder: "plants/opuntia/",
+    file: "opuntia.png",
+  },
 ];
 
 export { textureAtlas };

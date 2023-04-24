@@ -98,9 +98,24 @@ const geometriesAtlas: AtlasItem[] = [
     file: "greenhouse_1_floor.glb",
   },
   {
-    name: "cactus",
-    folder: "plants/cactus",
-    file: "cactus.glb",
+    name: "opuntia_seeding",
+    folder: "plants/opuntia",
+    file: "opuntia_seeding.glb",
+  },
+  {
+    name: "opuntia_engraftment",
+    folder: "plants/opuntia",
+    file: "opuntia_engraftment.glb",
+  },
+  {
+    name: "opuntia_growth",
+    folder: "plants/opuntia",
+    file: "opuntia_growth.glb",
+  },
+  {
+    name: "opuntia_flowering",
+    folder: "plants/opuntia",
+    file: "opuntia_flowering.glb",
   },
 ];
 

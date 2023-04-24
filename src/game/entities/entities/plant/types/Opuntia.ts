@@ -1,22 +1,22 @@
 import { Plant } from "../Plant";
 import { Assets } from "../../../../../assets/Assets";
 import { PhongMaterialWithCloseCameraShader } from "../../../../Materials/PhongWithCloseCamera";
-import { Mesh } from "three";
+import { DoubleSide, Mesh } from "three";
 import { EPotSizes } from "../../pots/Pot";
 import { IEntityInventoryData } from "../../../base/GameEntity/GameEntity";
 
-const assetName = "cactus";
+const assetName = "opuntia";
 
-class Cactus extends Plant {
+class Opuntia extends Plant {
   mesh = new Mesh(
-    Assets.getGeometry(assetName),
-    PhongMaterialWithCloseCameraShader({ map: Assets.getTexture(assetName) })
+    Assets.getGeometry(assetName + "_seeding"),
+    PhongMaterialWithCloseCameraShader({ map: Assets.getTexture(assetName), side: DoubleSide })
   );
 
   size = EPotSizes.M;
 
   inventoryData: IEntityInventoryData = {
-    title: "Cactus",
+    title: "Opuntia",
   };
 
   constructor() {
@@ -29,4 +29,4 @@ class Cactus extends Plant {
   }
 }
 
-export { Cactus };
+export { Opuntia };

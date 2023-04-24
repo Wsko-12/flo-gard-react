@@ -2,7 +2,7 @@ import { Scene } from "three";
 import { QuadCollider } from "../entities/base/IndependentGameEntity/Collider/QuadCollider/QuadCollider";
 import { Day } from "./day/Day";
 import { Environment } from "./environment/Environment";
-import { Cactus } from "../entities/entities/plant/types/Cactus";
+import { Opuntia } from "../entities/entities/plant/types/Opuntia";
 import { Pot_1 } from "../entities/entities/pots/types/Pot_1";
 import { PotGround } from "../entities/entities/pots/PotGround";
 import { GreenHouse_1 } from "../entities/entities/greenhouses/types/GreenHouse_1";
@@ -30,7 +30,7 @@ class World {
     new Pallet_1();
     new GreenHouse_1();
     // new GreenHouse_1();
-    new Cactus();
+    new Opuntia();
   }
 
   static getScene() {

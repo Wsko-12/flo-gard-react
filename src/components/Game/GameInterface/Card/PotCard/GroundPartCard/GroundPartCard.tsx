@@ -43,7 +43,7 @@ const GroundPartCard = memo<IGroundPartCardProps>(({ groundId, potId }) => {
   return (
     <div>
       <p>Ground</p>
-      <EntityCardProgressSlider value={groundState.adds.water} icon={"humidity_low"} />\
+      <EntityCardProgressSlider value={groundState.adds.water} icon={"humidity_low"} />
       {/*  create watering can*/}
       {/*<button onClick={() => potInstance.pourGround()}>*/}
       {/*  <span className="material-symbols-outlined">humidity_low</span>*/}

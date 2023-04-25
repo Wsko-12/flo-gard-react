@@ -12,7 +12,7 @@ class Opuntia extends Plant {
   };
 
   constructor() {
-    super("opuntia");
+    super("opuntia", 2);
     this.init();
   }
 }

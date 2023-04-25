@@ -133,7 +133,7 @@ const geometriesAtlas: AtlasItem[] = [
     folder: "greenhouses/greenhouse_1",
     file: "greenhouse_1_floor.glb",
   },
-  ...getPlantAtlasItems("opuntia"),
+  ...getPlantAtlasItems("opuntia", 2),
 ];
 
 export { geometriesAtlas };

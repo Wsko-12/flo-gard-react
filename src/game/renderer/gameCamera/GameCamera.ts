@@ -13,7 +13,7 @@ class GameCamera {
   private static controller: CameraController;
 
   static init(mouseEventsHandler: HTMLElement) {
-    const camera = new PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.01, 50);
+    const camera = new PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.01, 50);
     this.camera = camera;
 
     this.position = new Point3(0, 0, 0);

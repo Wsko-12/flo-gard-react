@@ -5,8 +5,10 @@ import {
   IEntityState,
 } from "../../base/GameEntity/GameEntity";
 import { EPotSizes } from "../pots/Pot";
-import { BufferGeometry, Group, Mesh } from "three";
+import { BufferGeometry, DoubleSide, Group, Mesh } from "three";
 import { LoopsManager } from "../../../loopsManager/LoopsManager";
+import { Assets } from "../../../../assets/Assets";
+import { PhongMaterialWithCloseCameraShader } from "../../../Materials/PhongWithCloseCamera";
 
 enum EPlantGrowthStages {
   SEEDING = "SEEDING",
@@ -32,21 +34,50 @@ interface IPlantState extends IEntityState {
   adds: IPlantAddState;
 }
 
+const FLOWERING_VARIATIONS = 3;
+
+const buildGeometriesMap = (assetName: string, variation: number) => {
+  return STAGES_ARR.reduce<Record<string, BufferGeometry>>((acc, stage) => {
+    if (stage === EPlantGrowthStages.FLOWERING) {
+      for (let i = 1; i <= FLOWERING_VARIATIONS; i++) {
+        acc[`${stage}_${i}`] = Assets.getGeometry(`${assetName}_${variation}_${stage}_${i}`);
+      }
+    } else {
+      acc[stage] = Assets.getGeometry(`${assetName}_${variation}_${stage}`);
+    }
+
+    return acc;
+  }, {});
+};
+
 abstract class Plant extends GameEntity {
   type = EGameEntityTypes.plant;
-  abstract mesh: Mesh | Group;
+  protected mesh: Mesh | Group;
   growthStage: EPlantGrowthStages | null = null;
 
   // how much ticks takes one growthStage
   abstract readonly growTime: number;
   private currentTick = 0;
   abstract size: EPotSizes;
+  private readonly variation: number;
 
-  protected abstract geometries: Record<EPlantGrowthStages, BufferGeometry>;
+  protected geometries: Record<string, BufferGeometry>;
 
-  constructor() {
+  constructor(assetName: string, variations?: number) {
     super();
     LoopsManager.subscribe("plantsTick", this.growLoop);
+
+    this.variation = variations ? Math.ceil(Math.random() * variations) : 1;
+
+    this.geometries = buildGeometriesMap(assetName, this.variation);
+
+    this.mesh = new Mesh(
+      this.geometries[EPlantGrowthStages.SEEDING],
+      PhongMaterialWithCloseCameraShader({ map: Assets.getTexture(assetName), side: DoubleSide })
+    );
+
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = true;
   }
 
   public getMesh(): Mesh | Group {
@@ -65,11 +96,11 @@ abstract class Plant extends GameEntity {
     if (this.currentTick === this.growTime) {
       if (this.growthStage != EPlantGrowthStages.REST) {
         this.setNewGrowthStage();
-        this.changeMesh();
         this.currentTick = 0;
       }
     }
 
+    this.changeMesh();
     this.updateMeshScale();
   };
 
@@ -89,7 +120,7 @@ abstract class Plant extends GameEntity {
     this.mesh.scale.set(scale, scale, scale);
   }
 
-  private isGoodCare = () => false;
+  private isGoodCare = () => true;
 
   protected setNewGrowthStage() {
     if (this.growthStage === null) {
@@ -113,7 +144,37 @@ abstract class Plant extends GameEntity {
       return;
     }
 
-    this.mesh.geometry = this.geometries[this.growthStage];
+    let newGeometry: BufferGeometry;
+
+    if (this.growthStage != EPlantGrowthStages.FLOWERING) {
+      newGeometry = this.geometries[this.growthStage];
+    } else {
+      const index = Math.floor((this.currentTick / this.growTime) * 3) + 1; // 1 - 3
+
+      newGeometry = this.geometries[this.growthStage + `_${index}`];
+
+      if (!newGeometry) {
+        console.error(
+          `[Plant changeMesh] geometry ${this.growthStage + "_" + index} is undefined`,
+          this.geometries
+        );
+
+        return;
+      }
+    }
+
+    if (!newGeometry) {
+      console.error(
+        `[Plant changeMesh] geometry ${this.growthStage} is undefined`,
+        this.geometries
+      );
+
+      return;
+    }
+
+    if (this.mesh.geometry != newGeometry) {
+      this.mesh.geometry = newGeometry;
+    }
   }
 
   protected changeMeshInGroup() {

@@ -1,5 +1,41 @@
 import { AtlasItem } from "../../ts/interfaces";
 
+const getPlantAtlasItems = (itemName: string, variations = 1) => {
+  const stages = ["SEEDING", "ENGRAFTMENT", "GROWTH", "FLOWERING", "REST"];
+
+  const dist: AtlasItem[] = [];
+  for (let variationIndex = 1; variationIndex <= variations; variationIndex++) {
+    const variation = stages.flatMap<AtlasItem>((stage) => {
+      if (stage === "FLOWERING") {
+        const items: AtlasItem[] = [];
+        for (let j = 1; j <= 3; j++) {
+          const item: AtlasItem = {
+            name: `${itemName}_${variationIndex}_${stage}_${j}`,
+            folder: `plants/${itemName}/${variationIndex}`,
+            file: `${itemName}_${variationIndex}_${stage}_${j}.glb`,
+          };
+
+          items.push(item);
+        }
+
+        return items;
+      }
+
+      const item: AtlasItem = {
+        name: `${itemName}_${variationIndex}_${stage}`,
+        folder: `plants/${itemName}/${variationIndex}`,
+        file: `${itemName}_${variationIndex}_${stage}.glb`,
+      };
+
+      return [item];
+    });
+
+    dist.push(...variation);
+  }
+
+  return dist;
+};
+
 const geometriesAtlas: AtlasItem[] = [
   {
     name: "ground",
@@ -97,26 +133,7 @@ const geometriesAtlas: AtlasItem[] = [
     folder: "greenhouses/greenhouse_1",
     file: "greenhouse_1_floor.glb",
   },
-  {
-    name: "opuntia_seeding",
-    folder: "plants/opuntia",
-    file: "opuntia_seeding.glb",
-  },
-  {
-    name: "opuntia_engraftment",
-    folder: "plants/opuntia",
-    file: "opuntia_engraftment.glb",
-  },
-  {
-    name: "opuntia_growth",
-    folder: "plants/opuntia",
-    file: "opuntia_growth.glb",
-  },
-  {
-    name: "opuntia_flowering",
-    folder: "plants/opuntia",
-    file: "opuntia_flowering.glb",
-  },
+  ...getPlantAtlasItems("opuntia"),
 ];
 
 export { geometriesAtlas };

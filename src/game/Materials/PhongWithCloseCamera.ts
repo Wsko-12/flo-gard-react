@@ -3,7 +3,7 @@ import { applyCloseCameraShader } from "./shaders/closeCamera";
 
 export const PhongMaterialWithCloseCameraShader = (
   parameters: MeshPhongMaterialParameters,
-  distance = 0.5
+  distance = 1
 ) => {
   if (!parameters.alphaTest) {
     parameters.alphaTest = 0.1;

@@ -14,7 +14,7 @@ class LoopsManager {
       update: new Loop(45),
       tick: new Loop(10),
       userActions: new Loop(5),
-      plantsTick: new Loop(1),
+      plantsTick: new Loop(10),
     };
   }
 

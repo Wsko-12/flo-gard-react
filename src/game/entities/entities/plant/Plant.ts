@@ -85,7 +85,7 @@ abstract class Plant extends GameEntity {
   }
 
   private growLoop = () => {
-    if (this.growthStage === null) {
+    if (this.growthStage === null || this.growthStage === EPlantGrowthStages.REST) {
       return;
     }
 
@@ -94,10 +94,8 @@ abstract class Plant extends GameEntity {
     }
 
     if (this.currentTick === this.growTime) {
-      if (this.growthStage != EPlantGrowthStages.REST) {
-        this.setNewGrowthStage();
-        this.currentTick = 0;
-      }
+      this.setNewGrowthStage();
+      this.currentTick = 0;
     }
 
     this.changeMesh();
@@ -117,6 +115,7 @@ abstract class Plant extends GameEntity {
       this.growthStage === EPlantGrowthStages.SEEDING
         ? this.currentTick / this.growTime // 0 - 1
         : this.currentTick / this.growTime / 2 + 0.5; // 0.5 - 1;
+
     this.mesh.scale.set(scale, scale, scale);
   }
 

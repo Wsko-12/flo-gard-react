@@ -3,7 +3,7 @@ import { EPotSizes } from "../../pots/Pot";
 import { IEntityInventoryData } from "../../../base/GameEntity/GameEntity";
 
 class Opuntia extends Plant {
-  growTime = 50;
+  growTime = 500;
 
   size = EPotSizes.M;
 

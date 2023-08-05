@@ -5,6 +5,8 @@ import { Environment } from "./environment/Environment";
 import { Opuntia } from "../entities/entities/plant/types/Opuntia";
 import { Pot_1 } from "../entities/entities/pots/types/Pot_1";
 import { PotGround } from "../entities/entities/pots/PotGround";
+import { Pallet_1 } from "../entities/entities/stands/types/Pallet_1";
+import { GreenHouse_1 } from "../entities/entities/greenhouses/types/GreenHouse_1";
 
 class World {
   static scene: Scene | null = null;
@@ -39,8 +41,8 @@ class World {
     new PotGround();
     new Opuntia();
 
-    // new Pallet_1();
-    // new GreenHouse_1();
+    new Pallet_1();
+    new GreenHouse_1();
     // new GreenHouse_1();
   }
 
